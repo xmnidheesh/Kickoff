@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/relative_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/player_firstname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fname"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/player_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/player_firstname"
+            android:text="lname"
+          
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/player_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="type"
+            android:textColor="#0000FF"
+             android:layout_below="@+id/player_firstname"
+          />
+
+
+    <RelativeLayout
+        android:id="@+id/relative_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/player_profileimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+        </RelativeLayout>
+
+</LinearLayout>
