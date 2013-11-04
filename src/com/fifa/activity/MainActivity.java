@@ -1,5 +1,5 @@
 
-package com.fifa;
+package com.fifa.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,13 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 
+import com.fifa.FIFA;
+import com.fifa.MainMenuFragmentItems;
+import com.fifa.R;
 import com.fifa.Animation.DepthPageTransformer;
 import com.fifa.adapter.TestFragmentAdapter;
 import com.fifa.constants.Constants;

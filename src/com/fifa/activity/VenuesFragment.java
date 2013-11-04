@@ -1,5 +1,5 @@
 
-package com.fifa;
+package com.fifa.activity;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fifa.FIFA;
+import com.fifa.R;
 import com.fifa.holder.Venue;
 import com.fifa.manager.VenueManager;
 import com.fifa.utils.UtilValidate;

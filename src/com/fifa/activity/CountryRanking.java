@@ -1,4 +1,4 @@
-package com.fifa;
+package com.fifa.activity;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.fifa.R;
 import com.fifa.constants.Constants;
 import com.fifa.entity.Country;
 import com.fifa.manager.CountryManager;

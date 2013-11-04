@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fifa.activity.CountryRanking;
+import com.fifa.activity.VenuesFragment;
 import com.fifa.adapter.PlayerRankingAdapter;
 import com.fifa.holder.FifaPlayerDetails;
 import com.fifa.manager.PlayerManager;
@@ -87,26 +90,23 @@ public class MainMenuFragmentItems extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				if (titleTextView.getText().equals("Venue")) {
+				if (titleTextView.getText().equals("venues")) {
 
-					playerManager.getAlluserRanking(getActivity(),
-							asynchTaskCallBack, REQUEST_CODE);
-					iconImageView.setVisibility(View.INVISIBLE);
-					titleTextView.setVisibility(View.INVISIBLE);
+					Intent intent = new Intent(getActivity(),VenuesFragment.class);
+					startActivity(intent);
 				} 
-				else if (titleTextView.getText().equals("Fixture")) {
+				else if (titleTextView.getText().equals("fixtures")) {
 
 					playerManager.getAlluserRanking(getActivity(),
 							asynchTaskCallBack, REQUEST_CODE);
 					iconImageView.setVisibility(View.INVISIBLE);
                     titleTextView.setVisibility(View.INVISIBLE);
 				} 
-				else if (titleTextView.getText().equals("Ranking")) {
+				else if (titleTextView.getText().equals("TopTeams")) {
 
-					playerManager.getAlluserRanking(getActivity(),
-							asynchTaskCallBack, REQUEST_CODE);
-					iconImageView.setVisibility(View.INVISIBLE);
-                    titleTextView.setVisibility(View.INVISIBLE);
+				    Intent intent = new Intent(getActivity(),CountryRanking.class);
+                    startActivity(intent);
+                    
 				} else if (titleTextView.getText().equals("TopPlayers")) {
 
 					playerManager.getAlluserRanking(getActivity(),

@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.fifa.MainActivity"
+            android:name="com.fifa.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" >
             <intent-filter>
@@ -27,8 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VenuesFragment" />
-        <activity android:name=".CountryRanking" />
+        <activity android:name="com.fifa.activity.VenuesFragment" />
+        <activity android:name="com.fifa.activity.CountryRanking" />
     </application>
 
 </manifest>
