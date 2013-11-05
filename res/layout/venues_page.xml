@@ -13,6 +13,27 @@
         android:orientation="vertical" 
         android:background="@color/dark_medium_black">
         <!-- android:background="@drawable/football_image" -->
+         <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/linear"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+       <com.google.ads.AdView
+        android:id="@+id/ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:loadAdOnCreate="true"
+          android:layout_alignParentBottom="true"
+         ads:adUnitId="a14dc3594438359"
+         ads:refreshInterval="60"
+         android:visibility="visible"
+         />
+    </FrameLayout>
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
@@ -29,6 +50,7 @@
                 <!-- android:background="@color/white_ash" -->
             </LinearLayout>
         </HorizontalScrollView>
+        
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -67,6 +89,7 @@
                         android:layout_marginRight="5dp" 
                         android:textColor="@color/white_creame"/>
                 </RelativeLayout>
+               
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -83,6 +106,7 @@
                         android:paddingRight="0dp"
                         android:src="@drawable/empty_photo" />
                 </LinearLayout>
+                
 
                 <TextView
                     android:id="@+id/venueName"
@@ -100,7 +124,12 @@
                     android:textSize="14sp"
                     android:textColor="@color/white_creame" />
             </LinearLayout>
+            
+                        
+    
         </ScrollView>
+         
     </LinearLayout>
+    
 
 </RelativeLayout>

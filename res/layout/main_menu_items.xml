@@ -5,12 +5,7 @@
     android:layout_height="fill_parent"
     android:gravity="center" >
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-    </ListView>
-
+   
     <RelativeLayout
         android:id="@+id/itemImg_rel"
         android:layout_width="fill_parent"
