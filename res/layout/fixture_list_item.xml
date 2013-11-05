@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blackTransparent"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/relative_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true" >
+
+        <TextView
+            android:id="@+id/country_teama"
+            style="@style/textView_white"
+            android:padding="10dp"
+            android:text="Spain" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_cross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+         >
+
+        <TextView
+            android:id="@+id/cross"
+            style="@style/textView_white"
+            android:padding="10dp"
+            android:text="Versus" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_away"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        >
+
+        <TextView
+            android:id="@+id/country_teamb"
+            style="@style/textView_white"
+            android:padding="10dp"
+            android:text="england" />
+    </RelativeLayout>
+
+</RelativeLayout>
