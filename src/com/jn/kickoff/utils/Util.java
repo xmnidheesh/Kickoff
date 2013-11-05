@@ -271,13 +271,13 @@ public static void filterHtml(Document document){
                 
             }
             
-            Elements imageElements = document.select("img");
+           /* Elements imageElements = document.select("img");
             
             if(UtilValidate.isNotNull(imageElements)){
                 
                 imageElements.remove();
                 
-            }
+            }*/
             
             Elements embedElemts = document.select("embed");
             
