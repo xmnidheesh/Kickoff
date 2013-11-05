@@ -26,6 +26,7 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jn.kickoff.FIFA;
 import com.jn.kickoff.R;
+import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.holder.Venue;
 import com.jn.kickoff.manager.VenueManager;
 import com.jn.kickoff.utils.UtilValidate;
@@ -201,8 +202,7 @@ public class VenuesFragment extends Activity {
     private void initManagers() {
         // TODO Auto-generated method stub
         venueManager = new VenueManager();
-
-    	adView = new AdView(this, AdSize.SMART_BANNER, "a152774de5cc614");
+        adView = new AdView(this, AdSize.SMART_BANNER, Constants.AppConstants.ADDMOB);
 
     }
 

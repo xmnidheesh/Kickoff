@@ -1,54 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/dark_medium_black"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/relative_first"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/player_firstname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="fname"
-            android:textColor="#000000" />
-
-        <TextView
-            android:id="@+id/player_lastname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/player_firstname"
-            android:text="lname"
-          
-            android:textColor="#000000" />
-
-        <TextView
-            android:id="@+id/player_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="type"
-            android:textColor="#0000FF"
-             android:layout_below="@+id/player_firstname"
-          />
-
 
     <RelativeLayout
         android:id="@+id/relative_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        android:layout_alignParentLeft="true" >
 
         <ImageView
             android:id="@+id/player_profileimage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/player_firstname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-        </RelativeLayout>
+            android:layout_below="@+id/player_profileimage"
+            android:text="fname"
+            android:textColor="@color/White" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/player_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_profileimage"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/player_firstname"
+            android:text="lname"
+            android:textColor="@color/White" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/player_type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type : " android:textStyle="italic"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/player_type"
+             android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/player_type_text"
+            android:text="type"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/player_dob_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:textStyle="italic"
+            android:layout_below="@+id/player_type"
+            android:text="D.O.B : "
+            android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/player_dob"
+            
+            android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_type"
+            android:layout_toRightOf="@+id/player_dob_text"
+            android:text="dob"
+            android:textColor="@color/White" />
+    </RelativeLayout>
+
+</RelativeLayout>

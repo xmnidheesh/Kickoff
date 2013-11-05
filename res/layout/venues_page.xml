@@ -29,7 +29,7 @@
         ads:adSize="BANNER"
         ads:loadAdOnCreate="true"
           android:layout_alignParentBottom="true"
-         ads:adUnitId="a14dc3594438359"
+         ads:adUnitId="@string/addmobid"
          ads:refreshInterval="60"
          android:visibility="visible"
          />

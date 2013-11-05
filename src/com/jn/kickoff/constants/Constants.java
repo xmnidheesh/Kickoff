@@ -34,6 +34,7 @@ public interface Constants {
     
     interface AppConstants
     {
+    	 String ADDMOB="a14dc3594438359";
         String URL_RATING="http://tools.fifaguide.com/api/topten/rating";
     }
 

@@ -3,9 +3,12 @@
     android:id="@+id/relative_top"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:background="@color/dark_medium_black"
     android:orientation="vertical" >
+ <!--     <include
+         android:id="@+id/headerayout"
+          layout="@layout/headlayout"/> -->
     <FrameLayout
+        android:layout_below="@+id/headerayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
         android:id="@+id/linear"
@@ -21,13 +24,14 @@
         ads:adSize="BANNER"
         ads:loadAdOnCreate="true"
           android:layout_alignParentBottom="true"
-         ads:adUnitId="a14dc3594438359"
+         ads:adUnitId="@string/addmobid"
          ads:refreshInterval="60"
          android:visibility="visible"
          />
     </FrameLayout>
      <ListView
         android:id="@+id/listview"
+        android:layout_below="@+id/linear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
     </ListView>
