@@ -4,6 +4,7 @@ package com.fifa.manager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import android.util.Log;
 
 import com.fifa.constants.Constants;
 import com.fifa.entity.Country;
+import com.fifa.entity.Squard;
 import com.fifa.utils.Util;
 import com.fifa.utils.UtilValidate;
 
@@ -84,9 +86,8 @@ public class CountryManager implements Constants.Country {
                                 StringBuffer sb = new StringBuffer("");
                                 sb.append(COUNTRY_LINK).append(teamLink);
                                 country.setCountryLink(sb.toString());
+
                             }
-                            
-                            Log.e(TAG, "country :" + country.getCountryLink());
 
                         }
 
@@ -107,6 +108,58 @@ public class CountryManager implements Constants.Country {
         }
         return countryList;
 
+    }
+
+    public List<Squard> scrapSquardFromTeamLink(String link) {
+        
+        List<Squard> squardList = new ArrayList<Squard>();
+
+        String userAgent = "Mozilla";
+        
+        Log.e(TAG,"link :"+link);
+
+        Response response;
+        try {
+            response = Jsoup.connect(link).method(Method.POST).followRedirects(false)
+                    .userAgent(userAgent).execute();
+            
+
+            // This will get you cookies
+            Map<String, String> loginCookies = response.cookies();
+
+            Document countrySquardDoc = Jsoup.connect(link).cookies(loginCookies)
+                    .userAgent(userAgent).get();
+            
+            if (UtilValidate.isNotNull(countrySquardDoc)) {
+
+                Util.filterHtml(countrySquardDoc);
+
+                Elements squardElements = countrySquardDoc
+                        .select("table[class=table squad sortable]");
+                
+
+                if (UtilValidate.isNotNull(squardElements)) {
+                    
+                                        
+                        for (Element table : squardElements.select("tbody")) {
+                            
+                            for (Element tr : table.select("tr")){
+                                
+                                Log.e(TAG, "********** :" + tr.select("a").attr("href"));
+                            }
+                            
+                            
+                    }
+
+                }
+
+            }
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return squardList;
     }
 
 }

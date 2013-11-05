@@ -64,7 +64,7 @@ public class VenuesFragment extends FragmentActivity {
     private PopupWindow popupWindow;
 
     private Venue venueSelected;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +78,7 @@ public class VenuesFragment extends FragmentActivity {
         moreTextView.setText("More...");
 
         venueList = venueManager.getAllVenuesFromTable();
-
+        
         if (UtilValidate.isNotNull(venueList)) {
 
             venueSelected = venueList.get(0);
