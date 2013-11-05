@@ -32,6 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.jn.kickoff.activity.VenuesFragment" />
+        <activity android:name="com.jn.kickoff.activity.SquardFragment" />
         <activity android:name="com.jn.kickoff.activity.CountryRanking" />
           <activity android:name="com.jn.kickoff.activity.TopPlayers" />
        <activity

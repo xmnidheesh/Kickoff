@@ -3,8 +3,8 @@ package com.jn.kickoff.activity;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Looper;
@@ -23,9 +23,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 import com.jn.kickoff.R;
 import com.jn.kickoff.adapter.PlayerRankingAdapter;
 import com.jn.kickoff.constants.Constants;

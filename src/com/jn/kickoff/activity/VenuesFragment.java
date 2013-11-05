@@ -21,9 +21,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 import com.jn.kickoff.FIFA;
 import com.jn.kickoff.R;
 import com.jn.kickoff.constants.Constants;
@@ -114,7 +111,7 @@ public class VenuesFragment extends Activity {
         moreTextView.setText("More...");
 
         venueList = venueManager.getAllVenuesFromTable();
-
+        
         if (UtilValidate.isNotNull(venueList)) {
 
             venueSelected = venueList.get(0);
