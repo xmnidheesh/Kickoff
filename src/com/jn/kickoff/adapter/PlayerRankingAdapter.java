@@ -1,13 +1,13 @@
 package com.jn.kickoff.adapter;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +23,15 @@ import com.squareup.picasso.Picasso;
 
 public class PlayerRankingAdapter extends BaseAdapter {
 
-	private final static String TAG = "RankingAdapter";
-	List<com.jn.kickoff.holder.FifaPlayerDetails> playerTempList = new ArrayList<com.jn.kickoff.holder.FifaPlayerDetails>();
+	private final static String TAG = "PlayerRankingAdapter";
+	private List<com.jn.kickoff.holder.FifaPlayerDetails> playerTempList = new ArrayList<com.jn.kickoff.holder.FifaPlayerDetails>();
 	private LayoutInflater inflator;
 	private TopPlayers activity;
 	private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
-
 	private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
-
+	private String fname;
+	private String lname;
+	
 	public PlayerRankingAdapter(TopPlayers activity,
 			List<FifaPlayerDetails> playerTempList) {
 
@@ -43,98 +44,105 @@ public class PlayerRankingAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		Log.e(TAG, "" + playerTempList.size());
 		return playerTempList.size();
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.widget.Adapter#getItem(int)
-	 */
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
 		return position;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.widget.Adapter#getView(int, android.view.View,
-	 * android.view.ViewGroup)
-	 */
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		NearHospitalHolder historyHolder = null;
+		playerHolder playerHolder = null;
 		if (convertView == null) {
-			historyHolder = new NearHospitalHolder();
+			playerHolder = new playerHolder();
 
 			convertView = inflator
 					.inflate(R.layout.playerdetailslistitem, null);
 
-			historyHolder.player_firstname = (TextView) convertView
+			playerHolder.player_firstname = (TextView) convertView
 					.findViewById(R.id.player_firstname);
-			historyHolder.player_lastname = (TextView) convertView
+			playerHolder.player_lastname = (TextView) convertView
 					.findViewById(R.id.player_lastname);
-			historyHolder.player_profileimage = (ImageView) convertView
+			playerHolder.player_profileimage = (ImageView) convertView
 					.findViewById(R.id.player_profileimage);
-			historyHolder.player_type = (TextView) convertView
+			playerHolder.player_type = (TextView) convertView
 					.findViewById(R.id.player_type);
+			playerHolder.player_dob = (TextView) convertView
+					.findViewById(R.id.player_dob);
+			
 
-			convertView.setTag(historyHolder);
+			convertView.setTag(playerHolder);
 
 		} else {
-			historyHolder = (NearHospitalHolder) convertView.getTag();
+			playerHolder = (playerHolder) convertView.getTag();
 		}
 
 		if (UtilValidate.isNotEmpty(playerTempList.get(position)
 				.getFirst_name())) {
-			historyHolder.player_firstname.setText(playerTempList.get(position)
-					.getFirst_name());
-			Log.e(TAG, "" + playerTempList.get(position).getFirst_name());
+	
+			
+			try {
+				 fname = URLDecoder.decode(playerTempList.get(position)
+						.getFirst_name().toString(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+			
+			playerHolder.player_firstname.setText(fname);
 		}
 
 		if (UtilValidate.isNotNull(playerTempList.get(position).getLast_name())) {
-			historyHolder.player_lastname.setText(playerTempList.get(position)
-					.getLast_name());
-			Log.e(TAG, "" + playerTempList.get(position).getLast_name());
+			
+			try {
+				lname = URLDecoder.decode(playerTempList.get(position)
+						.getLast_name().toString(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+			playerHolder.player_lastname.setText(lname);
 		}
 		if (UtilValidate.isNotEmpty(playerTempList.get(position).getBase_id())) {
 			String userPicUrl = profilePicPattern.matcher(profileUrl)
 					.replaceAll(playerTempList.get(position).getBase_id());
 
-			Log.e("userPicUrl", userPicUrl);
 
 			Picasso.with(activity).load(userPicUrl)
 					.placeholder(R.drawable.ic_launcher)
 					.error(R.drawable.ic_launcher).fit()
-					.into(historyHolder.player_profileimage);
+					.into(playerHolder.player_profileimage);
 
 		}
 
 		if (UtilValidate.isNotNull(playerTempList.get(position).getType())) {
-			historyHolder.player_type.setText(playerTempList.get(position)
-					.getType());
+			
+			String output = (playerTempList.get(position)
+					.getType().substring(0, 1).toUpperCase() + (playerTempList.get(position)
+							.getType().substring(1)));
+			playerHolder.player_type.setText(output);
+		}
+		if (UtilValidate.isNotNull(playerTempList.get(position).getDob())) {
+			playerHolder.player_dob.setText(playerTempList.get(position)
+					.getDob());
 		}
 
 		return convertView;
 	}
 
-	static class NearHospitalHolder {
+	static class playerHolder {
 		public TextView player_firstname;
 		public TextView player_lastname;
 		public ImageView player_profileimage;
 		public TextView player_type;
+		public TextView player_dob;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.widget.Adapter#getItemId(int)
-	 */
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
@@ -149,8 +157,6 @@ public class PlayerRankingAdapter extends BaseAdapter {
 
 	public void remove(Object item) {
 
-		Log.i(TAG, "removing item from pos " + (Integer) item);
-		Log.e(TAG, "size in remove:" + playerTempList.size());
 		// ActivityData activityData = dataList.get((Integer) item);
 		if (playerTempList.contains(item))
 			playerTempList.remove(item);
@@ -158,8 +164,6 @@ public class PlayerRankingAdapter extends BaseAdapter {
 	}
 
 	public void insert(Object item, int from, int to) {
-		Log.e(TAG, "size in insert:" + playerTempList.size());
-		Log.i(TAG, "inserting item to pos " + (Integer) item);
 
 		FifaPlayerDetails activityData = playerTempList.get((Integer) item);
 		playerTempList.remove(from);

@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jn.kickoff.activity.CountryRanking;
+import com.jn.kickoff.activity.FixtureActivity;
 import com.jn.kickoff.activity.TopPlayers;
 import com.jn.kickoff.activity.VenuesFragment;
 import com.jn.kickoff.adapter.PlayerRankingAdapter;
@@ -79,17 +80,10 @@ public class MainMenuFragmentItems extends Fragment {
 							VenuesFragment.class);
 					startActivity(intent);
 				} else if (titleTextView.getText().equals("fixtures")) {
-
-					/*
-					 * Intent intent = new
-					 * Intent(getActivity(),VenuesFragment.class);
-					 * startActivity(intent);
-					 * 
-					 * playerManager.getAlluserRanking(getActivity(),
-					 * asynchTaskCallBack, REQUEST_CODE);
-					 * iconImageView.setVisibility(View.INVISIBLE);
-					 * titleTextView.setVisibility(View.INVISIBLE);
-					 */
+					Intent intent = new Intent(getActivity(),
+							FixtureActivity.class);
+					startActivity(intent);
+					
 				} else if (titleTextView.getText().equals("TopTeams")) {
 
 					Intent intent = new Intent(getActivity(),
