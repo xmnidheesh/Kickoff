@@ -4,7 +4,7 @@ public class Squard {
 
     private String name;
     
-    private String image;
+    private String profileImage;
     
     private String age;
     
@@ -30,14 +30,14 @@ public class Squard {
      * @return the image
      */
     public String getImage() {
-        return image;
+        return profileImage;
     }
 
     /**
      * @param image the image to set
      */
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     /**

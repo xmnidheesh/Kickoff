@@ -110,44 +110,89 @@ public class CountryManager implements Constants.Country {
     }
 
     public List<Squard> scrapSquardFromTeamLink(String link) {
-        
+
         List<Squard> squardList = new ArrayList<Squard>();
 
         String userAgent = "Mozilla";
         
-        Log.e(TAG,"link :"+link);
+        Squard squard = null;
 
         Response response;
         try {
             response = Jsoup.connect(link).method(Method.POST).followRedirects(false)
                     .userAgent(userAgent).execute();
-            
 
             // This will get you cookies
             Map<String, String> loginCookies = response.cookies();
 
             Document countrySquardDoc = Jsoup.connect(link).cookies(loginCookies)
                     .userAgent(userAgent).get();
-            
+
             if (UtilValidate.isNotNull(countrySquardDoc)) {
 
                 Util.filterHtml(countrySquardDoc);
 
-                Elements squardElements = countrySquardDoc
-                        .select("table[class=table squad sortable]");
-                
+                Element squardElements = countrySquardDoc.select(
+                        "table[class=table squad sortable]").first();
 
                 if (UtilValidate.isNotNull(squardElements)) {
-                    
+
+                    for (Element table : squardElements.select("tr")) {
+
+                        Elements cells = table.select("td");
+
+                        for (Element element : cells) {
+
+                            if (UtilValidate.isNotNull(element)) {
+
+                                if (UtilValidate.isNotNull(element.select("a"))) {
+
+                                    String profileLink = element.select("a").attr("href");
+                                    
+                                    Element profileImageATag = element.select("a").select("img").first();
+                                    
+                                    if (UtilValidate.isNotNull(profileImageATag)) {
                                         
-                        for (Element table : squardElements.select("tbody")) {
-                            
-                            for (Element tr : table.select("tr")){
-                                
-                                Log.e(TAG, "********** :" + tr.select("a").attr("href"));
+                                        squard = new Squard();
+
+                                        String profileImage = profileImageATag.attr("src");
+                                        squard.setImage(profileImage);
+                                        
+                                        StringBuffer sb = new StringBuffer("");
+                                        sb.append(COUNTRY_LINK).append(profileLink);
+                                        squard.setProfileLink(sb.toString());
+
+                                        squardList.add(squard);
+
+                                    }
+
+                                }else if(UtilValidate.isNotNull(element.select("div"))&&
+                                        UtilValidate.isNotNull(element.select("div").select("a"))){
+                                    
+                                    squard.setName(element.select("div").text());
+                                    
+                                    Log.e(TAG, "name " + squard.getName());
+                                    
+                                }
+
+                                /*
+                                 * if
+                                 * (UtilValidate.isNotNull(element.select("div"
+                                 * ))){ Element div =
+                                 * element.select("div").first();
+                                 * if(UtilValidate.isNotNull(div)){
+                                 * if(UtilValidate.isNotNull(div.select("a"))){
+                                 * String profileLink =
+                                 * div.select("a").attr("href"); String
+                                 * playerName = div.select("a").text();
+                                 * squard.setProfileLink(profileLink);
+                                 * squard.setName(playerName); Log.e(TAG,
+                                 * "profileLink :" + profileLink); Log.e(TAG,
+                                 * "playerName :" + playerName); } } }
+                                 */
+
                             }
-                            
-                            
+                        }
                     }
 
                 }
@@ -161,4 +206,7 @@ public class CountryManager implements Constants.Country {
         return squardList;
     }
 
+    private void scrapPlayerName() {
+
+    }
 }

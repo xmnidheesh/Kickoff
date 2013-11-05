@@ -23,6 +23,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 import com.jn.kickoff.R;
 import com.jn.kickoff.adapter.PlayerRankingAdapter;
 import com.jn.kickoff.holder.FifaPlayerDetails;
