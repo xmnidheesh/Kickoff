@@ -2,34 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relative_top"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center" >
+    android:layout_height="fill_parent" >
 
-   
     <RelativeLayout
         android:id="@+id/itemImg_rel"
         android:layout_width="fill_parent"
-        android:layout_height="230dp"
-        android:gravity="center"
-        android:padding="5dp" >
+        android:layout_height="fill_parent"
+        >
 
         <ImageView
             android:id="@+id/itemImg"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="top|center_vertical"
-            android:src="@drawable/first" />
+            android:src="@drawable/topteams" />
+
+         <TextView
+             android:id="@+id/itemTxt"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:background="@drawable/bg"
+             android:text="text"
+             android:gravity="center"
+             android:textColor="#FFFFFF"
+             android:textSize="30sp"
+             android:textStyle="bold"
+             android:typeface="monospace" />
+
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/itemTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/itemImg_rel"
-        android:layout_centerInParent="true"
-        android:layout_margin="5dp"
-        android:text="sdasdd"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+   
 
 </RelativeLayout>
