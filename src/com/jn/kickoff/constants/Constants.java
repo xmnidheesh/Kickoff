@@ -30,12 +30,29 @@ public interface Constants {
         
         String COUNTRY_RANKING_FEED_URL = "http://int.soccerway.com/teams/rankings/fifa/";
         String COUNTRY_LINK = "http://int.soccerway.com";
+        
+        String DATABASE_TABLE = "country";
+        String COUNTRY_ID = "_id";
+        String COUNTRY_NAME = "country_name";
+        String COUNTRY_RANK = "country_rank";
+        String COUNTRY_POINT = "country_point";
     }
     
     interface AppConstants
     {
     	 String ADDMOB="a14dc3594438359";
         String URL_RATING="http://tools.fifaguide.com/api/topten/rating";
+    }
+    
+     interface Players{
+        
+        String DATABASE_TABLE = "players";
+        String PLAYER_ID = "_id";
+        String COUNTRY_ID= "country_id";
+        String PLAYER_NAME = "player_name";
+        String PLAYER_RANK = "player_rank";
+        String PLAYER_POINT = "player_point";
+        String PLAYER_IMAGE = "player_image";
     }
 
 }

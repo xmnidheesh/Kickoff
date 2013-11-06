@@ -3,6 +3,7 @@ package com.jn.kickoff.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -106,6 +107,8 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
     private class ScrappingTask extends AsyncTask<Void, String, String> {
 
         private CountryManager countryManager = new CountryManager();
+        
+        private ProgressDialog dialog;
 
         @Override
         protected String doInBackground(Void... params) {
@@ -113,6 +116,19 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
             countryList = countryManager.scrapUrlForCountriesRank(COUNTRY_RANKING_FEED_URL);
 
             return null;
+        }
+        
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onPreExecute()
+         */
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+
+            dialog = ProgressDialog.show(CountryRanking.this, "", "Loading. Please wait...", true);
+            dialog.show();
         }
 
         /*
@@ -123,6 +139,9 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
+            
+            if(dialog!=null)
+                dialog.dismiss();
 
             countryRankingAdapter = new CountryRankingAdapter(CountryRanking.this, countryList);
             countryRankListView.setAdapter(countryRankingAdapter);
