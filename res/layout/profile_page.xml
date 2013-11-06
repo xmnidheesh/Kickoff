@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/dark"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/relative_second"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:padding="10dp" 
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/closeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:src="@drawable/close" />
+
+        <ImageView
+            android:id="@+id/player_profileimage"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/closeBtn"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/player_name"
+            style="@style/textView_white"
+            android:layout_below="@+id/player_profileimage" 
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_second" 
+        android:layout_centerInParent="true">
+
+        <!-- 2 columns -->
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/textView_white"
+                android:text="First name :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/fname"
+                style="@style/textView_white"
+                android:textIsSelectable="true"
+                android:textColor="@color/blue" />
+        </TableRow>
+
+        <!-- edittext span 2 column -->
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/lastname"
+                style="@style/textView_white"
+                android:text="Last Name :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/lname"
+                style="@style/textView_white"
+                android:textIsSelectable="true" 
+                android:textColor="@color/blue"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/countryName"
+                style="@style/textView_white"
+                android:text="Nationality :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_nation"
+                style="@style/textView_white"
+                android:textIsSelectable="true"
+                android:textColor="@color/blue" />
+        </TableRow>
+
+        <!-- display this button in 3rd column via layout_column(zero based) -->
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/dob"
+                style="@style/textView_white"
+                android:text="Date of birth :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_dob"
+                style="@style/textView_white"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/age"
+                style="@style/textView_white"
+                android:text="Age :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_age"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/country"
+                style="@style/textView_white"
+                android:text="Country :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_country"
+                style="@style/textView_white"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/place"
+                style="@style/textView_white"
+                android:text="Place :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_place"
+                style="@style/textView_white"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/position"
+                style="@style/textView_white"
+                android:text="Position :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_position"
+                style="@style/textView_white"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/height"
+                style="@style/textView_white"
+                android:text="Height :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_height"
+                style="@style/textView_white"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/weight"
+                style="@style/textView_white"
+                android:text="Weight :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_weight"
+                style="@style/textView_white"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/foot"
+                style="@style/textView_white"
+                android:text="Foot :"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/player_foot"
+                style="@style/textView_white"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

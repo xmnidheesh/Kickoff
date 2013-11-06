@@ -18,6 +18,7 @@ import android.util.Log;
 
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
+import com.jn.kickoff.entity.PlayerProfile;
 import com.jn.kickoff.entity.Squard;
 import com.jn.kickoff.holder.Fixture;
 import com.jn.kickoff.utils.Util;
@@ -28,6 +29,7 @@ public class CountryManager implements Constants.Country {
     public static final String TAG = CountryManager.class.getSimpleName();
 
     private List<Country> countryList;
+
     private List<Fixture> fixtureList;
 
     public List<Country> scrapUrlForCountriesRank(String urls) {
@@ -116,7 +118,7 @@ public class CountryManager implements Constants.Country {
         List<Squard> squardList = new ArrayList<Squard>();
 
         String userAgent = "Mozilla";
-        
+
         Squard squard = null;
 
         Response response;
@@ -150,16 +152,17 @@ public class CountryManager implements Constants.Country {
                                 if (UtilValidate.isNotNull(element.select("a"))) {
 
                                     String profileLink = element.select("a").attr("href");
-                                    
-                                    Element profileImageATag = element.select("a").select("img").first();
-                                    
+
+                                    Element profileImageATag = element.select("a").select("img")
+                                            .first();
+
                                     if (UtilValidate.isNotNull(profileImageATag)) {
-                                        
+
                                         squard = new Squard();
 
                                         String profileImage = profileImageATag.attr("src");
                                         squard.setImage(profileImage);
-                                        
+
                                         StringBuffer sb = new StringBuffer("");
                                         sb.append(COUNTRY_LINK).append(profileLink);
                                         squard.setProfileLink(sb.toString());
@@ -168,13 +171,14 @@ public class CountryManager implements Constants.Country {
 
                                     }
 
-                                }else if(UtilValidate.isNotNull(element.select("div"))&&
-                                        UtilValidate.isNotNull(element.select("div").select("a"))){
-                                    
+                                } else if (UtilValidate.isNotNull(element.select("div"))
+                                        && UtilValidate
+                                                .isNotNull(element.select("div").select("a"))) {
+
                                     squard.setName(element.select("div").text());
-                                    
+
                                     Log.e(TAG, "name " + squard.getName());
-                                    
+
                                 }
 
                                 /*
@@ -207,15 +211,12 @@ public class CountryManager implements Constants.Country {
         }
         return squardList;
     }
-    
-    
-    
-    
+
     public List<Fixture> scrapUrlForFixtures(String urls) {
 
         try {
 
-        	fixtureList = new ArrayList<Fixture>();
+            fixtureList = new ArrayList<Fixture>();
 
             String userAgent = "Mozilla";
 
@@ -227,86 +228,66 @@ public class CountryManager implements Constants.Country {
             Document scrappedDoc = Jsoup.connect(urls).cookies(loginCookies).userAgent(userAgent)
                     .get();
 
-
             if (UtilValidate.isNotNull(scrappedDoc)) {
 
                 Util.filterHtml(scrappedDoc);
-                Element elements = scrappedDoc
-                        .select("table[class=fixture]").first();
-                
-                Log.e(TAG, "elements************** : "+elements);
+                Element elements = scrappedDoc.select("table[class=fixture]").first();
 
-                
-                
+                Log.e(TAG, "elements************** : " + elements);
+
                 if (UtilValidate.isNotNull(elements)) {
-                    
-                    
-                    for (Element table : elements.select("tbody")) {
-                        
-                        for (Element element : table.select("tr")){
 
-                        	Fixture fixture = new Fixture();
+                    for (Element table : elements.select("tbody")) {
+
+                        for (Element element : table.select("tr")) {
+
+                            Fixture fixture = new Fixture();
 
                             String time = element.select("td[class=l dt]").text();
-                            Log.e(TAG, "time************** : "+time);
+                            Log.e(TAG, "time************** : " + time);
 
                             if (UtilValidate.isNotNull(time))
-                            	fixture.setDate(time);
+                                fixture.setDate(time);
 
                             String team_a = element.select("td[class=l homeTeam]").text();
-                            Log.e(TAG, "team_a************** : "+team_a);
-
+                            Log.e(TAG, "team_a************** : " + team_a);
 
                             if (UtilValidate.isNotNull(team_a))
-                            	fixture.setTeam_a(team_a);
+                                fixture.setTeam_a(team_a);
 
-                            
-                            
-                            
                             String team_b = element.select("td[class=r awayTeam]").text();
-                            Log.e(TAG, "team_b************** : "+team_b);
+                            Log.e(TAG, "team_b************** : " + team_b);
 
                             if (UtilValidate.isNotNull(team_b))
-                            	fixture.setTeam_b(team_b);
-                            
-                            
-                           /* String result = element.select("td[class=r awayTeam]").text();
-                            Log.e(TAG, "team_b************** : "+team_b);
+                                fixture.setTeam_b(team_b);
 
-                            if (UtilValidate.isNotNull(result))
-                            	fixture.setResult(result);*/
-                            
+                            /*
+                             * String result =
+                             * element.select("td[class=r awayTeam]").text();
+                             * Log.e(TAG, "team_b************** : "+team_b); if
+                             * (UtilValidate.isNotNull(result))
+                             * fixture.setResult(result);
+                             */
+
                             String team_a_image = element.select("a").select("img").attr("src");
-                            Log.e(TAG, "team_a_image************** : "+team_a_image);
+                            Log.e(TAG, "team_a_image************** : " + team_a_image);
 
                             if (UtilValidate.isNotNull(team_a_image))
-                            	fixture.setTeam_a_image(team_a_image);
-                            
-                            
+                                fixture.setTeam_a_image(team_a_image);
+
                             String team_b_image = element.select("img").attr("src");
-                            Log.e(TAG, "team_b_image************** : "+team_b_image);
+                            Log.e(TAG, "team_b_image************** : " + team_b_image);
 
                             if (UtilValidate.isNotNull(team_b_image))
-                            	fixture.setTeam_b_image(team_b_image);
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-
+                                fixture.setTeam_b_image(team_b_image);
 
                             fixtureList.add(fixture);
 
                         }
-                        
-                        
-                }
 
-            }
-                
+                    }
+
+                }
 
             }
 
@@ -321,7 +302,79 @@ public class CountryManager implements Constants.Country {
 
     }
 
-    private void scrapPlayerName() {
+    public PlayerProfile scrapPlayerprofileDetails(String link) {
 
+        PlayerProfile playerProfile = null;
+
+        Log.e(TAG, "In scrapPlayerprofileDetails");
+
+        String userAgent = "Mozilla";
+
+        Response response;
+        
+        try {
+            response = Jsoup.connect(link).method(Method.POST).followRedirects(false)
+                    .userAgent(userAgent).execute();
+
+            // This will get you cookies
+            Map<String, String> loginCookies = response.cookies();
+
+            Document playerProfileDoc = Jsoup.connect(link).cookies(loginCookies)
+                    .userAgent(userAgent).get();
+
+            if (UtilValidate.isNotNull(playerProfileDoc)) {
+
+                Util.filterHtml(playerProfileDoc);
+
+                Elements profileElements = playerProfileDoc
+                        .select("div[id=page_player_1_block_player_passport_4]");
+
+                if (UtilValidate.isNotNull(profileElements)) {
+
+                    String[] str = new String[20];
+
+                    int i = 0;
+
+                    for (Element dd : profileElements.select("dl").select("dd")) {
+
+                        str[i] = dd.text();
+                        i++;
+                    }
+
+                    playerProfile = new PlayerProfile();
+
+                    playerProfile.setFirstname(str[0]);
+
+                    playerProfile.setLastname(str[1]);
+
+                    playerProfile.setNationality(str[2]);
+
+                    playerProfile.setDateOfBirth(str[3]);
+
+                    playerProfile.setAge(str[4]);
+
+                    playerProfile.setCountry(str[5]);
+
+                    playerProfile.setPlace(str[6]);
+
+                    playerProfile.setPosition(str[7]);
+
+                    playerProfile.setHeight(str[8]);
+
+                    playerProfile.setWeight(str[9]);
+
+                    playerProfile.setFoot(str[10]);
+
+                }
+
+            }
+
+            return playerProfile;
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return playerProfile;
     }
 }
