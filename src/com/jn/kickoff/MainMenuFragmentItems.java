@@ -1,40 +1,25 @@
 package com.jn.kickoff;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jn.kickoff.activity.CountryRanking;
 import com.jn.kickoff.activity.FixtureActivity;
+import com.jn.kickoff.activity.MainActivity;
 import com.jn.kickoff.activity.TopPlayers;
 import com.jn.kickoff.activity.VenuesFragment;
-import com.jn.kickoff.adapter.PlayerRankingAdapter;
-import com.jn.kickoff.holder.FifaPlayerDetails;
-import com.jn.kickoff.manager.PlayerManager;
-import com.jn.kickoff.utils.UtilValidate;
-import com.jn.kickoff.webservice.AsyncTaskCallBack;
-import com.squareup.picasso.Picasso;
 
+@SuppressLint("ValidFragment")
 public class MainMenuFragmentItems extends Fragment {
 
 	private String title;
@@ -69,6 +54,8 @@ public class MainMenuFragmentItems extends Fragment {
 		iconImageView.setImageDrawable(iconImage);
 
 		titleTextView.setText(title);
+		
+		
 
 		titleTextView.setOnClickListener(new OnClickListener() {
 

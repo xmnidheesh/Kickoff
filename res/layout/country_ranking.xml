@@ -16,8 +16,32 @@
         android:orientation="vertical" 
         android:layout_alignParentTop="true"
         android:background="@color/dark_medium_black">
+        
+        
+         <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/linear"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <com.google.ads.AdView
+            android:id="@+id/ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/addmobid"
+            ads:loadAdOnCreate="true"
+            ads:refreshInterval="60"
+            android:visibility="visible" />
+    </FrameLayout>
+        
+        
+        
+
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="10dp" >
@@ -26,22 +50,25 @@
                 android:id="@+id/country_rank"
                 style="@style/textView_white"
                 android:padding="10dp"
+                android:layout_alignParentLeft="true"
                 android:text="Rank" />
 
             <TextView
                 android:id="@+id/country_name"
                 style="@style/textView_white"
                 android:layout_marginLeft="15dp"
+                android:layout_centerHorizontal="true"
                 android:padding="10dp"
                 android:text="Team Name" />
 
             <TextView
                 android:id="@+id/country_points"
                 style="@style/textView_white"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="15dp"
                 android:padding="10dp"
                 android:text="points" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/listview_country_rank"
