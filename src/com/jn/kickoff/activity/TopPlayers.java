@@ -31,6 +31,7 @@ import com.jn.kickoff.adapter.PlayerRankingAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.holder.FifaPlayerDetails;
 import com.jn.kickoff.manager.PlayerManager;
+import com.jn.kickoff.utils.ProgressWheel;
 import com.jn.kickoff.utils.UtilValidate;
 import com.jn.kickoff.webservice.AsyncTaskCallBack;
 import com.squareup.picasso.Picasso;
@@ -49,6 +50,10 @@ public class TopPlayers extends Activity {
 
 	private PopupWindow popupWindow;
 	private ListView listview;
+	private static ProgressWheel progressWheel;
+	private static RelativeLayout relativeLayoutprogresswheel;
+	boolean loadingFinished = true;
+	private TextView progressBarDetail_text;
 	 private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
 
 	    private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
@@ -60,6 +65,18 @@ public class TopPlayers extends Activity {
 
 		initViews();
 		initManagers();
+		
+		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+		progressBarDetail_text.setVisibility(View.VISIBLE);
+
+
+		progressWheel.setTextSize(18);
+		progressWheel.setBarLength(20);
+		progressWheel.setBarWidth(25);
+		progressWheel.setRimWidth(50);
+		progressWheel.setSpinSpeed(25);
+		progressWheel.spin();
+		
 		FrameLayout layout = (FrameLayout) findViewById(R.id.linear);
 		layout.addView(adView);
 
@@ -102,6 +119,9 @@ public class TopPlayers extends Activity {
 		listview = (ListView) findViewById(R.id.listview);
 		relative_top = (RelativeLayout)findViewById(
 				R.id.relative_top);
+		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
+		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
+		progressBarDetail_text= (TextView) findViewById(R.id.progressBarDetail_text);
 	}
 
 	/**
@@ -130,6 +150,15 @@ public class TopPlayers extends Activity {
 
 				final List<FifaPlayerDetails> playerTempList = (List<FifaPlayerDetails>) result;
 				Log.e("size before", "" + playerTempList.size());
+				
+
+				loadingFinished = false;
+				// SHOW LOADING IF IT ISNT
+				// ALREADY
+				// VISIBLE
+				relativeLayoutprogresswheel
+						.setVisibility(View.VISIBLE);
+				progressBarDetail_text.setVisibility(View.VISIBLE);
 				rankingAdapter = new PlayerRankingAdapter(TopPlayers.this,
 						playerTempList);
 				listview.setAdapter(rankingAdapter);
@@ -167,6 +196,7 @@ public class TopPlayers extends Activity {
 						String profileimage = playerTempList.get(position)
 								.getBase_id();
 
+						
 						popup(dob, fname, lname, commonname, height, foot,
 								rating, type, pace, shooting, passing,
 								dribbling, defending, heading,profileimage);
@@ -213,6 +243,13 @@ public class TopPlayers extends Activity {
 			String height, String foot, String rating, String type,
 			String pace, String shooting, String passing, String dribbling,
 			String defending, String heading,String profileimage) {
+		loadingFinished = false;
+		// SHOW LOADING IF IT ISNT
+		// ALREADY
+		// VISIBLE
+		relativeLayoutprogresswheel
+				.setVisibility(View.INVISIBLE);
+		progressBarDetail_text.setVisibility(View.INVISIBLE);
 		listview.setVisibility(View.INVISIBLE);
 		LayoutInflater layoutInflater = (LayoutInflater)this
 				.getApplicationContext().getSystemService(

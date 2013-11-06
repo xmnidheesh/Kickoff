@@ -20,6 +20,7 @@ import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.entity.Squard;
 import com.jn.kickoff.holder.Fixture;
+import com.jn.kickoff.holder.News;
 import com.jn.kickoff.utils.Util;
 import com.jn.kickoff.utils.UtilValidate;
 
@@ -29,6 +30,7 @@ public class CountryManager implements Constants.Country {
 
     private List<Country> countryList;
     private List<Fixture> fixtureList;
+    private List<News> newsList;
 
     public List<Country> scrapUrlForCountriesRank(String urls) {
 
@@ -324,4 +326,70 @@ public class CountryManager implements Constants.Country {
     private void scrapPlayerName() {
 
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    public List<News> scrapUrlForNews(String urls) {
+
+        try {
+
+        	newsList = new ArrayList<News>();
+
+            String userAgent = "Mozilla";
+
+            Response response = Jsoup.connect(urls).method(Method.POST).followRedirects(false)
+                    .userAgent(userAgent).execute();
+            // This will get you cookies
+            Map<String, String> loginCookies = response.cookies();
+
+            Document scrappedDoc = Jsoup.connect(urls).cookies(loginCookies).userAgent(userAgent)
+                    .get();
+
+
+			if (UtilValidate.isNotNull(scrappedDoc)) {
+
+				Util.filterHtml(scrappedDoc);
+				Element elements = scrappedDoc.select("div[class= newsList]")
+						.select("ul[class= newslTop]").first();
+
+				for (Element li : elements.select("li")) {
+					
+					String heading = li.select("a").text();
+					String image = li.select("a").select("img").attr("src");
+					String link = li.select("a").attr("href");
+					Log.e("", ""+link);
+					
+					News news=new News();
+					news.setNewsheading(heading);
+					news.setDetailednews(link);
+					news.setNewsimage(image);
+					newsList.add(news);
+					
+				}
+
+			}
+
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            Log.e(TAG, "Exception occured while parsing url :", e);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            Log.e(TAG, "IOException :", e);
+        }
+        return newsList;
+
+    }
+
+    
+    
+    
+    
+    
+    
+    
 }

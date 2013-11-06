@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 
 import com.jn.kickoff.activity.CountryRanking;
 import com.jn.kickoff.activity.FixtureActivity;
-import com.jn.kickoff.activity.MainActivity;
+import com.jn.kickoff.activity.NewsActivity;
 import com.jn.kickoff.activity.TopPlayers;
 import com.jn.kickoff.activity.VenuesFragment;
 
@@ -63,9 +62,13 @@ public class MainMenuFragmentItems extends Fragment {
 			public void onClick(View v) {
 				if (titleTextView.getText().equals("venues")) {
 
-					Intent intent = new Intent(getActivity(),
+					/*Intent intent = new Intent(getActivity(),
 							VenuesFragment.class);
+					startActivity(intent);*/
+					Intent intent = new Intent(getActivity(),
+							NewsActivity.class);
 					startActivity(intent);
+					
 				} else if (titleTextView.getText().equals("fixtures")) {
 					Intent intent = new Intent(getActivity(),
 							FixtureActivity.class);
