@@ -27,8 +27,6 @@ public class NewsAdapter extends BaseAdapter {
     private LayoutInflater inflator;
 
     private Activity activity;
-    private static final String profileUrl = "http://m.fifa.com<PICID>";
-	private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
 
     /**
      * 
@@ -91,19 +89,19 @@ public class NewsAdapter extends BaseAdapter {
         {
      historyHolder.textView_desc.setText(newsList.get(position).getDescription());
         }
-        
-        if(UtilValidate.isNotNull(newsList.get(position).getDescription()))
+        if(UtilValidate.isNotEmpty(newsList.get(position).getImages()))
         {
-        	
+        	 if(UtilValidate.isNotNull(newsList.get(position).getImages()))
+        	 {
         	//historyHolder.textView_heading.setText(newsList.get(position).getHeadline());
- /*	String userPicUrl = profilePicPattern.matcher(profileUrl)
-			.replaceAll(newsList.get(position).getStatus());
+        	String userPicUrl = newsList.get(position).getImages().get(0).getUrl();
 
      Picasso.with(activity).load(userPicUrl)
 		.placeholder(R.drawable.ic_launcher)
 		.error(R.drawable.ic_launcher).fit()
-		.into(historyHolder.imageView_bg);*/
+		.into(historyHolder.imageView_bg);
         }
+    }
 
 
         return convertView;

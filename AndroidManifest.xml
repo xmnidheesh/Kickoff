@@ -46,6 +46,9 @@
                android:screenOrientation="portrait" />
            <activity android:name="com.jn.kickoff.activity.NewsActivity" 
                 android:screenOrientation="portrait"/>
+                      <activity android:name="com.jn.kickoff.activity.NewsDetailpageActivity" 
+                android:screenOrientation="portrait"/>
+           
         <activity
             android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />

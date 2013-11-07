@@ -1,5 +1,7 @@
 package com.jn.kickoff.holder;
 
+import java.util.List;
+
 public class NewsHeadlines {
 private String headline;
 private String lastModified;
@@ -15,6 +17,19 @@ private String byline;
 private String source;
 private String description;
 private String published;
+private List<NewsImages> images;
+/**
+ * @return the images
+ */
+public List<NewsImages> getImages() {
+	return images;
+}
+/**
+ * @param images the images to set
+ */
+public void setImages(List<NewsImages> images) {
+	this.images = images;
+}
 /**
  * @return the headline
  */

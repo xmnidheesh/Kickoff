@@ -41,9 +41,13 @@ public interface Constants {
     
     interface AppConstants
     {
-    	 String ADDMOB="a14dc3594438359";
+    	 String ADDMOB="a152774de5cc614";
         String URL_RATING="http://tools.fifaguide.com/api/topten/rating";
         String URL_NEWS="http://api.espn.com/v1/sports/news/headlines/top";
+        //http://api.espn.com/v1/sports/news/headlines/top
+        //http://api.espn.com/v1/sports/soccer/fifa.olympics/news
+        //http://api.espn.com/v1/fantasy/football/news
+        //a14dc3594438359
     }
     
      interface Players{
