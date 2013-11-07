@@ -12,9 +12,20 @@
     <TextView
         android:id="@+id/textView_heading"
         android:layout_width="wrap_content"
+        android:padding="4dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="left"
         android:layout_toRightOf="@+id/imageView_bg"
+        android:text="TextView" />
+    <TextView
+        android:id="@+id/textView_desc"
+        android:layout_width="wrap_content"
+        android:padding="4dp"
+        android:textSize="10dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_toRightOf="@+id/imageView_bg"
+        android:layout_below="@+id/textView_heading"
         android:text="TextView" />
 
 </RelativeLayout>

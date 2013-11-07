@@ -36,6 +36,8 @@ public class MainActivity extends FragmentActivity implements Constants {
     private MainMenuFragmentItems fragmentItemsRanking;
 
     private MainMenuFragmentItems fragmentItemsTopPlayers;
+    
+    private MainMenuFragmentItems fragmentItemsNews;
 
     private ViewPager mainMenuViewPager;
 
@@ -61,7 +63,7 @@ public class MainActivity extends FragmentActivity implements Constants {
         mainMenuFragments.add(fragmentItemsFixture);
         mainMenuFragments.add(fragmentItemsRanking);
         mainMenuFragments.add(fragmentItemsTopPlayers);
-
+        mainMenuFragments.add(fragmentItemsNews);
         testFragmentAdapter = new TestFragmentAdapter(getSupportFragmentManager(),
                 mainMenuFragments);
         mainMenuViewPager.setAdapter(testFragmentAdapter);
@@ -90,6 +92,9 @@ public class MainActivity extends FragmentActivity implements Constants {
 
         fragmentItemsTopPlayers = new MainMenuFragmentItems(MENU4, MainActivity.this.getResources()
                 .getDrawable(R.drawable.topteams));
+        fragmentItemsNews = new MainMenuFragmentItems(MENU5, MainActivity.this.getResources()
+                .getDrawable(R.drawable.news));
+
 
     }
 

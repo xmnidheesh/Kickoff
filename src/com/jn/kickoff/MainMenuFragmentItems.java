@@ -62,11 +62,8 @@ public class MainMenuFragmentItems extends Fragment {
 			public void onClick(View v) {
 				if (titleTextView.getText().equals("venues")) {
 
-					/*Intent intent = new Intent(getActivity(),
-							VenuesFragment.class);
-					startActivity(intent);*/
 					Intent intent = new Intent(getActivity(),
-							NewsActivity.class);
+							VenuesFragment.class);
 					startActivity(intent);
 					
 				} else if (titleTextView.getText().equals("fixtures")) {
@@ -83,6 +80,12 @@ public class MainMenuFragmentItems extends Fragment {
 				} else if (titleTextView.getText().equals("TopPlayers")) {
 
 					Intent intent = new Intent(getActivity(), TopPlayers.class);
+					startActivity(intent);
+				}
+
+				else if (titleTextView.getText().equals("News")) {
+
+					Intent intent = new Intent(getActivity(), NewsActivity.class);
 					startActivity(intent);
 				}
 

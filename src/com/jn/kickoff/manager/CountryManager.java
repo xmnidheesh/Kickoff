@@ -385,7 +385,7 @@ public class CountryManager implements Constants.Country {
     
     
     
-    
+    /*
     
     public List<News> scrapUrlForNews(String urls) {
 
@@ -442,7 +442,45 @@ public class CountryManager implements Constants.Country {
     
     
     
-    
+    public List<News> scrapUrlForNewsDetail(String urls) {
+
+        try {
+
+        	newsList = new ArrayList<News>();
+
+            String userAgent = "Mozilla";
+
+            Response response = Jsoup.connect(urls).method(Method.POST).followRedirects(false)
+                    .userAgent(userAgent).execute();
+            // This will get you cookies
+            Log.e(TAG, "response :"+ response);
+            Map<String, String> loginCookies = response.cookies();
+
+            Document scrappedDoc = Jsoup.connect(urls).cookies(loginCookies).userAgent(userAgent)
+                    .get();
+
+            Log.e(TAG, "elements :"+ scrappedDoc);
+
+			if (UtilValidate.isNotNull(scrappedDoc)) {
+
+				Util.filterHtml(scrappedDoc);
+				Element elements = scrappedDoc.select("div[class= body]")
+						.first();
+
+
+			}
+
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            Log.e(TAG, "Exception occured while parsing url :", e);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            Log.e(TAG, "IOException :", e);
+        }
+        return newsList;
+
+    }
+    */
     
     
 }

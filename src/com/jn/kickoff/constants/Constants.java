@@ -6,6 +6,7 @@ public interface Constants {
     public static final String MENU2 = "fixtures";
     public static final String MENU3 = "TopPlayers";
     public static final String MENU4 = "TopTeams";
+    public static final String MENU5 = "News";
     
     interface Venue{
         
@@ -42,6 +43,7 @@ public interface Constants {
     {
     	 String ADDMOB="a14dc3594438359";
         String URL_RATING="http://tools.fifaguide.com/api/topten/rating";
+        String URL_NEWS="http://api.espn.com/v1/sports/news/headlines/top";
     }
     
      interface Players{
