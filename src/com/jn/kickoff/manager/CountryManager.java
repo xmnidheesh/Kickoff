@@ -17,6 +17,9 @@ import org.jsoup.select.Elements;
 import android.util.Log;
 
 import com.jn.kickoff.constants.Constants;
+import com.jn.kickoff.dao.CountryDao;
+import com.jn.kickoff.dao.PlayerDao;
+import com.jn.kickoff.dao.PlayerProfileDao;
 import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.entity.PlayerProfile;
 import com.jn.kickoff.entity.Squard;
@@ -32,6 +35,12 @@ public class CountryManager implements Constants.Country {
 
     private List<Fixture> fixtureList;
 
+    /**
+     * This method will scrap all the countries based on their rank
+     * 
+     * @param urls
+     * @return {@code List<Country> countries list}
+     */
     public List<Country> scrapUrlForCountriesRank(String urls) {
 
         try {
@@ -113,7 +122,14 @@ public class CountryManager implements Constants.Country {
 
     }
 
-    public List<Squard> scrapSquardFromTeamLink(String link) {
+    /**
+     * This method will scrap all the team squard of the selected country
+     * 
+     * @param link
+     * @param countryId
+     * @return {@code List<Squard> team squard list}
+     */
+    public List<Squard> scrapSquardFromTeamLink(String link, String countryId) {
 
         List<Squard> squardList = new ArrayList<Squard>();
 
@@ -159,9 +175,11 @@ public class CountryManager implements Constants.Country {
                                     if (UtilValidate.isNotNull(profileImageATag)) {
 
                                         squard = new Squard();
-
+                                        
                                         String profileImage = profileImageATag.attr("src");
-                                        squard.setImage(profileImage);
+                                        squard.setProfileImage(profileImage);
+
+                                        squard.setCountry_id(countryId);
 
                                         StringBuffer sb = new StringBuffer("");
                                         sb.append(COUNTRY_LINK).append(profileLink);
@@ -212,6 +230,12 @@ public class CountryManager implements Constants.Country {
         return squardList;
     }
 
+    /**
+     * This method will scrap fixtures of the upcoming matches
+     * 
+     * @param urls
+     * @return {@code List<Fixture> Fixtures list}
+     */
     public List<Fixture> scrapUrlForFixtures(String urls) {
 
         try {
@@ -302,6 +326,12 @@ public class CountryManager implements Constants.Country {
 
     }
 
+    /**
+     * This method will scrap profile details of a selected team member.
+     * 
+     * @param link
+     * @return {@code PlayerProfile -> profile details object}
+     */
     public PlayerProfile scrapPlayerprofileDetails(String link) {
 
         PlayerProfile playerProfile = null;
@@ -311,7 +341,7 @@ public class CountryManager implements Constants.Country {
         String userAgent = "Mozilla";
 
         Response response;
-        
+
         try {
             response = Jsoup.connect(link).method(Method.POST).followRedirects(false)
                     .userAgent(userAgent).execute();
@@ -377,4 +407,81 @@ public class CountryManager implements Constants.Country {
         }
         return playerProfile;
     }
+
+    /**
+     * This method will insert all the countries in to the local database.
+     * 
+     * @param countries -> List of countries
+     * @return
+     */
+    public void insertIntoCountries(List<Country> countries) {
+
+        CountryDao countryDao = new CountryDao();
+        countryDao.insertIntoCountries(countries);
+    }
+
+    /**
+     * This method will fetch all the countries from database.
+     * 
+     * @param
+     * @return {@code List<Country> -> List of countries }
+     */
+    public List<Country> fetchAllCountries() {
+
+        CountryDao countryDao = new CountryDao();
+
+        return countryDao.getAllCountries();
+    }
+
+    /**
+     * This method will insert all the players in to the local database.
+     * 
+     * @param players -> List of players
+     * @return
+     */
+    public void insertIntoPlayers(List<Squard> players) {
+
+        PlayerDao playerDao = new PlayerDao();
+        playerDao.insertIntoPlayers(players);
+    }
+
+    /**
+     * This method will fetch all the players of a given country from table
+     * players.
+     * 
+     * @param countryId
+     * @return {@code List<Squard> -> List of players }
+     */
+    public List<Squard> fetchAllPlayersOfACountry(String countryId) {
+
+        PlayerDao playerDao = new PlayerDao();
+
+        return playerDao.getAllPlayersByCountryWise(countryId);
+    }
+    
+    /**
+     * This method will insert the players profile data in to the table playerProfile.
+     * 
+     * @param playerProfile -> PlayerProfile object
+     * @return
+     */
+    public void insertIntoPlayerProfile(PlayerProfile playerProfile) {
+
+        PlayerProfileDao playerProfileDao = new PlayerProfileDao();
+        playerProfileDao.insertIntoPlayerProfile(playerProfile);
+    }
+    
+    /**
+     * This method will fetch the player profile information from table playerProfile.
+     * 
+     * @param playerId
+     * @return {@code PlayerProfile -> player object }
+     */
+    public PlayerProfile fetchPlayerProfileData(String playerId) {
+
+        PlayerProfileDao playerProfileDao = new PlayerProfileDao();
+
+        return playerProfileDao.getAllPlayerProfileData(playerId);
+    }
+
 }

@@ -2,6 +2,10 @@
 package com.jn.kickoff.entity;
 
 public class PlayerProfile {
+    
+    private String playerId;
+    
+    private String countryId;
 
     private String firstname;
 
@@ -26,6 +30,37 @@ public class PlayerProfile {
     private String weight;
 
     private String foot;
+    
+    private String updatedDate;
+    
+    
+    /**
+     * @return the playerId
+     */
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    /**
+     * @param playerId the playerId to set
+     */
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    /**
+     * @return the countryId
+     */
+    public String getCountryId() {
+        return countryId;
+    }
+
+    /**
+     * @param countryId the countryId to set
+     */
+    public void setCountryId(String countryId) {
+        this.countryId = countryId;
+    }
 
     /**
      * @return the firstname
@@ -195,6 +230,20 @@ public class PlayerProfile {
      */
     public void setFoot(String foot) {
         this.foot = foot;
+    }
+
+    /**
+     * @return the updatedDate
+     */
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    /**
+     * @param updatedDate the updatedDate to set
+     */
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
     
     

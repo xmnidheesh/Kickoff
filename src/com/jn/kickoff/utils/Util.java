@@ -9,8 +9,10 @@ import java.io.OutputStreamWriter;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
 
@@ -84,6 +87,7 @@ public class Util {
         Date datePosted = null;
         try {
             datePosted = parserSDF.parse(date);
+
         } catch (ParseException e) {
             System.out.println("Invalid date format " + e);
         }
@@ -258,124 +262,205 @@ public class Util {
         }
         return shopName;
     }
-    
-public static void filterHtml(Document document){
-        
-        if(UtilValidate.isNotNull(document)){
-            
-           Elements headElements = document.select("head");
-            
-            if(UtilValidate.isNotNull(headElements)){
-                
+
+    public static void filterHtml(Document document) {
+
+        if (UtilValidate.isNotNull(document)) {
+
+            Elements headElements = document.select("head");
+
+            if (UtilValidate.isNotNull(headElements)) {
+
                 headElements.remove();
-                
+
             }
-            
-           /* Elements imageElements = document.select("img");
-            
-            if(UtilValidate.isNotNull(imageElements)){
-                
-                imageElements.remove();
-                
-            }*/
-            
+
+            /*
+             * Elements imageElements = document.select("img");
+             * if(UtilValidate.isNotNull(imageElements)){
+             * imageElements.remove(); }
+             */
+
             Elements embedElemts = document.select("embed");
-            
-            if(UtilValidate.isNotNull(embedElemts)){
-                
+
+            if (UtilValidate.isNotNull(embedElemts)) {
+
                 embedElemts.remove();
-                
+
             }
-            
+
             Elements scriptsElements = document.select("script");
-            
-            if(UtilValidate.isNotNull(scriptsElements)){
-                
+
+            if (UtilValidate.isNotNull(scriptsElements)) {
+
                 scriptsElements.remove();
-                
+
             }
-            
+
             Elements scriptsJsElements = document.select("script[type=text/javascript]");
-            
-            if(UtilValidate.isNotNull(scriptsJsElements)){
-                
+
+            if (UtilValidate.isNotNull(scriptsJsElements)) {
+
                 scriptsJsElements.remove();
-                
+
             }
-            
+
             Elements scriptsJscriptElements = document.select("script[language=javascript]");
-            
-            if(UtilValidate.isNotNull(scriptsJscriptElements)){
-                
+
+            if (UtilValidate.isNotNull(scriptsJscriptElements)) {
+
                 scriptsJscriptElements.remove();
-                
+
             }
-            
+
             Elements scriptsTextcriptElements = document.select("script[type=text/html");
-            
-            if(UtilValidate.isNotNull(scriptsTextcriptElements)){
-                
+
+            if (UtilValidate.isNotNull(scriptsTextcriptElements)) {
+
                 scriptsTextcriptElements.remove();
-                
+
             }
-            
+
             Elements styleElements = document.select("style");
-            
-            if(UtilValidate.isNotNull(styleElements)){
-                
+
+            if (UtilValidate.isNotNull(styleElements)) {
+
                 styleElements.remove();
-                
+
             }
-            
+
             Elements styleCssElements = document.select("style[type=text/css]");
-            
-            if(UtilValidate.isNotNull(styleCssElements)){
-                
+
+            if (UtilValidate.isNotNull(styleCssElements)) {
+
                 styleCssElements.remove();
-                
-            }    
-            
+
+            }
+
             Elements linkElements = document.select("link[rel=stylesheet]");
-            
-            if(UtilValidate.isNotNull(linkElements)){
-                
+
+            if (UtilValidate.isNotNull(linkElements)) {
+
                 linkElements.remove();
-                
+
             }
-            
-            Elements socialElements = document.getElementsByAttributeValueContaining("class", "social");
-            
-            if(UtilValidate.isNotNull(socialElements)){
-                
+
+            Elements socialElements = document.getElementsByAttributeValueContaining("class",
+                    "social");
+
+            if (UtilValidate.isNotNull(socialElements)) {
+
                 socialElements.remove();
-                
+
             }
-            
+
             Elements adElements = document.getElementsByAttributeValueContaining("class", "ads");
-            
-            if(UtilValidate.isNotNull(adElements)){
-                
+
+            if (UtilValidate.isNotNull(adElements)) {
+
                 adElements.remove();
-                
+
             }
-            
+
             Elements advElements = document.getElementsByAttributeValueContaining("class", "adv");
-            
-            if(UtilValidate.isNotNull(advElements)){
-                
+
+            if (UtilValidate.isNotNull(advElements)) {
+
                 advElements.remove();
-                
+
             }
-            
-            //Remove Styles
+
+            // Remove Styles
             Elements elms = document.getAllElements();
-            for(int i=0;i<elms.size();i++){
+            for (int i = 0; i < elms.size(); i++) {
                 elms.get(i).removeAttr("style");
             }
-            
+
         }
-        
-        
+
+    }
+
+    public static int getMonthFromDate(String date) {
+
+        SimpleDateFormat parserSDF = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
+        parserSDF.setTimeZone(TimeZone.getTimeZone("UTC/Etc"));
+        Date datePosted = null;
+        int month = 0;
+        try {
+            datePosted = parserSDF.parse(date);
+
+            month = datePosted.getMonth();
+
+        } catch (ParseException e) {
+            System.out.println("Invalid date format " + e);
+        }
+
+        return month;
+
+    }
+
+    public static int getYearFromDate(String date) {
+
+        SimpleDateFormat parserSDF = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
+        parserSDF.setTimeZone(TimeZone.getTimeZone("UTC/Etc"));
+        Date datePosted = null;
+        int year = 0;
+        try {
+            datePosted = parserSDF.parse(date);
+
+            year = datePosted.getYear();
+
+        } catch (ParseException e) {
+            System.out.println("Invalid date format " + e);
+        }
+
+        return year;
+
+    }
+
+    public static int getMonthFromCurrentDate() {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int month = cal.get(Calendar.MONTH);
+
+        return month;
+    }
+
+    public static int getYearFromCurrentDate() {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int year = cal.get(Calendar.YEAR);
+
+        return year;
+    }
+
+    public static long getDateDifference(String dateInDb) {
+
+        long days = 0;
+        try {
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            
+            Date date = formatter.parse(dateInDb);
+            
+            Date todayDate = new Date();
+            
+            long difference = todayDate.getTime() - date.getTime();
+            
+            Log.e(Tag,"todayDate :"+todayDate.getTime()/(24 * 60 * 60 * 1000));
+            
+            Log.e(Tag,"date :"+date.getTime()/(24 * 60 * 60 * 1000));
+            
+            days = difference / (24 * 60 * 60 * 1000);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+           Log.e(Tag,"Exception :",e);
+        }
+
+        return days;
+
     }
 
 }

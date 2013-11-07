@@ -3,6 +3,8 @@ package com.jn.kickoff.entity;
 
 public class Country {
     
+    private String _id;
+    
     private String name;
     
     private String rank;
@@ -14,6 +16,24 @@ public class Country {
     private String category;
     
     private String countryLink;
+    
+    private String updatedDate;
+    
+    
+
+    /**
+     * @return the _id
+     */
+    public String get_id() {
+        return _id;
+    }
+
+    /**
+     * @param _id the _id to set
+     */
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 
     /**
      * @return the name
@@ -97,6 +117,20 @@ public class Country {
      */
     public void setCountryLink(String countryLink) {
         this.countryLink = countryLink;
+    }
+
+    /**
+     * @return the updatedDate
+     */
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    /**
+     * @param updatedDate the updatedDate to set
+     */
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
    

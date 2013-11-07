@@ -79,9 +79,9 @@ public class TeamSquardAdapter extends BaseAdapter {
             historyHolder = (NearHospitalHolder)convertView.getTag();
         }
 
-        if (UtilValidate.isNotEmpty(squardList.get(position).getImage()))
+        if (UtilValidate.isNotEmpty(squardList.get(position).getProfileImage()))
 
-            Picasso.with(activity).load(squardList.get(position).getImage())
+            Picasso.with(activity).load(squardList.get(position).getProfileImage())
                     .placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).fit()
                     .into(historyHolder.playerImage);
 
