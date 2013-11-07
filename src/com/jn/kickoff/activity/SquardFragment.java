@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.jn.kickoff.R;
 import com.jn.kickoff.adapter.TeamSquardAdapter;
 import com.jn.kickoff.entity.PlayerProfile;
@@ -40,9 +42,15 @@ public class SquardFragment extends FragmentActivity {
 
     private String url;
 
+    private String _id;
+
     private GridView gridViewSquard;
 
     private RelativeLayout relativeLayout;
+
+    private CountryManager countryManager;
+
+    private PlayerProfile playerProfile;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -54,24 +62,55 @@ public class SquardFragment extends FragmentActivity {
 
         url = getIntent().getStringExtra("url");
 
-        new SquardScrappingTask().execute(url);
+        _id = getIntent().getStringExtra("id");
+
+        Log.e(TAG, "_id :" + _id);
+
+        squardList = countryManager.fetchAllPlayersOfACountry(_id);
+
+        if (UtilValidate.isEmpty(squardList)) {
+
+            new SquardScrappingTask().execute(url, _id);
+
+        } else {
+
+            squardAdapter = new TeamSquardAdapter(SquardFragment.this, squardList);
+
+            gridViewSquard.setAdapter(squardAdapter);
+        }
 
         gridViewSquard.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-                Log.e(TAG, "squardList :" + squardList.get(arg2).getProfileLink());
+                if (UtilValidate.isNull(squardList.get(arg2).get_id()))
+                    squardList = countryManager.fetchAllPlayersOfACountry(_id);
 
-                new PlayerDetailsScrappingTask().execute(squardList.get(arg2).getProfileLink(),
-                        squardList.get(arg2).getImage());
+                Log.e(TAG, "squardList p_id :" + squardList.get(arg2).get_id());
+
+                playerProfile = countryManager
+                        .fetchPlayerProfileData(squardList.get(arg2).get_id());
+
+                if (UtilValidate.isNotNull(playerProfile)) {
+
+                    showPlayerProfile(playerProfile);
+
+                } else {
+
+                    new PlayerDetailsScrappingTask().execute(squardList.get(arg2).getProfileLink(),
+                            squardList.get(arg2).getProfileImage(), squardList.get(arg2).get_id(),
+                            squardList.get(arg2).getCountry_id());
+                }
+
             }
         });
 
     }
 
     private void initManagers() {
-        // TODO Auto-generated method stub
+
+        countryManager = new CountryManager();
     }
 
     private void initViews() {
@@ -84,16 +123,16 @@ public class SquardFragment extends FragmentActivity {
 
     private class SquardScrappingTask extends AsyncTask<String, String, String> {
 
-        private CountryManager countryManager = new CountryManager();
-
         private ProgressDialog dialog;
 
         @Override
         protected String doInBackground(String... params) {
 
-            squardList = countryManager.scrapSquardFromTeamLink(params[0]);
+            squardList = countryManager.scrapSquardFromTeamLink(params[0], params[1]);
 
-            Log.e(TAG, "list size :" + squardList.size());
+            Log.e(TAG, "Cid :" + params[1]);
+
+            Log.e(TAG, "url :" + params[0]);
 
             return null;
         }
@@ -123,9 +162,18 @@ public class SquardFragment extends FragmentActivity {
             if (dialog != null)
                 dialog.dismiss();
 
-            squardAdapter = new TeamSquardAdapter(SquardFragment.this, squardList);
+            if (UtilValidate.isNotEmpty(squardList)) {
 
-            gridViewSquard.setAdapter(squardAdapter);
+                countryManager.insertIntoPlayers(squardList);
+
+                squardAdapter = new TeamSquardAdapter(SquardFragment.this, squardList);
+
+                gridViewSquard.setAdapter(squardAdapter);
+
+            } else {
+
+            }
+
         }
 
     }
@@ -140,12 +188,20 @@ public class SquardFragment extends FragmentActivity {
 
         private ProgressDialog dialog;
 
+        private String playerId;
+
+        private String countryId;
+
         @Override
         protected String doInBackground(String... params) {
 
             playerProfile = countryManager.scrapPlayerprofileDetails(params[0]);
 
             imageLink = params[1];
+
+            playerId = params[2];
+
+            countryId = params[3];
 
             return null;
         }
@@ -178,9 +234,18 @@ public class SquardFragment extends FragmentActivity {
             if (UtilValidate.isNotNull(playerProfile)) {
 
                 playerProfile.setImageLink(imageLink);
+                playerProfile.setPlayerId(playerId);
+                playerProfile.setCountryId(countryId);
+
+                // Insert into table player profile
+                countryManager.insertIntoPlayerProfile(playerProfile);
 
                 showPlayerProfile(playerProfile);
 
+            } else {
+
+                Toast.makeText(SquardFragment.this, "This service is currently unavailable",
+                        Toast.LENGTH_SHORT);
             }
 
         }

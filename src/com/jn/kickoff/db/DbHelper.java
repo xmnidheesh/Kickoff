@@ -168,45 +168,62 @@ public class DbHelper extends SQLiteOpenHelper implements Constants {
         db.execSQL(new StringBuilder(" CREATE TABLE ").append(Country.DATABASE_TABLE).append(" (")
                 .append(Country.COUNTRY_ID).append(" INTEGER PRIMARY KEY ,")
                 .append(Country.COUNTRY_NAME).append(" Varchar(20),").append(Country.COUNTRY_RANK)
-                .append(" Varchar(20),").append(Country.COUNTRY_POINT).append(" Varchar(20)")
-                .append(");").toString());
+                .append(" Varchar(20),").append(Country.COUNTRY_POINT).append(" Varchar(20),")
+                .append(Country.COUNTRY_URL).append(" Varchar(20),").append(UPDATED_DATE)
+                .append(" timestamp").append(");").toString());
 
         db.execSQL(new StringBuilder(" CREATE TABLE ").append(Players.DATABASE_TABLE).append(" (")
                 .append(Players.PLAYER_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT ,")
                 .append(Players.COUNTRY_ID).append(" INTEGER,").append(Players.PLAYER_NAME)
-                .append(" Varchar(20),").append(Players.PLAYER_IMAGE)
-                .append(" Varchar(20) NOT NULL,").append(" FOREIGN KEY ").append("(")
+                .append(" Varchar(20),").append(Players.PLAYER_IMAGE_LINK)
+                .append(" Varchar(20) NOT NULL,").append(Players.PLAYER_PROFILE_LINK)
+                .append(" Varchar(20) NOT NULL,").append(UPDATED_DATE)
+                .append(" timestamp,").append(" FOREIGN KEY ").append("(")
                 .append(Players.COUNTRY_ID).append(")").append(" REFERENCES ")
                 .append(Country.DATABASE_TABLE).append(" ( ").append(Country.COUNTRY_ID)
                 .append(" )").append(");").toString());
 
-    }
+        db.execSQL(new StringBuilder(" CREATE TABLE ").append(PlayerProfile.DATABASE_TABLE)
+                .append(" (").append(PlayerProfile._ID)
+                .append(" INTEGER PRIMARY KEY AUTOINCREMENT ,").append(PlayerProfile.PLAYER_ID)
+                .append(" INTEGER,").append(PlayerProfile.COUNTRY_ID).append(" INTEGER,")
 
-    /*
-     * @Override public void onCreate(SQLiteDatabase db) { db.execSQL(new
-     * StringBuilder(" CREATE TABLE ")
-     * .append(Country.DATABASE_TABLE).append(" (")
-     * .append(Country.COUNTRY_ID).append(" INTEGER PRIMARY KEY ,")
-     * .append(Country.COUNTRY_NAME).append(" Varchar(20)")
-     * .append(Country.COUNTRY_RANK).append(" Varchar(20)")
-     * .append(Country.COUNTRY_POINT).append(" Varchar(20)").append(");")
-     * .toString()); db.execSQL(new StringBuilder(" CREATE TABLE ")
-     * .append(Players.DATABASE_TABLE).append(" (") .append(Players.PLAYER_ID)
-     * .append(" INTEGER PRIMARY KEY AUTOINCREMENT ,")
-     * .append(Players.COUNTRY_ID) .append(" INTEGER,")
-     * .append(Players.PLAYER_NAME) .append(" Varchar(20),")
-     * .append(Players.PLAYER_IMAGE)
-     * .append(" Varchar(20) NOT NULL,").append(" FOREIGN KEY ")
-     * .append("(").append(Players.COUNTRY_ID)
-     * .append(")").append(" REFERENCES ")
-     * .append(Country.DATABASE_TABLE).append(" ( ")
-     * .append(Country.COUNTRY_ID).append(" )").append(");").toString()); }
-     */
+                .append(PlayerProfile.PLAYER_FNAME).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_LNAME).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_IMAGE_LINK).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_NATIONALITY).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_DOB).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_AGE).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_COUNTRY).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_PLACE).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_POSTION).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_HEIGHT).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_WEIGHT).append(" Varchar(20),")
+                .append(PlayerProfile.PLAYER_FOOT).append(" Varchar(20),")
+                .append(UPDATED_DATE).append(" timestamp,")
+                
+                .append(" FOREIGN KEY ").append("(").append(PlayerProfile.PLAYER_ID).append(")")
+                .append(" REFERENCES ").append(Players.DATABASE_TABLE).append(" ( ")
+                .append(Players.PLAYER_ID).append(" ),")
+
+                .append(" FOREIGN KEY ").append("(").append(PlayerProfile.COUNTRY_ID).append(")")
+                .append(" REFERENCES ").append(Country.DATABASE_TABLE).append(" ( ")
+                .append(Country.COUNTRY_ID).append(" )")
+
+                .append(");").toString());
+
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL(new StringBuilder(" DROP TABLE IF EXISTS ").append(Country.DATABASE_TABLE)
+                .toString());
+
+        db.execSQL(new StringBuilder(" DROP TABLE IF EXISTS ").append(Players.DATABASE_TABLE)
+                .toString());
+
+        db.execSQL(new StringBuilder(" DROP TABLE IF EXISTS ").append(PlayerProfile.DATABASE_TABLE)
                 .toString());
 
         onCreate(db);

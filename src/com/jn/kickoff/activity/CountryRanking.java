@@ -1,3 +1,4 @@
+
 package com.jn.kickoff.activity;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
@@ -26,6 +28,8 @@ import com.jn.kickoff.adapter.CountryRankingAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.manager.CountryManager;
+import com.jn.kickoff.utils.Util;
+import com.jn.kickoff.utils.UtilValidate;
 
 public class CountryRanking extends FragmentActivity implements Constants.Country {
 
@@ -36,9 +40,12 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
     private ListView countryRankListView;
 
     private CountryRankingAdapter countryRankingAdapter;
-    
+
     private AdView adView;
-	AdRequest adRequest;
+
+    private AdRequest adRequest;
+
+    private CountryManager countryManager;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -47,46 +54,54 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
 
         initViews();
         initManagers();
-        
-        FrameLayout layout = (FrameLayout) findViewById(R.id.linear);
-		layout.addView(adView);
 
-		// Create an ad request. Check logcat output for the hashed device
-		// ID to
-		// get test ads on a physical device.
-		adRequest = new AdRequest();
-		// adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		// adRequest.addTestDevice("C6205A36E35671ED5388B025B0B82698");
-		// adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		// adRequest.addTestDevice("0B1CF3FD4AA0118FAB350F160041EFC7");
-		final TelephonyManager tm = (TelephonyManager) getBaseContext()
-				.getSystemService(Context.TELEPHONY_SERVICE);
-		String deviceid = tm.getDeviceId();
-		adRequest.addTestDevice(deviceid);
+        countryList = countryManager.fetchAllCountries();
 
-		// Start loading the ad in the background.
+        if (UtilValidate.isEmpty(countryList)) {
 
-		(new Thread() {
-			public void run() {
-				Looper.prepare();
-				adView.loadAd(adRequest);
-			}
-		}).start();
+            new ScrappingCountriesTask().execute();
+        } else {
 
-		adView.loadAd(adRequest);
-		
+            countryRankingAdapter = new CountryRankingAdapter(CountryRanking.this, countryList);
+            countryRankListView.setAdapter(countryRankingAdapter);
 
-        new ScrappingTask().execute();
+        }
+
+        FrameLayout layout = (FrameLayout)findViewById(R.id.linear);
+        layout.addView(adView);
+
+        // get test ads on a physical device.
+        adRequest = new AdRequest();
+
+        final TelephonyManager tm = (TelephonyManager)getBaseContext().getSystemService(
+                Context.TELEPHONY_SERVICE);
+        String deviceid = tm.getDeviceId();
+        adRequest.addTestDevice(deviceid);
+
+        // Start loading the ad in the background.
+
+        (new Thread() {
+            public void run() {
+                Looper.prepare();
+                adView.loadAd(adRequest);
+            }
+        }).start();
+
+        adView.loadAd(adRequest);
 
         countryRankListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 
-                Log.e(TAG, "clicked " + pos);
+                if (UtilValidate.isNull(countryList.get(pos).get_id()))
+                    countryList = countryManager.fetchAllCountries();
 
-                Intent intent = new Intent(CountryRanking.this,SquardFragment.class);
-                intent.putExtra("url",countryList.get(pos).getCountryLink());
+                Log.e(TAG, "clicked " + countryList.get(pos).get_id());
+
+                Intent intent = new Intent(CountryRanking.this, SquardFragment.class);
+                intent.putExtra("url", countryList.get(pos).getCountryLink());
+                intent.putExtra("id", countryList.get(pos).get_id());
                 startActivity(intent);
 
             }
@@ -100,14 +115,15 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
     }
 
     private void initManagers() {
-    	adView = new AdView(this, AdSize.SMART_BANNER, Constants.AppConstants.ADDMOB);
+
+        countryManager = new CountryManager();
+
+        adView = new AdView(this, AdSize.SMART_BANNER, Constants.AppConstants.ADDMOB);
 
     }
 
-    private class ScrappingTask extends AsyncTask<Void, String, String> {
+    private class ScrappingCountriesTask extends AsyncTask<Void, String, String> {
 
-        private CountryManager countryManager = new CountryManager();
-        
         private ProgressDialog dialog;
 
         @Override
@@ -117,7 +133,7 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
 
             return null;
         }
-        
+
         /*
          * (non-Javadoc)
          * @see android.os.AsyncTask#onPreExecute()
@@ -139,12 +155,23 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
-            
-            if(dialog!=null)
+
+            if (dialog != null)
                 dialog.dismiss();
 
-            countryRankingAdapter = new CountryRankingAdapter(CountryRanking.this, countryList);
-            countryRankListView.setAdapter(countryRankingAdapter);
+            if (UtilValidate.isNotEmpty(countryList)) {
+
+                countryManager.insertIntoCountries(countryList);
+
+                countryRankingAdapter = new CountryRankingAdapter(CountryRanking.this, countryList);
+                countryRankListView.setAdapter(countryRankingAdapter);
+
+            } else {
+
+                Toast.makeText(CountryRanking.this, "This service is currently unavailable",
+                        Toast.LENGTH_SHORT);
+            }
+
         }
 
     }

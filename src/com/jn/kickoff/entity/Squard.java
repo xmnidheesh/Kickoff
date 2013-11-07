@@ -1,6 +1,12 @@
 package com.jn.kickoff.entity;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.Locale;
+
 public class Squard {
+    
+    private String _id;
 
     private String name;
     
@@ -11,6 +17,28 @@ public class Squard {
     private String position;
     
     private String profileLink;
+    
+    private String country_id;
+    
+    private String updatedDate;
+    
+    
+    
+    
+
+    /**
+     * @return the _id
+     */
+    public String get_id() {
+        return _id;
+    }
+
+    /**
+     * @param _id the _id to set
+     */
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 
     /**
      * @return the name
@@ -27,16 +55,16 @@ public class Squard {
     }
 
     /**
-     * @return the image
+     * @return the profileImage
      */
-    public String getImage() {
+    public String getProfileImage() {
         return profileImage;
     }
 
     /**
-     * @param image the image to set
+     * @param profileImage the profileImage to set
      */
-    public void setImage(String profileImage) {
+    public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 
@@ -55,6 +83,20 @@ public class Squard {
     }
 
     /**
+     * @return the position
+     */
+    public String getPosition() {
+        return position;
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    /**
      * @return the profileLink
      */
     public String getProfileLink() {
@@ -69,20 +111,34 @@ public class Squard {
     }
 
     /**
-     * @return the position
+     * @return the country_id
      */
-    public String getPosition() {
-        return position;
+    public String getCountry_id() {
+        return country_id;
     }
 
     /**
-     * @param position the position to set
+     * @param country_id the country_id to set
      */
-    public void setPosition(String position) {
-        this.position = position;
+    public void setCountry_id(String country_id) {
+        this.country_id = country_id;
     }
-    
-    
+
+    /**
+     * @return the updatedDate
+     */
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    /**
+     * @param updatedDate the updatedDate to set
+     */
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+   
     
     
 }
