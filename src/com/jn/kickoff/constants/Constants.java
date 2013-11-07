@@ -10,7 +10,9 @@ public interface Constants {
     public static final String MENU3 = "TopPlayers";
 
     public static final String MENU4 = "TopTeams";
-    
+
+    public static final String MENU5 = "News";
+
     public String UPDATED_DATE = "updated_date";
 
     interface Venue {
@@ -63,13 +65,15 @@ public interface Constants {
         String COUNTRY_POINT = "country_point";
 
         String COUNTRY_URL = "country_url";
-        
+
     }
 
     interface AppConstants {
         String ADDMOB = "a14dc3594438359";
 
         String URL_RATING = "http://tools.fifaguide.com/api/topten/rating";
+
+        String URL_NEWS = "http://api.espn.com/v1/sports/news/headlines/top";
     }
 
     interface Players {
@@ -106,7 +110,7 @@ public interface Constants {
         String PLAYER_NATIONALITY = "nationality";
 
         String PLAYER_DOB = "dob";
-        
+
         String PLAYER_AGE = "age";
 
         String PLAYER_COUNTRY = "country";

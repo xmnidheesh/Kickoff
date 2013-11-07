@@ -24,6 +24,7 @@ import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.entity.PlayerProfile;
 import com.jn.kickoff.entity.Squard;
 import com.jn.kickoff.holder.Fixture;
+import com.jn.kickoff.holder.News;
 import com.jn.kickoff.utils.Util;
 import com.jn.kickoff.utils.UtilValidate;
 
@@ -34,6 +35,7 @@ public class CountryManager implements Constants.Country {
     private List<Country> countryList;
 
     private List<Fixture> fixtureList;
+    private List<News> newsList;
 
     /**
      * This method will scrap all the countries based on their rank
@@ -483,5 +485,6 @@ public class CountryManager implements Constants.Country {
 
         return playerProfileDao.getAllPlayerProfileData(playerId);
     }
+
 
 }

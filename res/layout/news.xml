@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/relative_top"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
- <!--     <include
-         android:id="@+id/headerayout"
-          layout="@layout/headlayout"/> -->
+    
     <FrameLayout
-        android:layout_below="@+id/headerayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
         android:id="@+id/linear"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical" >
 
-       <com.google.ads.AdView
-        android:id="@+id/ad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:loadAdOnCreate="true"
-          android:layout_alignParentBottom="true"
-         ads:adUnitId="@string/addmobid"
-         ads:refreshInterval="60"
-         android:visibility="visible"
-         />
+        <com.google.ads.AdView
+            android:id="@+id/ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/addmobid"
+            ads:loadAdOnCreate="true"
+            ads:refreshInterval="60"
+            android:visibility="visible" />
     </FrameLayout>
     
     
-            <RelativeLayout
+     <RelativeLayout
                 android:id="@+id/progress_relative_Detail"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -52,12 +46,13 @@
                     android:layout_centerHorizontal="true"
                     android:text="Loading"/>
             </RelativeLayout>
-     <ListView
-        android:id="@+id/listview"
+
+    <ListView
         android:layout_below="@+id/linear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:id="@+id/listView_newslist"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+         >
     </ListView>
-    
 
 </RelativeLayout>
