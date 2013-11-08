@@ -33,6 +33,8 @@ import com.jn.kickoff.manager.VenueManager;
 import com.jn.kickoff.utils.AnimationFactory;
 import com.jn.kickoff.utils.AnimationFactory.FlipDirection;
 import com.jn.kickoff.utils.UtilValidate;
+import com.parse.Parse;
+import com.parse.PushService;
 import com.squareup.picasso.Picasso;
 
 public class VenuesFragment extends Activity {

@@ -19,6 +19,9 @@ import com.jn.kickoff.Animation.DepthPageTransformer;
 import com.jn.kickoff.adapter.TestFragmentAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.db.DbHelper;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
+import com.parse.PushService;
 
 /**
  * @author nidheesh
@@ -49,15 +52,16 @@ public class MainActivity extends FragmentActivity implements Constants {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-
         initViews();
         initManagers();
-
-        
         doDataBaseCreation();
         
-     
+        Parse.initialize(this, "LmIM3uWcyelvcVjl0m6XoL528glzHpsNNEp7pf9X", "fglG1RAhdrCifoDOSwp9fYDUs50hnjY38UqQLX9h");
+        PushService.subscribe(this, "Kickoff",PushNotificationActivity .class);
+        PushService.setDefaultPushCallback(this, PushNotificationActivity.class);
+        ParseInstallation pi = ParseInstallation.getCurrentInstallation();
+        pi.saveEventually();
+        
 
         mainMenuViewPager.setPageTransformer(true, new DepthPageTransformer());
         // mainMenuViewPager.setPageTransformer(true, new
