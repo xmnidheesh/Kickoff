@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/venue_detail_container"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/blackTransparent"
+    android:orientation="vertical" 
+    >
+
+  
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        
+          <ImageView
+        android:id="@+id/closeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:src="@drawable/close" 
+        />
+
+          
+          
+          
+          
+          
+        <!-- 2 columns -->
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/fixture_Venue_text"
+                style="@style/textView_white"
+                android:text="Venue :"
+                android:textIsSelectable="true" 
+                />
+
+            <TextView
+                android:id="@+id/fixture_Venue"
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+        </TableRow>
+
+        <!-- edittext span 2 column -->
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/fixture_Date_text"
+                android:text="Date :"
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+
+            <TextView
+                android:id="@+id/fixture_Date"
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/fixture_time_text"
+                android:text="Time :"
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+
+            <TextView
+                android:id="@+id/fixture_time"
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+        </TableRow>
+
+        <!-- display this button in 3rd column via layout_column(zero based) -->
+  <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+               <TextView
+                android:id="@+id/fixture_teams"
+                  android:text="Teams : "
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+
+            <TextView
+                android:id="@+id/fixture_teama"
+                android:text="teama :"
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+            
+            <TextView
+                android:id="@+id/fixture_versus"
+                  android:text="   *     "
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+
+            <TextView
+                android:id="@+id/fixture_teamb"
+                  android:text="teamb :"
+                android:textIsSelectable="true" 
+                style="@style/textView_white"/>
+        </TableRow>
+        
+
+
+    </TableLayout>
+
+</LinearLayout>

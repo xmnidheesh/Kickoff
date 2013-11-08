@@ -11,9 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
 
 import com.jn.kickoff.FIFA;
 import com.jn.kickoff.MainMenuFragmentItems;
@@ -52,11 +49,15 @@ public class MainActivity extends FragmentActivity implements Constants {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
 
         initViews();
         initManagers();
 
+        
         doDataBaseCreation();
+        
+     
 
         mainMenuViewPager.setPageTransformer(true, new DepthPageTransformer());
         // mainMenuViewPager.setPageTransformer(true, new

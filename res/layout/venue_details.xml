@@ -3,8 +3,8 @@
     android:id="@+id/venue_detail_container"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:orientation="vertical" 
-    android:paddingTop="10dp">
+    android:orientation="vertical"
+    android:paddingTop="10dp" >
 
     <TableLayout
         android:id="@+id/tableLayout1"
@@ -23,13 +23,12 @@
                 android:id="@+id/venueFullname"
                 style="@style/textView_black_small_font"
                 android:text="Fullname :"
-                android:textIsSelectable="true" 
-                />
+                android:textIsSelectable="true" />
 
             <TextView
                 android:id="@+id/venueFullnameValue"
-                android:textIsSelectable="true" 
-               style="@style/textView_black_small_font"/>
+                style="@style/textView_black_small_font"
+                android:textIsSelectable="true" />
         </TableRow>
 
         <!-- edittext span 2 column -->
@@ -42,14 +41,14 @@
 
             <TextView
                 android:id="@+id/venueCity"
+                style="@style/textView_black_small_font"
                 android:text="City :"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                android:textIsSelectable="true" />
 
             <TextView
                 android:id="@+id/venueCityValue"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                style="@style/textView_black_small_font"
+                android:textIsSelectable="true" />
         </TableRow>
 
         <TableRow
@@ -60,14 +59,14 @@
 
             <TextView
                 android:id="@+id/venueOwner"
+                style="@style/textView_black_small_font"
                 android:text="Surface :"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                android:textIsSelectable="true" />
 
             <TextView
                 android:id="@+id/venueOwnerValue"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                style="@style/textView_black_small_font"
+                android:textIsSelectable="true" />
         </TableRow>
 
         <!-- display this button in 3rd column via layout_column(zero based) -->
@@ -80,14 +79,14 @@
 
             <TextView
                 android:id="@+id/venueSurface"
+                style="@style/textView_black_small_font"
                 android:text="Owner :"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                android:textIsSelectable="true" />
 
             <TextView
                 android:id="@+id/venueSurfaceValue"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                style="@style/textView_black_small_font"
+                android:textIsSelectable="true" />
         </TableRow>
 
         <TableRow
@@ -98,14 +97,14 @@
 
             <TextView
                 android:id="@+id/venueOpened"
+                style="@style/textView_black_small_font"
                 android:text="Opened :"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                android:textIsSelectable="true" />
 
             <TextView
                 android:id="@+id/venueOpenedValue"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                style="@style/textView_black_small_font"
+                android:textIsSelectable="true" />
         </TableRow>
 
         <TableRow
@@ -116,15 +115,15 @@
 
             <TextView
                 android:id="@+id/venueWebsite"
+                style="@style/textView_black_small_font"
                 android:text="Website :"
-                android:textIsSelectable="true" 
-                style="@style/textView_black_small_font"/>
+                android:textIsSelectable="true" />
 
             <TextView
                 android:id="@+id/venueWebsiteValue"
-                android:textIsSelectable="true" 
                 style="@style/textView_black_small_font"
-                android:textColor="@color/blue"/>
+                android:textColor="@color/blue"
+                android:textIsSelectable="true" />
         </TableRow>
     </TableLayout>
 

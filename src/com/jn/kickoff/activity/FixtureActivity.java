@@ -11,12 +11,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.google.ads.AdRequest;
@@ -26,9 +34,10 @@ import com.jn.kickoff.R;
 import com.jn.kickoff.adapter.FixtureAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.holder.Fixture;
-import com.jn.kickoff.holder.News;
+import com.jn.kickoff.holder.Venue;
 import com.jn.kickoff.manager.CountryManager;
 import com.jn.kickoff.utils.ProgressWheel;
+import com.jn.kickoff.utils.UtilValidate;
 
 public class FixtureActivity extends Activity {
 
@@ -46,6 +55,27 @@ public class FixtureActivity extends Activity {
 	private static RelativeLayout relativeLayoutprogresswheel;
 	boolean loadingFinished = true;
 	private TextView progressBarDetail_text;
+    private ImageView closeBtn;
+
+    private PopupWindow popupWindow;
+    
+    
+    private TextView fixture_Venue ;
+
+    private TextView fixture_Date;
+
+    private TextView fixture_time ;
+    
+    private RelativeLayout relative_fixture_top;
+     
+    private TableLayout tableLayout1;
+    
+    private LinearLayout venue_detail_container;
+    
+    private TextView fixture_teama;
+    
+    private TextView fixture_teamb;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +144,8 @@ public class FixtureActivity extends Activity {
 		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
 		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
 		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
+		relative_fixture_top= (RelativeLayout) findViewById(R.id.relative_fixture_top);
+	
 
 	}
 
@@ -143,35 +175,17 @@ public class FixtureActivity extends Activity {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
-					// TODO Auto-generated method stub
 					String fulldate = fixtureList.get(arg2).getDate();
+					String teama = fixtureList.get(arg2).getTeam_a();
+					String teamb = fixtureList.get(arg2).getTeam_b();
+					String venue = fixtureList.get(arg2).getVenue();
 
 					String[] parts = fixtureList.get(arg2).getDate().split(" ");
-					String first = parts[0];
-					String second = parts[1];
-
-					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-							FixtureActivity.this);
-
-					// set title
-					alertDialogBuilder.setTitle("Date Sheduled on : " + first
-							+ " Time : " + second);
-					// set dialog message
-					alertDialogBuilder.setCancelable(false).setPositiveButton(
-							"Ok", new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									// if this button is clicked, close
-									// current activity
-									dialog.cancel();
-								}
-							});
-
-					// create alert dialog
-					AlertDialog alertDialog = alertDialogBuilder.create();
-
-					// show it
-					alertDialog.show();
+					String date = parts[0];
+					String time = parts[1];
+					
+					PopUpFixtureDetails(venue,date,time,teama,teamb);
+					
 				}
 			});
 
@@ -195,6 +209,86 @@ public class FixtureActivity extends Activity {
 	
 	
 	
+	
+	
+    public void PopUpFixtureDetails(String venue,String date,String time,String teama,String teamb) {
+
+        LayoutInflater layoutInflater = (LayoutInflater)this.getApplicationContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View popupView = layoutInflater.inflate(R.layout.fixture_details, null);
+
+
+        fixture_Venue = (TextView)popupView.findViewById(R.id.fixture_Venue);
+
+        fixture_Date = (TextView)popupView.findViewById(R.id.fixture_Date);
+
+        fixture_time = (TextView)popupView.findViewById(R.id.fixture_time);
+
+    	tableLayout1= (TableLayout)popupView. findViewById(R.id.tableLayout1);
+
+        closeBtn = (ImageView)popupView.findViewById(R.id.closeBtn);
+        
+        fixture_teama = (TextView)popupView.findViewById(R.id.fixture_teama);
+        
+        fixture_teamb= (TextView)popupView.findViewById(R.id.fixture_teamb);
+        
+        venue_detail_container= (LinearLayout)popupView.findViewById(R.id.venue_detail_container);
+
+        popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
+                LayoutParams.WRAP_CONTENT, true);
+
+        /**
+         * animation ...
+         */
+        popupWindow.setAnimationStyle(R.style.PopUpAnimationTopToBottom);
+
+        popupWindow.showAtLocation(relative_fixture_top, Gravity.TOP, 0, 0);
+
+        popupWindow.setFocusable(true);
+
+        popupWindow.update();
+
+        if (UtilValidate.isNotNull(venue))
+        	fixture_Venue.setText(venue);
+        if (UtilValidate.isNotNull(date))
+        	fixture_Date.setText(date);
+        if (UtilValidate.isNotNull(time))
+        	fixture_time.setText(time);
+        if (UtilValidate.isNotNull(teama))
+        	fixture_teama.setText(teama);
+        if (UtilValidate.isNotNull(teamb))
+        	fixture_teamb.setText(teamb);
+        tableLayout1.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+
+            }
+        });
+        
+        closeBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+
+            }
+        });
+        
+        venue_detail_container.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+
+            }
+        });
+        
+        
+
+    }
 	
 	
 	
