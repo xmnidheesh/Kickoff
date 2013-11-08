@@ -28,7 +28,6 @@ import com.jn.kickoff.adapter.CountryRankingAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.manager.CountryManager;
-import com.jn.kickoff.utils.Util;
 import com.jn.kickoff.utils.UtilValidate;
 
 public class CountryRanking extends FragmentActivity implements Constants.Country {

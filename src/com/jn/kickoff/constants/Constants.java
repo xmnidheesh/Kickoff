@@ -15,6 +15,16 @@ public interface Constants {
 
     public String UPDATED_DATE = "updated_date";
 
+    public static final int FRAGMENT1 = 0;
+
+    public static final int FRAGMENT2 = 1;
+
+    public static final int FRAGMENT3 = 2;
+
+    public static final int FRAGMENT4 = 3;
+
+    public static final int FRAGMENT5 = 4;
+
     interface Venue {
 
         String DATABASE_TABLE = "fifa_venues";
@@ -67,16 +77,17 @@ public interface Constants {
         String COUNTRY_URL = "country_url";
 
     }
-    
-    interface AppConstants
-    {
-    	 String ADDMOB="a152774de5cc614";
-        String URL_RATING="http://tools.fifaguide.com/api/topten/rating";
-        String URL_NEWS="http://api.espn.com/v1/sports/news/headlines/top";
-        //http://api.espn.com/v1/sports/news/headlines/top
-        //http://api.espn.com/v1/sports/soccer/fifa.olympics/news
-        //http://api.espn.com/v1/fantasy/football/news
-        //a14dc3594438359
+
+    interface AppConstants {
+        String ADDMOB = "a152774de5cc614";
+
+        String URL_RATING = "http://tools.fifaguide.com/api/topten/rating";
+
+        String URL_NEWS = "http://api.espn.com/v1/sports/news/headlines/top";
+        // http://api.espn.com/v1/sports/news/headlines/top
+        // http://api.espn.com/v1/sports/soccer/fifa.olympics/news
+        // http://api.espn.com/v1/fantasy/football/news
+        // a14dc3594438359
     }
 
     interface Players {
