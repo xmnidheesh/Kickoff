@@ -25,14 +25,12 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jn.kickoff.FIFA;
-import com.jn.kickoff.PushSubscriber;
 import com.jn.kickoff.R;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.holder.Venue;
 import com.jn.kickoff.manager.VenueManager;
 import com.jn.kickoff.utils.UtilValidate;
 import com.parse.Parse;
-import com.parse.ParsePush;
 import com.parse.PushService;
 import com.squareup.picasso.Picasso;
 
@@ -87,9 +85,7 @@ public class VenuesFragment extends Activity {
 
         initViews();
         initManagers();
-        Parse.initialize(this, "LmIM3uWcyelvcVjl0m6XoL528glzHpsNNEp7pf9X", "fglG1RAhdrCifoDOSwp9fYDUs50hnjY38UqQLX9h");
-        PushService.subscribe(this, "Kickoff", TopPlayers.class);
-        
+  
         
        //showAdvertisementPopUp(this);
         
