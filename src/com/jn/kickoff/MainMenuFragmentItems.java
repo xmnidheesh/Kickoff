@@ -19,9 +19,10 @@ import com.jn.kickoff.activity.FixtureActivity;
 import com.jn.kickoff.activity.NewsActivity;
 import com.jn.kickoff.activity.TopPlayers;
 import com.jn.kickoff.activity.VenuesFragment;
+import com.jn.kickoff.constants.Constants;
 
 @SuppressLint("ValidFragment")
-public class MainMenuFragmentItems extends Fragment {
+public class MainMenuFragmentItems extends Fragment implements Constants{
 
     private static final String TAG = MainMenuFragmentItems.class.getName();
 
@@ -67,27 +68,27 @@ public class MainMenuFragmentItems extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (iconImageView.getTag().equals(0)) {
+                if (iconImageView.getTag().equals(FRAGMENT1)) {
 
                     Intent intent = new Intent(getActivity(), VenuesFragment.class);
                     startActivity(intent);
 
-                } else if (iconImageView.getTag().equals(1)) {
+                } else if (iconImageView.getTag().equals(FRAGMENT2)) {
 
                     Intent intent = new Intent(getActivity(), FixtureActivity.class);
                     startActivity(intent);
 
-                } else if (iconImageView.getTag().equals(2)) {
+                } else if (iconImageView.getTag().equals(FRAGMENT3)) {
                     
                     Intent intent = new Intent(getActivity(), TopPlayers.class);
                     startActivity(intent);
 
-                } else if (iconImageView.getTag().equals(3)) {
+                } else if (iconImageView.getTag().equals(FRAGMENT4)) {
 
                     Intent intent = new Intent(getActivity(), CountryRanking.class);
                     startActivity(intent);
 
-                } else if (iconImageView.getTag().equals(4)) {
+                } else if (iconImageView.getTag().equals(FRAGMENT5)) {
 
                     Intent intent = new Intent(getActivity(), NewsActivity.class);
                     startActivity(intent);
@@ -100,29 +101,29 @@ public class MainMenuFragmentItems extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (titleTextView.getText().equals("venues")) {
+                if (titleTextView.getText().equals(MENU1)) {
 
                     Log.e(TAG, "clicked*** ");
 
                     Intent intent = new Intent(getActivity(), VenuesFragment.class);
                     startActivity(intent);
 
-                } else if (titleTextView.getText().equals("fixtures")) {
+                } else if (titleTextView.getText().equals(MENU2)) {
                     Intent intent = new Intent(getActivity(), FixtureActivity.class);
                     startActivity(intent);
 
-                } else if (titleTextView.getText().equals("TopTeams")) {
+                } else if (titleTextView.getText().equals(MENU3)) {
 
                     Intent intent = new Intent(getActivity(), CountryRanking.class);
                     startActivity(intent);
 
-                } else if (titleTextView.getText().equals("TopPlayers")) {
+                } else if (titleTextView.getText().equals(MENU4)) {
 
                     Intent intent = new Intent(getActivity(), TopPlayers.class);
                     startActivity(intent);
                 }
 
-                else if (titleTextView.getText().equals("News")) {
+                else if (titleTextView.getText().equals(MENU5)) {
 
                     Intent intent = new Intent(getActivity(), NewsActivity.class);
                     startActivity(intent);
