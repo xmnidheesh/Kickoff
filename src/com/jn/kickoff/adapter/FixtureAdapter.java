@@ -37,7 +37,6 @@ public class FixtureAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        Log.e(TAG, "" + fixtureList.size());
         return fixtureList.size();
 
     }

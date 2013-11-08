@@ -259,7 +259,6 @@ public class CountryManager implements Constants.Country {
                 Util.filterHtml(scrappedDoc);
                 Element elements = scrappedDoc.select("table[class=fixture]").first();
 
-                Log.e(TAG, "elements************** : " + elements);
 
                 if (UtilValidate.isNotNull(elements)) {
 
@@ -270,19 +269,16 @@ public class CountryManager implements Constants.Country {
                             Fixture fixture = new Fixture();
 
                             String time = element.select("td[class=l dt]").text();
-                            Log.e(TAG, "time************** : " + time);
 
                             if (UtilValidate.isNotNull(time))
                                 fixture.setDate(time);
 
                             String team_a = element.select("td[class=l homeTeam]").text();
-                            Log.e(TAG, "team_a************** : " + team_a);
 
                             if (UtilValidate.isNotNull(team_a))
                                 fixture.setTeam_a(team_a);
 
                             String team_b = element.select("td[class=r awayTeam]").text();
-                            Log.e(TAG, "team_b************** : " + team_b);
 
                             if (UtilValidate.isNotNull(team_b))
                                 fixture.setTeam_b(team_b);
@@ -296,16 +292,22 @@ public class CountryManager implements Constants.Country {
                              */
 
                             String team_a_image = element.select("a").select("img").attr("src");
-                            Log.e(TAG, "team_a_image************** : " + team_a_image);
 
                             if (UtilValidate.isNotNull(team_a_image))
                                 fixture.setTeam_a_image(team_a_image);
 
                             String team_b_image = element.select("img").attr("src");
-                            Log.e(TAG, "team_b_image************** : " + team_b_image);
 
                             if (UtilValidate.isNotNull(team_b_image))
                                 fixture.setTeam_b_image(team_b_image);
+                            
+
+                            String venue = element.select("td[class= l v]").text();
+                            Log.e(TAG, " venue************** : " +  venue);
+                            if (UtilValidate.isNotNull(venue))
+                                fixture.setVenue(venue);
+                            
+                           
 
                             fixtureList.add(fixture);
 

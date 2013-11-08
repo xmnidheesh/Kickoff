@@ -14,44 +14,58 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/soccer"
         android:label="@string/app_name"
-          android:largeHeap="true"
-        android:theme="@android:style/Theme.Black.NoTitleBar"
-        >
+        android:largeHeap="true"
+        android:theme="@android:style/Theme.Black.NoTitleBar" >
         <activity
             android:name="com.jn.kickoff.activity.MainActivity"
             android:label="@string/app_name"
-             android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jn.kickoff.activity.VenuesFragment" 
-             android:screenOrientation="portrait"
-            />
-        <activity android:name="com.jn.kickoff.activity.SquardFragment"
-             android:screenOrientation="portrait" />
-        <activity android:name="com.jn.kickoff.activity.CountryRanking" 
-             android:screenOrientation="portrait"/>
-        <activity android:name="com.jn.kickoff.activity.TopPlayers" 
-             android:screenOrientation="portrait"/>
-          <activity android:name="com.jn.kickoff.activity.FixtureActivity"
-               android:screenOrientation="portrait" />
-           <activity android:name="com.jn.kickoff.activity.NewsActivity" 
-                android:screenOrientation="portrait"/>
-                      <activity android:name="com.jn.kickoff.activity.NewsDetailpageActivity" 
-                android:screenOrientation="portrait"/>
-           
+        <activity
+            android:name="com.jn.kickoff.activity.VenuesFragment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jn.kickoff.activity.SquardFragment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jn.kickoff.activity.CountryRanking"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jn.kickoff.activity.TopPlayers"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jn.kickoff.activity.FixtureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jn.kickoff.activity.NewsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jn.kickoff.activity.NewsDetailpageActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+
+        <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
