@@ -41,22 +41,34 @@ public class TopPlayers extends Activity {
 	private static final String TAG = TopPlayers.class.getName();
 
 	private AdView adView;
+	
 	AdRequest adRequest;
+	
 	private PlayerManager playerManager;
+	
 	private AsynchTaskCallBack asynchTaskCallBack;
+	
 	private static final int REQUEST_CODE = 1;
+	
 	private PlayerRankingAdapter rankingAdapter;
+	
 	private RelativeLayout relative_top;
-
+	
 	private PopupWindow popupWindow;
+	
 	private ListView listview;
+	
 	private static ProgressWheel progressWheel;
+	
 	private static RelativeLayout relativeLayoutprogresswheel;
+	
 	boolean loadingFinished = true;
+	
 	private TextView progressBarDetail_text;
-	 private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
+	
+	private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
 
-	    private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
+	private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +77,9 @@ public class TopPlayers extends Activity {
 
 		initViews();
 		initManagers();
-		
+
 		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 		progressBarDetail_text.setVisibility(View.VISIBLE);
-
 
 		progressWheel.setTextSize(18);
 		progressWheel.setBarLength(20);
@@ -76,7 +87,7 @@ public class TopPlayers extends Activity {
 		progressWheel.setRimWidth(50);
 		progressWheel.setSpinSpeed(25);
 		progressWheel.spin();
-		
+
 		FrameLayout layout = (FrameLayout) findViewById(R.id.linear);
 		layout.addView(adView);
 
@@ -103,25 +114,18 @@ public class TopPlayers extends Activity {
 		}).start();
 
 		adView.loadAd(adRequest);
-		
-		playerManager.getAlluserRanking(this,
-				asynchTaskCallBack, REQUEST_CODE);
+
+		playerManager.getAlluserRanking(this, asynchTaskCallBack, REQUEST_CODE);
 
 	}
 
-	private void showAdd() {
-		// TODO Auto-generated method stub
-		
-
-	}
 
 	private void initViews() {
 		listview = (ListView) findViewById(R.id.listview);
-		relative_top = (RelativeLayout)findViewById(
-				R.id.relative_top);
+		relative_top = (RelativeLayout) findViewById(R.id.relative_top);
 		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
 		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
-		progressBarDetail_text= (TextView) findViewById(R.id.progressBarDetail_text);
+		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
 	}
 
 	/**
@@ -129,13 +133,14 @@ public class TopPlayers extends Activity {
 	 */
 	private void initManagers() {
 		// TODO Auto-generated method stub
-		adView = new AdView(this, AdSize.SMART_BANNER, Constants.AppConstants.ADDMOB);
-		playerManager=new PlayerManager();
+		adView = new AdView(this, AdSize.SMART_BANNER,
+				Constants.AppConstants.ADDMOB);
+		playerManager = new PlayerManager();
 		asynchTaskCallBack = new AsynchTaskCallBack();
 		popupWindow = new PopupWindow();
-		
 
 	}
+
 	private class AsynchTaskCallBack implements AsyncTaskCallBack {
 
 		@Override
@@ -150,14 +155,12 @@ public class TopPlayers extends Activity {
 
 				final List<FifaPlayerDetails> playerTempList = (List<FifaPlayerDetails>) result;
 				Log.e("size before", "" + playerTempList.size());
-				
 
 				loadingFinished = false;
 				// SHOW LOADING IF IT ISNT
 				// ALREADY
 				// VISIBLE
-				relativeLayoutprogresswheel
-						.setVisibility(View.VISIBLE);
+				relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 				progressBarDetail_text.setVisibility(View.VISIBLE);
 				rankingAdapter = new PlayerRankingAdapter(TopPlayers.this,
 						playerTempList);
@@ -196,10 +199,9 @@ public class TopPlayers extends Activity {
 						String profileimage = playerTempList.get(position)
 								.getBase_id();
 
-						
 						popup(dob, fname, lname, commonname, height, foot,
 								rating, type, pace, shooting, passing,
-								dribbling, defending, heading,profileimage);
+								dribbling, defending, heading, profileimage);
 					}
 				});
 
@@ -225,33 +227,19 @@ public class TopPlayers extends Activity {
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public void popup(String dob, String fname, String lname, String common,
 			String height, String foot, String rating, String type,
 			String pace, String shooting, String passing, String dribbling,
-			String defending, String heading,String profileimage) {
+			String defending, String heading, String profileimage) {
 		loadingFinished = false;
 		// SHOW LOADING IF IT ISNT
 		// ALREADY
 		// VISIBLE
-		relativeLayoutprogresswheel
-				.setVisibility(View.INVISIBLE);
+		relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
 		progressBarDetail_text.setVisibility(View.INVISIBLE);
 		listview.setVisibility(View.INVISIBLE);
-		LayoutInflater layoutInflater = (LayoutInflater)this
+		LayoutInflater layoutInflater = (LayoutInflater) this
 				.getApplicationContext().getSystemService(
 						Context.LAYOUT_INFLATER_SERVICE);
 
@@ -303,7 +291,7 @@ public class TopPlayers extends Activity {
 				.findViewById(R.id.textView_defending);
 		TextView textView_heading = (TextView) popupView
 				.findViewById(R.id.textView_heading);
-		ImageView imageview_profileimage=(ImageView) popupView
+		ImageView imageview_profileimage = (ImageView) popupView
 				.findViewById(R.id.imageview_profileimage);
 
 		textView_dateofbirth.setText(dob);
@@ -320,16 +308,13 @@ public class TopPlayers extends Activity {
 		textView_dribbling.setText(dribbling);
 		textView_defending.setText(defending);
 		textView_heading.setText(heading);
-		
-		 String userPicUrl = profilePicPattern.matcher(profileUrl).replaceAll(
-				   profileimage);
 
-		
-		Picasso.with(this)
-		.load(userPicUrl) 
-		.placeholder(R.drawable.ic_launcher) 
-		.error(R.drawable.ic_launcher).fit() 
-		.into(imageview_profileimage); 
+		String userPicUrl = profilePicPattern.matcher(profileUrl).replaceAll(
+				profileimage);
+
+		Picasso.with(this).load(userPicUrl).placeholder(R.drawable.ic_launcher)
+				.error(R.drawable.ic_launcher).fit()
+				.into(imageview_profileimage);
 
 		Button dialogButtonOk = (Button) popupView.findViewById(R.id.button_ok);
 		// if button is clicked, close the custom dialog

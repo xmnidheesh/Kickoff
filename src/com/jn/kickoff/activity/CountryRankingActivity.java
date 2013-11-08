@@ -30,9 +30,9 @@ import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.manager.CountryManager;
 import com.jn.kickoff.utils.UtilValidate;
 
-public class CountryRanking extends FragmentActivity implements Constants.Country {
+public class CountryRankingActivity extends FragmentActivity implements Constants.Country {
 
-    public static final String TAG = CountryRanking.class.getSimpleName();
+    public static final String TAG = CountryRankingActivity.class.getSimpleName();
 
     private List<Country> countryList = new ArrayList<Country>();
 
@@ -61,7 +61,7 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
             new ScrappingCountriesTask().execute();
         } else {
 
-            countryRankingAdapter = new CountryRankingAdapter(CountryRanking.this, countryList);
+            countryRankingAdapter = new CountryRankingAdapter(CountryRankingActivity.this, countryList);
             countryRankListView.setAdapter(countryRankingAdapter);
 
         }
@@ -98,7 +98,7 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
 
                 Log.e(TAG, "clicked " + countryList.get(pos).get_id());
 
-                Intent intent = new Intent(CountryRanking.this, SquardFragment.class);
+                Intent intent = new Intent(CountryRankingActivity.this, SquardActivity.class);
                 intent.putExtra("url", countryList.get(pos).getCountryLink());
                 intent.putExtra("id", countryList.get(pos).get_id());
                 startActivity(intent);
@@ -142,7 +142,7 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
             // TODO Auto-generated method stub
             super.onPreExecute();
 
-            dialog = ProgressDialog.show(CountryRanking.this, "", "Loading. Please wait...", true);
+            dialog = ProgressDialog.show(CountryRankingActivity.this, "", "Loading. Please wait...", true);
             dialog.show();
         }
 
@@ -162,12 +162,12 @@ public class CountryRanking extends FragmentActivity implements Constants.Countr
 
                 countryManager.insertIntoCountries(countryList);
 
-                countryRankingAdapter = new CountryRankingAdapter(CountryRanking.this, countryList);
+                countryRankingAdapter = new CountryRankingAdapter(CountryRankingActivity.this, countryList);
                 countryRankListView.setAdapter(countryRankingAdapter);
 
             } else {
 
-                Toast.makeText(CountryRanking.this, "This service is currently unavailable",
+                Toast.makeText(CountryRankingActivity.this, "This service is currently unavailable",
                         Toast.LENGTH_SHORT);
             }
 

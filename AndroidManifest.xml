@@ -34,13 +34,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.jn.kickoff.activity.VenuesFragment"
+            android:name="com.jn.kickoff.activity.VenuesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.jn.kickoff.activity.SquardFragment"
+            android:name="com.jn.kickoff.activity.SquardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.jn.kickoff.activity.CountryRanking"
+            android:name="com.jn.kickoff.activity.CountryRankingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.jn.kickoff.activity.TopPlayers"

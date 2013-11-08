@@ -32,9 +32,9 @@ import com.jn.kickoff.manager.CountryManager;
 import com.jn.kickoff.utils.UtilValidate;
 import com.squareup.picasso.Picasso;
 
-public class SquardFragment extends FragmentActivity {
+public class SquardActivity extends FragmentActivity {
 
-    public static final String TAG = SquardFragment.class.getSimpleName();
+    public static final String TAG = SquardActivity.class.getSimpleName();
 
     private List<Squard> squardList = new ArrayList<Squard>();
 
@@ -74,7 +74,7 @@ public class SquardFragment extends FragmentActivity {
 
         } else {
 
-            squardAdapter = new TeamSquardAdapter(SquardFragment.this, squardList);
+            squardAdapter = new TeamSquardAdapter(SquardActivity.this, squardList);
 
             gridViewSquard.setAdapter(squardAdapter);
         }
@@ -146,7 +146,7 @@ public class SquardFragment extends FragmentActivity {
             // TODO Auto-generated method stub
             super.onPreExecute();
 
-            dialog = ProgressDialog.show(SquardFragment.this, "", "Loading. Please wait...", true);
+            dialog = ProgressDialog.show(SquardActivity.this, "", "Loading. Please wait...", true);
             dialog.show();
         }
 
@@ -166,7 +166,7 @@ public class SquardFragment extends FragmentActivity {
 
                 countryManager.insertIntoPlayers(squardList);
 
-                squardAdapter = new TeamSquardAdapter(SquardFragment.this, squardList);
+                squardAdapter = new TeamSquardAdapter(SquardActivity.this, squardList);
 
                 gridViewSquard.setAdapter(squardAdapter);
 
@@ -215,7 +215,7 @@ public class SquardFragment extends FragmentActivity {
             // TODO Auto-generated method stub
             super.onPreExecute();
 
-            dialog = ProgressDialog.show(SquardFragment.this, "", "Loading. Please wait...", true);
+            dialog = ProgressDialog.show(SquardActivity.this, "", "Loading. Please wait...", true);
             dialog.show();
         }
 
@@ -244,7 +244,7 @@ public class SquardFragment extends FragmentActivity {
 
             } else {
 
-                Toast.makeText(SquardFragment.this, "This service is currently unavailable",
+                Toast.makeText(SquardActivity.this, "This service is currently unavailable",
                         Toast.LENGTH_SHORT);
             }
 

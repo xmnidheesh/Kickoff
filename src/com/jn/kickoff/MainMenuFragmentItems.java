@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jn.kickoff.activity.CountryRanking;
+import com.jn.kickoff.activity.CountryRankingActivity;
 import com.jn.kickoff.activity.FixtureActivity;
 import com.jn.kickoff.activity.NewsActivity;
 import com.jn.kickoff.activity.TopPlayers;
-import com.jn.kickoff.activity.VenuesFragment;
+import com.jn.kickoff.activity.VenuesActivity;
 import com.jn.kickoff.constants.Constants;
 
 @SuppressLint("ValidFragment")
@@ -68,9 +68,9 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
             @Override
             public void onClick(View v) {
 
-                if (iconImageView.getTag().equals(FRAGMENT1)) {
 
-                    Intent intent = new Intent(getActivity(), VenuesFragment.class);
+            	if (iconImageView.getTag().equals(FRAGMENT1)) {
+                    Intent intent = new Intent(getActivity(), VenuesActivity.class);
                     startActivity(intent);
 
                 } else if (iconImageView.getTag().equals(FRAGMENT2)) {
@@ -85,7 +85,7 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
 
                 } else if (iconImageView.getTag().equals(FRAGMENT4)) {
 
-                    Intent intent = new Intent(getActivity(), CountryRanking.class);
+                    Intent intent = new Intent(getActivity(), CountryRankingActivity.class);
                     startActivity(intent);
 
                 } else if (iconImageView.getTag().equals(FRAGMENT5)) {
@@ -103,7 +103,7 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
             public void onClick(View v) {
                 if (titleTextView.getText().equals(MENU1)) {
 
-                    Intent intent = new Intent(getActivity(), VenuesFragment.class);
+                    Intent intent = new Intent(getActivity(), VenuesActivity.class);
                     startActivity(intent);
 
                 } else if (titleTextView.getText().equals(MENU2)) {
@@ -112,7 +112,7 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
 
                 } else if (titleTextView.getText().equals(MENU3)) {
 
-                    Intent intent = new Intent(getActivity(), CountryRanking.class);
+                    Intent intent = new Intent(getActivity(), CountryRankingActivity.class);
                     startActivity(intent);
 
                 } else if (titleTextView.getText().equals(MENU4)) {

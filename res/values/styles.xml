@@ -21,6 +21,15 @@
         <item name="android:windowEnterAnimation">@anim/slide_down</item>
         <item name="android:windowExitAnimation">@anim/slide_up</item>
     </style>
+    <style name="PopUpAnimationtwin" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/blink</item>
+        <item name="android:windowExitAnimation">@anim/slide_up</item>
+    </style>
+    
+    <style name="PopUpAnimationtwinslide" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/out</item>
+        <item name="android:windowExitAnimation">@anim/slide_up</item>
+    </style>
     
     <style name="PopUpAnimationBottomToTop" mce_bogus="1" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/slide_up_from_bottom</item>

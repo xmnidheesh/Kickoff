@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blackTransparent"
+  android:background="@color/blackTransparent"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/relative_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_width="fill_parent"
+        android:layout_height="100dp" >
 
         <RelativeLayout
             android:id="@+id/relativeimage"
@@ -17,9 +17,10 @@
 
             <ImageView
                 android:id="@+id/imageView_bg"
-                android:layout_width="60dp"
+                android:layout_width="120dp"
+                android:padding="10dp"
                 android:src="@drawable/empty_photo"
-                android:layout_height="60dp" />
+                android:layout_height="120dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -32,19 +33,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:typeface="monospace"
                 android:padding="4dp"
-                android:text="" />
+                android:text="The first method in the SimpleThread class is a constructor that takes a String" />
 
             <TextView
                 android:id="@+id/textView_desc"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="60dp"
                 android:layout_below="@+id/textView_heading"
                 android:gravity="left"
                
-                android:padding="4dp"
-                android:text=""
-                android:textSize="10dp" />
+                android:padding="3dp"
+                android:text="The first method in the SimpleThread class is a constructor that takes a String as its only argument. This constructor is implemented by calling a superclass constructor and is interesting to us only because it sets the Thread's name, which is used later in the program."
+                android:textSize="12dp" />
         </RelativeLayout>
     </RelativeLayout>
 

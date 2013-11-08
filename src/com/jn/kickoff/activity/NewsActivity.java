@@ -54,18 +54,21 @@ public class NewsActivity extends Activity {
 		setContentView(R.layout.news);
 		initViews();
 		initManagers();
+		
+		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+		progressBarDetail_text.setVisibility(View.VISIBLE);
+
+		progressWheel.setTextSize(18);
+		progressWheel.setBarLength(20);
+		progressWheel.setBarWidth(25);
+		progressWheel.setRimWidth(50);
+		progressWheel.setSpinSpeed(25);
+		progressWheel.spin();
 
 		FrameLayout layout = (FrameLayout) findViewById(R.id.linear);
 		layout.addView(adView);
 
-		// Create an ad request. Check logcat output for the hashed device
-		// ID to
-		// get test ads on a physical device.
 		adRequest = new AdRequest();
-		// adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		// adRequest.addTestDevice("C6205A36E35671ED5388B025B0B82698");
-		// adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		// adRequest.addTestDevice("0B1CF3FD4AA0118FAB350F160041EFC7");
 		final TelephonyManager tm = (TelephonyManager) getBaseContext()
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		String deviceid = tm.getDeviceId();
@@ -83,10 +86,6 @@ public class NewsActivity extends Activity {
 		adView.loadAd(adRequest);
 
 		newsManager.getNews(this, asynchTaskCallBack, REQUEST_CODE);
-		/*
-		 * new NewsScrappingTask()
-		 * .execute("http://m.fifa.com/newscentre/news/index.html");
-		 */
 
 	}
 
@@ -107,6 +106,7 @@ public class NewsActivity extends Activity {
 		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
 		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
 		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
+		
 
 	}
 
@@ -128,6 +128,15 @@ public class NewsActivity extends Activity {
 					if (UtilValidate.isNotEmpty(newsBase.getHeadlines())) {
 
 						newsHeadlinesList.addAll(newsBase.getHeadlines());
+						
+						
+
+						loadingFinished = false;
+						// SHOW LOADING IF IT ISNT
+						// ALREADY
+						// VISIBLE
+						relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+						progressBarDetail_text.setVisibility(View.INVISIBLE);
 
 						newsAdapter = new NewsAdapter(NewsActivity.this,
 								newsHeadlinesList);
@@ -139,6 +148,8 @@ public class NewsActivity extends Activity {
 									public void onItemClick(
 											AdapterView<?> parent, View view,
 											int position, long id) {
+										relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+										progressBarDetail_text.setVisibility(View.INVISIBLE);
 										newsDetailList=new ArrayList<String>();
 										newsDetailList.add(newsHeadlinesList.get(position).getHeadline());
 										newsDetailList.add(newsHeadlinesList.get(position).getDescription());

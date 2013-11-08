@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 import com.google.ads.AdRequest;
@@ -33,13 +35,11 @@ import com.jn.kickoff.manager.VenueManager;
 import com.jn.kickoff.utils.AnimationFactory;
 import com.jn.kickoff.utils.AnimationFactory.FlipDirection;
 import com.jn.kickoff.utils.UtilValidate;
-import com.parse.Parse;
-import com.parse.PushService;
 import com.squareup.picasso.Picasso;
 
-public class VenuesFragment extends Activity {
+public class VenuesActivity extends Activity {
 
-    private static final String TAG = VenuesFragment.class.getName();
+    private static final String TAG = VenuesActivity.class.getName();
 
     private List<Venue> venueList;
 
@@ -82,6 +82,8 @@ public class VenuesFragment extends Activity {
     private AdView adView;
 
     AdRequest adRequest;
+    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +130,7 @@ public class VenuesFragment extends Activity {
             showVenueDetails(venueSelected);
 
             // Load default image as first venue's image
-            Picasso.with(VenuesFragment.this).load(venueList.get(0).getVenue_image())
+            Picasso.with(VenuesActivity.this).load(venueList.get(0).getVenue_image())
                     .placeholder(R.drawable.empty_photo) //
                     .error(R.drawable.empty_photo).fit().into(venueImageLarge);
 
@@ -256,7 +258,7 @@ public class VenuesFragment extends Activity {
 
             if (UtilValidate.isNotNull(venue) && UtilValidate.isNotNull(venue.getVenue_image())) {
 
-                Picasso.with(VenuesFragment.this).load(venue.getVenue_image())
+                Picasso.with(VenuesActivity.this).load(venue.getVenue_image())
                         .placeholder(R.drawable.empty_photo) //
                         .error(R.drawable.empty_photo).fit().into(venueImageLarge);
 
@@ -321,5 +323,6 @@ public class VenuesFragment extends Activity {
         popupWindow.update();
 
     }
+
 
 }

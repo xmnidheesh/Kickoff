@@ -3,6 +3,7 @@
     android:id="@+id/relative_top"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blackTransparent"
     android:orientation="vertical" >
  <!--     <include
          android:id="@+id/headerayout"
