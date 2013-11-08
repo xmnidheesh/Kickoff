@@ -1,3 +1,4 @@
+
 package com.jn.kickoff;
 
 import android.annotation.SuppressLint;
@@ -5,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,90 +23,127 @@ import com.jn.kickoff.activity.VenuesFragment;
 @SuppressLint("ValidFragment")
 public class MainMenuFragmentItems extends Fragment {
 
-	private String title;
+    private static final String TAG = MainMenuFragmentItems.class.getName();
 
-	private Drawable iconImage;
+    private String title;
 
-	private ImageView iconImageView;
+    private Drawable iconImage;
 
-	private TextView titleTextView;
+    private ImageView iconImageView;
 
-	@SuppressLint("ValidFragment")
-	public MainMenuFragmentItems(String title, Drawable image) {
+    private TextView titleTextView;
 
-		this.title = title;
+    private int i;
 
-		this.iconImage = image;
-	}
+    @SuppressLint("ValidFragment")
+    public MainMenuFragmentItems(String title, Drawable image, int i) {
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.main_menu_items, null);
+        this.title = title;
 
-	}
+        this.iconImage = image;
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+        this.i = i;
+    }
 
-		initViews();
-		initManagers();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.main_menu_items, null);
 
-		iconImageView.setImageDrawable(iconImage);
+    }
 
-		titleTextView.setText(title);
-		
-		
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-		titleTextView.setOnClickListener(new OnClickListener() {
+        initViews();
+        initManagers();
 
-			@Override
-			public void onClick(View v) {
-				if (titleTextView.getText().equals("venues")) {
+        iconImageView.setImageDrawable(iconImage);
+        iconImageView.setTag(i);
 
-					Intent intent = new Intent(getActivity(),
-							VenuesFragment.class);
-					startActivity(intent);
-					
-				} else if (titleTextView.getText().equals("fixtures")) {
-					Intent intent = new Intent(getActivity(),
-							FixtureActivity.class);
-					startActivity(intent);
-					
-				} else if (titleTextView.getText().equals("TopTeams")) {
+        titleTextView.setText(title);
 
-					Intent intent = new Intent(getActivity(),
-							CountryRanking.class);
-					startActivity(intent);
+        iconImageView.setOnClickListener(new OnClickListener() {
 
-				} else if (titleTextView.getText().equals("TopPlayers")) {
+            @Override
+            public void onClick(View v) {
 
-					Intent intent = new Intent(getActivity(), TopPlayers.class);
-					startActivity(intent);
-				}
+                if (iconImageView.getTag().equals(0)) {
 
-				else if (titleTextView.getText().equals("News")) {
+                    Intent intent = new Intent(getActivity(), VenuesFragment.class);
+                    startActivity(intent);
 
-					Intent intent = new Intent(getActivity(), NewsActivity.class);
-					startActivity(intent);
-				}
+                } else if (iconImageView.getTag().equals(1)) {
 
-			}
-		});
+                    Intent intent = new Intent(getActivity(), FixtureActivity.class);
+                    startActivity(intent);
 
-	}
+                } else if (iconImageView.getTag().equals(2)) {
+                    
+                    Intent intent = new Intent(getActivity(), TopPlayers.class);
+                    startActivity(intent);
 
-	private void initManagers() {
-		// TODO Auto-generated method stub
+                } else if (iconImageView.getTag().equals(3)) {
 
-	}
+                    Intent intent = new Intent(getActivity(), CountryRanking.class);
+                    startActivity(intent);
 
-	private void initViews() {
-		// TODO Auto-generated method stub
-		iconImageView = (ImageView) getView().findViewById(R.id.itemImg);
+                } else if (iconImageView.getTag().equals(4)) {
 
-		titleTextView = (TextView) getView().findViewById(R.id.itemTxt);
+                    Intent intent = new Intent(getActivity(), NewsActivity.class);
+                    startActivity(intent);
+                }
 
-	}
+            }
+        });
+
+        titleTextView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (titleTextView.getText().equals("venues")) {
+
+                    Log.e(TAG, "clicked*** ");
+
+                    Intent intent = new Intent(getActivity(), VenuesFragment.class);
+                    startActivity(intent);
+
+                } else if (titleTextView.getText().equals("fixtures")) {
+                    Intent intent = new Intent(getActivity(), FixtureActivity.class);
+                    startActivity(intent);
+
+                } else if (titleTextView.getText().equals("TopTeams")) {
+
+                    Intent intent = new Intent(getActivity(), CountryRanking.class);
+                    startActivity(intent);
+
+                } else if (titleTextView.getText().equals("TopPlayers")) {
+
+                    Intent intent = new Intent(getActivity(), TopPlayers.class);
+                    startActivity(intent);
+                }
+
+                else if (titleTextView.getText().equals("News")) {
+
+                    Intent intent = new Intent(getActivity(), NewsActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+    }
+
+    private void initManagers() {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void initViews() {
+        // TODO Auto-generated method stub
+        iconImageView = (ImageView)getView().findViewById(R.id.itemImg);
+
+        titleTextView = (TextView)getView().findViewById(R.id.itemTxt);
+
+    }
 
 }

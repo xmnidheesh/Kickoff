@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 import com.jn.kickoff.FIFA;
 import com.jn.kickoff.MainMenuFragmentItems;
@@ -67,7 +70,7 @@ public class MainActivity extends FragmentActivity implements Constants {
         testFragmentAdapter = new TestFragmentAdapter(getSupportFragmentManager(),
                 mainMenuFragments);
         mainMenuViewPager.setAdapter(testFragmentAdapter);
-
+        
     }
 
     private void initViews() {
@@ -81,19 +84,19 @@ public class MainActivity extends FragmentActivity implements Constants {
         dbHelper = new DbHelper(this);
 
         fragmentItemsVenu = new MainMenuFragmentItems(MENU1, MainActivity.this.getResources()
-                .getDrawable(R.drawable.venue));
+                .getDrawable(R.drawable.venue),0);
         
 
         fragmentItemsFixture = new MainMenuFragmentItems(MENU2, MainActivity.this.getResources()
-                .getDrawable(R.drawable.fixtures));
+                .getDrawable(R.drawable.fixtures),1);
 
         fragmentItemsRanking = new MainMenuFragmentItems(MENU3, MainActivity.this.getResources()
-                .getDrawable(R.drawable.topplayers));
+                .getDrawable(R.drawable.topplayers),2);
 
         fragmentItemsTopPlayers = new MainMenuFragmentItems(MENU4, MainActivity.this.getResources()
-                .getDrawable(R.drawable.topteams));
+                .getDrawable(R.drawable.topteams),3);
         fragmentItemsNews = new MainMenuFragmentItems(MENU5, MainActivity.this.getResources()
-                .getDrawable(R.drawable.news));
+                .getDrawable(R.drawable.news),4);
 
 
     }
