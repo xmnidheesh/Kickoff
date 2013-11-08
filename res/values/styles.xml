@@ -41,5 +41,9 @@
     <style name="textView_black" parent="textView_white">
         <item name="android:textColor">@color/black</item>
     </style>
+    
+    <style name="textView_black_small_font" parent="textView_black">
+        <item name="android:textSize">14sp</item>
+    </style>
 
 </resources>

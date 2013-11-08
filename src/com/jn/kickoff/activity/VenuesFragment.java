@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
@@ -29,6 +30,8 @@ import com.jn.kickoff.R;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.holder.Venue;
 import com.jn.kickoff.manager.VenueManager;
+import com.jn.kickoff.utils.AnimationFactory;
+import com.jn.kickoff.utils.AnimationFactory.FlipDirection;
 import com.jn.kickoff.utils.UtilValidate;
 import com.squareup.picasso.Picasso;
 
@@ -46,7 +49,7 @@ public class VenuesFragment extends Activity {
 
     private ImageView venueImageLarge;
 
-    private TextView moreTextView;
+    private ImageView infoImageView;
 
     private TextView venueCapacity;
 
@@ -68,13 +71,15 @@ public class VenuesFragment extends Activity {
 
     private ImageView closeBtn;
 
+    private ViewAnimator viewAnimator;
+
     private PopupWindow popupWindow;
 
     private Venue venueSelected;
-    
-    private AdView adView;
-	AdRequest adRequest;
 
+    private AdView adView;
+
+    AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,41 +88,43 @@ public class VenuesFragment extends Activity {
 
         initViews();
         initManagers();
-        
-       //showAdvertisementPopUp(this);
-        
-        FrameLayout layout = (FrameLayout) findViewById(R.id.linear);
-		layout.addView(adView);
 
-		// Create an ad request. Check logcat output for the hashed device
-		// ID to
-		// get test ads on a physical device.
-		adRequest = new AdRequest();
-		// adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		// adRequest.addTestDevice("C6205A36E35671ED5388B025B0B82698");
-		// adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		// adRequest.addTestDevice("0B1CF3FD4AA0118FAB350F160041EFC7");
-		final TelephonyManager tm = (TelephonyManager) getBaseContext()
-				.getSystemService(Context.TELEPHONY_SERVICE);
-		String deviceid = tm.getDeviceId();
-		adRequest.addTestDevice(deviceid);
+        // showAdvertisementPopUp(this);
 
-		// Start loading the ad in the background.
-		
-		 (new Thread() { public void run() { Looper.prepare();
-		 adView.loadAd(adRequest); } }).start();
-		 
-		adView.loadAd(adRequest);
-        
+        FrameLayout layout = (FrameLayout)findViewById(R.id.linear);
+        layout.addView(adView);
 
+        // Create an ad request. Check logcat output for the hashed device
+        // ID to
+        // get test ads on a physical device.
+        adRequest = new AdRequest();
+        // adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+        // adRequest.addTestDevice("C6205A36E35671ED5388B025B0B82698");
+        // adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+        // adRequest.addTestDevice("0B1CF3FD4AA0118FAB350F160041EFC7");
+        final TelephonyManager tm = (TelephonyManager)getBaseContext().getSystemService(
+                Context.TELEPHONY_SERVICE);
+        String deviceid = tm.getDeviceId();
+        adRequest.addTestDevice(deviceid);
 
-        moreTextView.setText("More...");
+        // Start loading the ad in the background.
+
+        (new Thread() {
+            public void run() {
+                Looper.prepare();
+                adView.loadAd(adRequest);
+            }
+        }).start();
+
+        adView.loadAd(adRequest);
 
         venueList = venueManager.getAllVenuesFromTable();
-        
+
         if (UtilValidate.isNotNull(venueList)) {
 
             venueSelected = venueList.get(0);
+            
+            showVenueDetails(venueSelected);
 
             // Load default image as first venue's image
             Picasso.with(VenuesFragment.this).load(venueList.get(0).getVenue_image())
@@ -160,12 +167,24 @@ public class VenuesFragment extends Activity {
 
         imageView.setOnClickListener(new GalleryImageClick(venue));
 
-        moreTextView.setOnClickListener(new OnClickListener() {
+        infoImageView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                showVenueDetails(venueSelected);
+                showVenueDetails(venue);
+
+                AnimationFactory.flipTransition(viewAnimator, FlipDirection.LEFT_RIGHT);
+
+            }
+        });
+
+        closeBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                AnimationFactory.flipTransition(viewAnimator, FlipDirection.LEFT_RIGHT);
 
             }
         });
@@ -184,7 +203,9 @@ public class VenuesFragment extends Activity {
 
         venueImageLarge = (ImageView)findViewById(R.id.imageVenueLarge);
 
-        moreTextView = (TextView)findViewById(R.id.more);
+        infoImageView = (ImageView)findViewById(R.id.imageInfo);
+
+        closeBtn = (ImageView)findViewById(R.id.imageclose);
 
         venueCapacity = (TextView)findViewById(R.id.venueCapacity);
 
@@ -193,6 +214,20 @@ public class VenuesFragment extends Activity {
         venueName = (TextView)findViewById(R.id.venueName);
 
         venueRelative = (RelativeLayout)findViewById(R.id.venue_relative);
+
+        viewAnimator = (ViewAnimator)this.findViewById(R.id.viewFlipper_venue);
+        
+        venueFullname = (TextView)findViewById(R.id.venueFullnameValue);
+
+        venueCity = (TextView)findViewById(R.id.venueCityValue);
+
+        venueOwner = (TextView)findViewById(R.id.venueOwnerValue);
+
+        venueOpened = (TextView)findViewById(R.id.venueOpenedValue);
+
+        venueSurface = (TextView)findViewById(R.id.venueSurfaceValue);
+
+        venueWebsite = (TextView)findViewById(R.id.venueWebsiteValue);
 
     }
 
@@ -241,39 +276,6 @@ public class VenuesFragment extends Activity {
      */
     public void showVenueDetails(Venue venue) {
 
-        LayoutInflater layoutInflater = (LayoutInflater)this.getApplicationContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View popupView = layoutInflater.inflate(R.layout.venue_details, null);
-
-        venueFullname = (TextView)popupView.findViewById(R.id.venueFullnameValue);
-
-        venueCity = (TextView)popupView.findViewById(R.id.venueCityValue);
-
-        venueOwner = (TextView)popupView.findViewById(R.id.venueOwnerValue);
-
-        venueOpened = (TextView)popupView.findViewById(R.id.venueOpenedValue);
-
-        venueSurface = (TextView)popupView.findViewById(R.id.venueSurfaceValue);
-
-        venueWebsite = (TextView)popupView.findViewById(R.id.venueWebsiteValue);
-
-        closeBtn = (ImageView)popupView.findViewById(R.id.closeBtn);
-
-        popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT, true);
-
-        /**
-         * animation ...
-         */
-        popupWindow.setAnimationStyle(R.style.PopUpAnimationTopToBottom);
-
-        popupWindow.showAtLocation(venueRelative, Gravity.TOP, 0, 0);
-
-        popupWindow.setFocusable(true);
-
-        popupWindow.update();
-
         if (UtilValidate.isNotNull(venue.getVenue_fullname()))
             venueFullname.setText(venue.getVenue_fullname());
         if (UtilValidate.isNotNull(venue.getVenue_city()))
@@ -286,16 +288,6 @@ public class VenuesFragment extends Activity {
             venueSurface.setText(venue.getVenue_surface());
         if (UtilValidate.isNotNull(venue.getVenue_website()))
             venueWebsite.setText(venue.getVenue_website());
-
-        closeBtn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-
-            }
-        });
-
     }
 
     public void showAdvertisementPopUp(Activity activity) {
@@ -304,9 +296,8 @@ public class VenuesFragment extends Activity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View popupView = layoutInflater.inflate(R.layout.advertisement_layout, null);
-        //a152774de5cc614
- 
-        
+        // a152774de5cc614
+
         final PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT, true);
 
@@ -314,12 +305,9 @@ public class VenuesFragment extends Activity {
          * animation ...
          */
         popupWindow.setAnimationStyle(R.style.PopUpAnimationBottomToTop);
-        
-        
 
-		// Add the AdView to the view hierarchy. The view will have no size
-		// until the ad is loaded.
-		
+        // Add the AdView to the view hierarchy. The view will have no size
+        // until the ad is loaded.
 
         findViewById(R.id.venue_relative).post(new Runnable() {
             public void run() {
@@ -331,12 +319,6 @@ public class VenuesFragment extends Activity {
 
         popupWindow.update();
 
-       
-
     }
-    
-    
-
-
 
 }

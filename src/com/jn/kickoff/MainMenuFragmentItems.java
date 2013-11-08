@@ -103,8 +103,6 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
             public void onClick(View v) {
                 if (titleTextView.getText().equals(MENU1)) {
 
-                    Log.e(TAG, "clicked*** ");
-
                     Intent intent = new Intent(getActivity(), VenuesFragment.class);
                     startActivity(intent);
 
