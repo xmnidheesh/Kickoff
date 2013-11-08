@@ -91,9 +91,6 @@ public class VenuesFragment extends Activity {
         initViews();
         initManagers();
 
-        Parse.initialize(this, "LmIM3uWcyelvcVjl0m6XoL528glzHpsNNEp7pf9X", "fglG1RAhdrCifoDOSwp9fYDUs50hnjY38UqQLX9h");
-        PushService.subscribe(this, "Kickoff", TopPlayers.class);
-        
         
         FrameLayout layout = (FrameLayout)findViewById(R.id.linear);
         layout.addView(adView);
