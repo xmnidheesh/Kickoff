@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.jn.kickoff.activity.CountryRankingActivity;
 import com.jn.kickoff.activity.FixtureActivity;
 import com.jn.kickoff.activity.NewsActivity;
-import com.jn.kickoff.activity.TopPlayers;
+import com.jn.kickoff.activity.TopPlayersActivity;
 import com.jn.kickoff.activity.VenuesActivity;
 import com.jn.kickoff.constants.Constants;
 
@@ -80,7 +80,7 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
 
                 } else if (iconImageView.getTag().equals(FRAGMENT3)) {
                     
-                    Intent intent = new Intent(getActivity(), TopPlayers.class);
+                    Intent intent = new Intent(getActivity(), TopPlayersActivity.class);
                     startActivity(intent);
 
                 } else if (iconImageView.getTag().equals(FRAGMENT4)) {
@@ -117,7 +117,7 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
 
                 } else if (titleTextView.getText().equals(MENU4)) {
 
-                    Intent intent = new Intent(getActivity(), TopPlayers.class);
+                    Intent intent = new Intent(getActivity(), TopPlayersActivity.class);
                     startActivity(intent);
                 }
 

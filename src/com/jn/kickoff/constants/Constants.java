@@ -140,5 +140,13 @@ public interface Constants {
         String PLAYER_FOOT = "foot";
 
     }
+    interface SettingsConstants {
+
+
+
+    	String SOUND_KEY = "sounds";
+
+    }
+
 
 }

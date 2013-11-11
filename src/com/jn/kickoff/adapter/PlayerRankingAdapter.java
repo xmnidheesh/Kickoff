@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jn.kickoff.R;
-import com.jn.kickoff.activity.TopPlayers;
+import com.jn.kickoff.activity.TopPlayersActivity;
 import com.jn.kickoff.holder.FifaPlayerDetails;
 import com.jn.kickoff.utils.UtilValidate;
 import com.squareup.picasso.Picasso;
@@ -26,13 +26,13 @@ public class PlayerRankingAdapter extends BaseAdapter {
 	private final static String TAG = "PlayerRankingAdapter";
 	private List<com.jn.kickoff.holder.FifaPlayerDetails> playerTempList = new ArrayList<com.jn.kickoff.holder.FifaPlayerDetails>();
 	private LayoutInflater inflator;
-	private TopPlayers activity;
+	private TopPlayersActivity activity;
 	private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
 	private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
 	private String fname;
 	private String lname;
 	
-	public PlayerRankingAdapter(TopPlayers activity,
+	public PlayerRankingAdapter(TopPlayersActivity activity,
 			List<FifaPlayerDetails> playerTempList) {
 
 		this.playerTempList = playerTempList;

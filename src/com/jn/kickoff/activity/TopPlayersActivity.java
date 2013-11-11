@@ -36,9 +36,9 @@ import com.jn.kickoff.utils.UtilValidate;
 import com.jn.kickoff.webservice.AsyncTaskCallBack;
 import com.squareup.picasso.Picasso;
 
-public class TopPlayers extends Activity {
+public class TopPlayersActivity extends Activity {
 
-	private static final String TAG = TopPlayers.class.getName();
+	private static final String TAG = TopPlayersActivity.class.getName();
 
 	private AdView adView;
 	
@@ -162,7 +162,7 @@ public class TopPlayers extends Activity {
 				// VISIBLE
 				relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 				progressBarDetail_text.setVisibility(View.VISIBLE);
-				rankingAdapter = new PlayerRankingAdapter(TopPlayers.this,
+				rankingAdapter = new PlayerRankingAdapter(TopPlayersActivity.this,
 						playerTempList);
 				listview.setAdapter(rankingAdapter);
 

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
@@ -30,35 +28,39 @@ import android.widget.TextView;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
+import com.jn.kickoff.AnimationSounds;
 import com.jn.kickoff.R;
+import com.jn.kickoff.SettingsPageSharedPreference;
 import com.jn.kickoff.adapter.FixtureAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.holder.Fixture;
-import com.jn.kickoff.holder.Venue;
 import com.jn.kickoff.manager.CountryManager;
 import com.jn.kickoff.utils.ProgressWheel;
 import com.jn.kickoff.utils.UtilValidate;
 
 public class FixtureActivity extends Activity {
 
-	private CountryManager countryManager;
 	private List<Fixture> fixtureList = new ArrayList<Fixture>();
 
-
-	private ListView countryRankListView;
-
 	private FixtureAdapter fixtureAdapter;
+	
 	private ListView listview_fixture;
+	
 	private AdView adView;
+	
 	AdRequest adRequest;
+	
 	private static ProgressWheel progressWheel;
+	
 	private static RelativeLayout relativeLayoutprogresswheel;
+	
 	boolean loadingFinished = true;
+	
 	private TextView progressBarDetail_text;
+	
     private ImageView closeBtn;
 
     private PopupWindow popupWindow;
-    
     
     private TextView fixture_Venue ;
 
@@ -76,6 +78,7 @@ public class FixtureActivity extends Activity {
     
     private TextView fixture_teamb;
 
+	private AnimationSounds animationSounds;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +133,31 @@ public class FixtureActivity extends Activity {
 
 	}
 
+	public void animationSoundBite() {
+
+		switch (SettingsPageSharedPreference.getSounds(FixtureActivity.this)) {
+
+		case SOUND_ON:
+
+			animationSounds.whooshSoundon();
+
+			break;
+
+		case SOUND_OFF:
+
+			animationSounds.whooshSoundoff();
+
+			break;
+
+		default:
+			break;
+		}
+	}
 	private void initManagers() {
 		// TODO Auto-generated method stub
-		countryManager = new CountryManager();
 		adView = new AdView(this, AdSize.SMART_BANNER,
 				Constants.AppConstants.ADDMOB);
+		animationSounds=new AnimationSounds(FixtureActivity.this);
 
 	}
 
@@ -175,6 +198,7 @@ public class FixtureActivity extends Activity {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
+					animationSoundBite();
 					String fulldate = fixtureList.get(arg2).getDate();
 					String teama = fixtureList.get(arg2).getTeam_a();
 					String teamb = fixtureList.get(arg2).getTeam_b();
@@ -210,7 +234,6 @@ public class FixtureActivity extends Activity {
 	
 	
 	
-	
     public void PopUpFixtureDetails(String venue,String date,String time,String teama,String teamb) {
 
         LayoutInflater layoutInflater = (LayoutInflater)this.getApplicationContext()
@@ -241,9 +264,9 @@ public class FixtureActivity extends Activity {
         /**
          * animation ...
          */
-        popupWindow.setAnimationStyle(R.style.PopUpAnimationTopToBottom);
+        popupWindow.setAnimationStyle(R.style.PopUpAnimationtwinslide);
 
-        popupWindow.showAtLocation(relative_fixture_top, Gravity.TOP, 0, 0);
+        popupWindow.showAtLocation(relative_fixture_top, Gravity.CENTER, 0, 0);
 
         popupWindow.setFocusable(true);
 

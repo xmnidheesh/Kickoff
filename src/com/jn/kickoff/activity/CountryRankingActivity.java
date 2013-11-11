@@ -23,7 +23,9 @@ import android.widget.Toast;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
+import com.jn.kickoff.AnimationSounds;
 import com.jn.kickoff.R;
+import com.jn.kickoff.SettingsPageSharedPreference;
 import com.jn.kickoff.adapter.CountryRankingAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
@@ -45,6 +47,8 @@ public class CountryRankingActivity extends FragmentActivity implements Constant
     private AdRequest adRequest;
 
     private CountryManager countryManager;
+    
+    private AnimationSounds animationSounds;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -92,6 +96,8 @@ public class CountryRankingActivity extends FragmentActivity implements Constant
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+            	
+            	animationSoundBite();
 
                 if (UtilValidate.isNull(countryList.get(pos).get_id()))
                     countryList = countryManager.fetchAllCountries();
@@ -118,8 +124,12 @@ public class CountryRankingActivity extends FragmentActivity implements Constant
         countryManager = new CountryManager();
 
         adView = new AdView(this, AdSize.SMART_BANNER, Constants.AppConstants.ADDMOB);
+        
+        animationSounds = new AnimationSounds(CountryRankingActivity.this);
 
     }
+    
+   
 
     private class ScrappingCountriesTask extends AsyncTask<Void, String, String> {
 
@@ -174,5 +184,27 @@ public class CountryRankingActivity extends FragmentActivity implements Constant
         }
 
     }
+    
+    
+    public void animationSoundBite() {
 
+		switch (SettingsPageSharedPreference.getSounds(CountryRankingActivity.this)) {
+
+		case SOUND_ON:
+
+			animationSounds.whooshSoundon();
+
+			break;
+
+		case SOUND_OFF:
+
+			animationSounds.whooshSoundoff();
+
+			break;
+
+		default:
+			break;
+		}
+		
+    }
 }
