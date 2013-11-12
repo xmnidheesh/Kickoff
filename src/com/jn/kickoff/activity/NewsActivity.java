@@ -4,17 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
@@ -33,30 +44,57 @@ import com.jn.kickoff.webservice.AsyncTaskCallBack;
 public class NewsActivity extends Activity {
 
 	private ListView listView_newslist;
+	
 	NewsAdapter newsAdapter;
+	
 	CountryManager countryManager;
+	
 	private AdView adView;
+	
 	AdRequest adRequest;
+	
 	private static ProgressWheel progressWheel;
+	
 	private static RelativeLayout relativeLayoutprogresswheel;
+	
 	boolean loadingFinished = true;
+	
 	private TextView progressBarDetail_text;
+	
 	private NewsManager newsManager;
+	
 	private AsynchTaskCallBack asynchTaskCallBack;
+	
 	private static final int REQUEST_CODE = 1;
+	
 	private List<NewsHeadlines> newsHeadlinesList = new ArrayList<NewsHeadlines>();
+	
 	private List<String> newsDetailList;
+	
+	private ProgressBar pbHeaderProgress;
+	
+	private PopupWindow popupWindow;
+
+	private RelativeLayout relative_top;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news);
+		
 		initViews();
 		initManagers();
 		
 		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 		progressBarDetail_text.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+
+		Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink);
+		anim.setRepeatCount(-1);
+		anim.setRepeatMode(Animation.RESTART);
+		pbHeaderProgress.startAnimation(anim);
+		pbHeaderProgress.setProgress(10);
 
 		progressWheel.setTextSize(18);
 		progressWheel.setBarLength(20);
@@ -106,6 +144,8 @@ public class NewsActivity extends Activity {
 		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
 		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
 		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
+		pbHeaderProgress= (ProgressBar) findViewById(R.id.pbHeaderProgress);
+		relative_top= (RelativeLayout) findViewById(R.id.relative_top);
 		
 
 	}
@@ -128,8 +168,6 @@ public class NewsActivity extends Activity {
 					if (UtilValidate.isNotEmpty(newsBase.getHeadlines())) {
 
 						newsHeadlinesList.addAll(newsBase.getHeadlines());
-						
-						
 
 						loadingFinished = false;
 						// SHOW LOADING IF IT ISNT
@@ -137,6 +175,7 @@ public class NewsActivity extends Activity {
 						// VISIBLE
 						relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
 						progressBarDetail_text.setVisibility(View.INVISIBLE);
+						pbHeaderProgress.setVisibility(View.INVISIBLE);
 
 						newsAdapter = new NewsAdapter(NewsActivity.this,
 								newsHeadlinesList);
@@ -150,6 +189,7 @@ public class NewsActivity extends Activity {
 											int position, long id) {
 										relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
 										progressBarDetail_text.setVisibility(View.INVISIBLE);
+										pbHeaderProgress.setVisibility(View.INVISIBLE);
 										newsDetailList=new ArrayList<String>();
 										newsDetailList.add(newsHeadlinesList.get(position).getHeadline());
 										newsDetailList.add(newsHeadlinesList.get(position).getDescription());
@@ -171,12 +211,18 @@ public class NewsActivity extends Activity {
 					}
 				}
 			}
+			
 		}
+		
 
 		@Override
 		public void onFinish(int responseCode, String result) {
+		    // TODO Auto-generated method stub
+			relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+			progressBarDetail_text.setVisibility(View.INVISIBLE);
+			pbHeaderProgress.setVisibility(View.INVISIBLE);
+			NoInternetpopup();
 		}
-
 		@Override
 		public void onFinish(int responseCode, Object result, int requestCode) {
 			// TODO Auto-generated method stub
@@ -191,5 +237,53 @@ public class NewsActivity extends Activity {
 		}
 
 	}
+	public void NoInternetpopup() 
+	{
+		LayoutInflater layoutInflater = (LayoutInflater) this
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
 
+		View popupView = layoutInflater.inflate(
+				R.layout.advertisement_layout, null);
+
+		popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT, true);
+
+		/**
+		 * animation ...
+		 */
+		// popupWindow.setAnimationStyle(R.style.PopUpAnimation);
+		findViewById(R.id.relative_top).post(new Runnable() {
+			   public void run() {
+				   popupWindow.showAtLocation(findViewById(R.id.relative_top), Gravity.CENTER, 0, 0);
+			   }
+			});
+		popupWindow.setFocusable(true);
+
+		popupWindow.update();
+
+		// set the custom dialog components - text,
+		// image and
+		// button
+		
+		TextView textView_nointernet = (TextView) popupView
+				.findViewById(R.id.textView_nointernet);
+		
+	
+
+
+		Button dialogButtonOk = (Button) popupView.findViewById(R.id.button_ok);
+		// if button is clicked, close the custom dialog
+		dialogButtonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				popupWindow.dismiss();
+				finish();
+
+			}
+
+		});
+
+	}
 }

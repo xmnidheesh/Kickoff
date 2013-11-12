@@ -37,12 +37,25 @@ public class NewsManager {
 
                     @Override
                     public void onFailure(Throwable tr, String response) {
-                        Log.i(TAG, "Error from  response : " + response + " " + tr);
-                    }
+            			Log.i(TAG, "Error from  response : " + response + " "
+            					+ tr);
+            				
+            				if (asyncTaskCallBack == null) {
+            				    Log.i(TAG, "asyncTaskCallBack is null : ");
+            				    
+            				} else {
+            				    
+            					Log.e(TAG, "in onfailure ");
+            				    asyncTaskCallBack.onFinish(0,
+            					    response);
+            				}
+            				
+            				//Toast.makeText(activity, ""+response, Toast.LENGTH_SHORT).show();
+            			    }
 
                     @Override
                     public void onFinish() {
-                        Log.i(TAG, "finished api call of getCategories function");
+                        Log.i(TAG, "finished api call of getNews function");
 
                     }
 
@@ -52,12 +65,13 @@ public class NewsManager {
                         Log.i(TAG, "response code : " + code);
 
                         try {
+                        	  NewsBase newsBase = new NewsBase();
+
 
                             if (code == WebResponseConstants.ResponseCode.OK) {
                                 Gson gson = new Gson();
 
-                                NewsBase newsBase = new NewsBase();
-
+                              
                                 newsBase = gson.fromJson(response, NewsBase.class);
 
                                 Log.i(TAG, "newsBase object: " + newsBase);
@@ -71,13 +85,17 @@ public class NewsManager {
                                     || code == WebResponseConstants.ResponseCode.UN_SUCCESSFULL) {
 
                                 Log.i(TAG, "code  " + code);
+                                Log.i(TAG, "requestCode  " + requestCode);
+                                asyncTaskCallBack.onFinish(requestCode, newsBase);
 
                             } else {
 
-                                Log.e(TAG, "Unexpected response code " + code);
+                                Log.e(TAG, "Unexpected  code " + code);
+                                Log.i(TAG, "Unexpected requestCode  " + requestCode);
                                 Log.e(TAG, "Expected codes " + WebResponseConstants.ResponseCode.OK
                                         + WebResponseConstants.ResponseCode.UN_AUTHORIZED
                                         + WebResponseConstants.ResponseCode.UN_SUCCESSFULL);
+                                asyncTaskCallBack.onFinish(requestCode, newsBase);
 
                             }
 
@@ -98,7 +116,7 @@ public class NewsManager {
                     @Override
                     public void onStart() {
 
-                        Log.i(TAG, "Enters into manager and calling People ranking function");
+                        Log.i(TAG, "Enters into manager and calling getNews function");
 
                     }
 

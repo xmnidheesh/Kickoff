@@ -29,29 +29,38 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/linear" >
-        
-        
-            <RelativeLayout
-                android:id="@+id/progress_relative_Detail"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"
-               >
-       
 
-                <com.jn.kickoff.utils.ProgressWheel
-                    android:id="@+id/progressBarDetail"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true" />
-                <TextView  android:id="@+id/progressBarDetail_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarDetail"
-                    android:layout_centerHorizontal="true"
-                    android:text="Loading"/>
-            </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/progress_relative_Detail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <com.jn.kickoff.utils.ProgressWheel
+                android:id="@+id/progressBarDetail"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/pbHeaderProgress"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                     android:visibility="gone" 
+                android:layout_centerInParent="true"
+                android:indeterminateDrawable="@drawable/soccer" >
+            </ProgressBar>
+
+            <TextView
+                android:id="@+id/progressBarDetail_text"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/pbHeaderProgress"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Loading" />
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/listview_fixture"

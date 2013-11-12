@@ -110,12 +110,12 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
                     Intent intent = new Intent(getActivity(), FixtureActivity.class);
                     startActivity(intent);
 
-                } else if (titleTextView.getText().equals(MENU3)) {
+                } else if (titleTextView.getText().equals(MENU4)) {
 
                     Intent intent = new Intent(getActivity(), CountryRankingActivity.class);
                     startActivity(intent);
 
-                } else if (titleTextView.getText().equals(MENU4)) {
+                } else if (titleTextView.getText().equals(MENU3)) {
 
                     Intent intent = new Intent(getActivity(), TopPlayersActivity.class);
                     startActivity(intent);

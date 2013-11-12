@@ -1,4 +1,3 @@
-
 package com.jn.kickoff.activity;
 
 import java.util.ArrayList;
@@ -15,11 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,306 +32,428 @@ import com.jn.kickoff.adapter.TeamSquardAdapter;
 import com.jn.kickoff.entity.PlayerProfile;
 import com.jn.kickoff.entity.Squard;
 import com.jn.kickoff.manager.CountryManager;
+import com.jn.kickoff.utils.ProgressWheel;
 import com.jn.kickoff.utils.UtilValidate;
 import com.squareup.picasso.Picasso;
 
 public class SquardActivity extends FragmentActivity {
 
-    public static final String TAG = SquardActivity.class.getSimpleName();
+	public static final String TAG = SquardActivity.class.getSimpleName();
 
-    private List<Squard> squardList = new ArrayList<Squard>();
+	private List<Squard> squardList = new ArrayList<Squard>();
 
-    private TeamSquardAdapter squardAdapter;
+	private TeamSquardAdapter squardAdapter;
 
-    private String url;
+	private String url;
 
-    private String _id;
+	private String _id;
 
-    private GridView gridViewSquard;
+	private GridView gridViewSquard;
 
-    private RelativeLayout relativeLayout;
+	private RelativeLayout relativeLayout;
 
-    private CountryManager countryManager;
+	private CountryManager countryManager;
 
-    private PlayerProfile playerProfile;
+	private PlayerProfile playerProfile;
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.country_squard);
+	private static RelativeLayout relativeLayoutprogresswheel;
 
-        initViews();
-        initManagers();
+	boolean loadingFinished = true;
 
-        url = getIntent().getStringExtra("url");
+	private TextView progressBarDetail_text;
 
-        _id = getIntent().getStringExtra("id");
+	private static ProgressWheel progressWheel;
 
-        Log.e(TAG, "_id :" + _id);
+	private ProgressBar pbHeaderProgress;
 
-        squardList = countryManager.fetchAllPlayersOfACountry(_id);
+	private PopupWindow popupWindow;
 
-        if (UtilValidate.isEmpty(squardList)) {
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.country_squard);
 
-            new SquardScrappingTask().execute(url, _id);
+		initViews();
+		initManagers();
 
-        } else {
+		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+		progressBarDetail_text.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
 
-            squardAdapter = new TeamSquardAdapter(SquardActivity.this, squardList);
+		Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink);
+		anim.setRepeatCount(-1);
+		anim.setRepeatMode(Animation.RESTART);
+		pbHeaderProgress.startAnimation(anim);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setProgress(10);
 
-            gridViewSquard.setAdapter(squardAdapter);
-        }
+		progressWheel.setTextSize(18);
+		progressWheel.setBarLength(20);
+		progressWheel.setBarWidth(25);
+		progressWheel.setRimWidth(50);
+		progressWheel.setSpinSpeed(25);
+		progressWheel.spin();
 
-        gridViewSquard.setOnItemClickListener(new OnItemClickListener() {
+		url = getIntent().getStringExtra("url");
 
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		_id = getIntent().getStringExtra("id");
 
-                if (UtilValidate.isNull(squardList.get(arg2).get_id()))
-                    squardList = countryManager.fetchAllPlayersOfACountry(_id);
+		Log.e(TAG, "_id :" + _id);
 
-                Log.e(TAG, "squardList p_id :" + squardList.get(arg2).get_id());
+		squardList = countryManager.fetchAllPlayersOfACountry(_id);
 
-                playerProfile = countryManager
-                        .fetchPlayerProfileData(squardList.get(arg2).get_id());
+		if (UtilValidate.isEmpty(squardList)) {
 
-                if (UtilValidate.isNotNull(playerProfile)) {
+			new SquardScrappingTask().execute(url, _id);
 
-                    showPlayerProfile(playerProfile);
+		} else {
 
-                } else {
+			squardAdapter = new TeamSquardAdapter(SquardActivity.this,
+					squardList);
 
-                    new PlayerDetailsScrappingTask().execute(squardList.get(arg2).getProfileLink(),
-                            squardList.get(arg2).getProfileImage(), squardList.get(arg2).get_id(),
-                            squardList.get(arg2).getCountry_id());
-                }
+			gridViewSquard.setAdapter(squardAdapter);
+		}
 
-            }
-        });
+		gridViewSquard.setOnItemClickListener(new OnItemClickListener() {
 
-    }
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
 
-    private void initManagers() {
+				if (UtilValidate.isNull(squardList.get(arg2).get_id()))
+					squardList = countryManager.fetchAllPlayersOfACountry(_id);
 
-        countryManager = new CountryManager();
-    }
+				Log.e(TAG, "squardList p_id :" + squardList.get(arg2).get_id());
 
-    private void initViews() {
+				playerProfile = countryManager
+						.fetchPlayerProfileData(squardList.get(arg2).get_id());
 
-        gridViewSquard = (GridView)findViewById(R.id.gridView_team_squard);
+				if (UtilValidate.isNotNull(playerProfile)) {
 
-        relativeLayout = (RelativeLayout)findViewById(R.id.relative);
+					showPlayerProfile(playerProfile);
 
-    }
+				} else {
 
-    private class SquardScrappingTask extends AsyncTask<String, String, String> {
+					new PlayerDetailsScrappingTask().execute(
+							squardList.get(arg2).getProfileLink(), squardList
+									.get(arg2).getProfileImage(), squardList
+									.get(arg2).get_id(), squardList.get(arg2)
+									.getCountry_id());
+				}
 
-        private ProgressDialog dialog;
+			}
+		});
 
-        @Override
-        protected String doInBackground(String... params) {
+	}
 
-            squardList = countryManager.scrapSquardFromTeamLink(params[0], params[1]);
+	private void initManagers() {
 
-            Log.e(TAG, "Cid :" + params[1]);
+		countryManager = new CountryManager();
+	}
 
-            Log.e(TAG, "url :" + params[0]);
+	private void initViews() {
 
-            return null;
-        }
+		gridViewSquard = (GridView) findViewById(R.id.gridView_team_squard);
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPreExecute()
-         */
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
+		relativeLayout = (RelativeLayout) findViewById(R.id.relative);
+		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
+		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
+		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
+		pbHeaderProgress = (ProgressBar) findViewById(R.id.pbHeaderProgress);
+	}
 
-            dialog = ProgressDialog.show(SquardActivity.this, "", "Loading. Please wait...", true);
-            dialog.show();
-        }
+	private class SquardScrappingTask extends AsyncTask<String, String, String> {
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-         */
-        @Override
-        protected void onPostExecute(String result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
+		private ProgressDialog dialog;
 
-            if (dialog != null)
-                dialog.dismiss();
+		@Override
+		protected String doInBackground(String... params) {
 
-            if (UtilValidate.isNotEmpty(squardList)) {
+			squardList = countryManager.scrapSquardFromTeamLink(params[0],
+					params[1]);
 
-                countryManager.insertIntoPlayers(squardList);
+			Log.e(TAG, "Cid :" + params[1]);
 
-                squardAdapter = new TeamSquardAdapter(SquardActivity.this, squardList);
+			Log.e(TAG, "url :" + params[0]);
 
-                gridViewSquard.setAdapter(squardAdapter);
+			return null;
+		}
 
-            } else {
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
 
-            }
+			/*
+			 * dialog = ProgressDialog.show(SquardActivity.this, "",
+			 * "Loading. Please wait...", true); dialog.show();
+			 */
+			relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+			progressBarDetail_text.setVisibility(View.VISIBLE);
+			pbHeaderProgress.setVisibility(View.VISIBLE);
+		}
 
-        }
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
 
-    }
+			if (dialog != null)
+				dialog.dismiss();
 
-    private class PlayerDetailsScrappingTask extends AsyncTask<String, String, String> {
+			if (UtilValidate.isNotEmpty(squardList)) {
 
-        private CountryManager countryManager = new CountryManager();
+				relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+				progressBarDetail_text.setVisibility(View.INVISIBLE);
+				pbHeaderProgress.setVisibility(View.INVISIBLE);
+				countryManager.insertIntoPlayers(squardList);
+				squardAdapter = new TeamSquardAdapter(SquardActivity.this,
+						squardList);
 
-        private PlayerProfile playerProfile;
+				gridViewSquard.setAdapter(squardAdapter);
 
-        private String imageLink;
+			} else {
+				relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+				progressBarDetail_text.setVisibility(View.INVISIBLE);
+				pbHeaderProgress.setVisibility(View.INVISIBLE);
+				NoInternetpopup();
+			}
 
-        private ProgressDialog dialog;
+		}
 
-        private String playerId;
+	}
 
-        private String countryId;
+	private class PlayerDetailsScrappingTask extends
+			AsyncTask<String, String, String> {
 
-        @Override
-        protected String doInBackground(String... params) {
+		private CountryManager countryManager = new CountryManager();
 
-            playerProfile = countryManager.scrapPlayerprofileDetails(params[0]);
+		private PlayerProfile playerProfile;
 
-            imageLink = params[1];
+		private String imageLink;
 
-            playerId = params[2];
+		private ProgressDialog dialog;
 
-            countryId = params[3];
+		private String playerId;
 
-            return null;
-        }
+		private String countryId;
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPreExecute()
-         */
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
+		@Override
+		protected String doInBackground(String... params) {
+
+			playerProfile = countryManager.scrapPlayerprofileDetails(params[0]);
+
+			imageLink = params[1];
+
+			playerId = params[2];
 
-            dialog = ProgressDialog.show(SquardActivity.this, "", "Loading. Please wait...", true);
-            dialog.show();
-        }
+			countryId = params[3];
+
+			return null;
+		}
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-         */
-        @Override
-        protected void onPostExecute(String result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
 
-            if (dialog != null)
-                dialog.dismiss();
-
-            if (UtilValidate.isNotNull(playerProfile)) {
-
-                playerProfile.setImageLink(imageLink);
-                playerProfile.setPlayerId(playerId);
-                playerProfile.setCountryId(countryId);
-
-                // Insert into table player profile
-                countryManager.insertIntoPlayerProfile(playerProfile);
-
-                showPlayerProfile(playerProfile);
-
-            } else {
-
-                Toast.makeText(SquardActivity.this, "This service is currently unavailable",
-                        Toast.LENGTH_SHORT);
-            }
-
-        }
-
-    }
-
-    public void showPlayerProfile(PlayerProfile playerProfile) {
-
-        LayoutInflater layoutInflater = (LayoutInflater)this.getApplicationContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View popupView = layoutInflater.inflate(R.layout.profile_page, null);
-        ImageView closeBtn = (ImageView)popupView.findViewById(R.id.closeBtn);
-        ImageView iconImageView = (ImageView)popupView.findViewById(R.id.player_profileimage);
-        TextView nameTextView = (TextView)popupView.findViewById(R.id.player_name);
-        TextView fnameTextView = (TextView)popupView.findViewById(R.id.fname);
-        TextView lnameTextView = (TextView)popupView.findViewById(R.id.lname);
-        TextView nationalityTextView = (TextView)popupView.findViewById(R.id.player_nation);
-        TextView dateOfBirthTextView = (TextView)popupView.findViewById(R.id.player_dob);
-        TextView ageTextView = (TextView)popupView.findViewById(R.id.player_age);
-        TextView countryTextView = (TextView)popupView.findViewById(R.id.player_country);
-        TextView placeTextView = (TextView)popupView.findViewById(R.id.player_place);
-        TextView positionTextView = (TextView)popupView.findViewById(R.id.player_position);
-        TextView heightTextView = (TextView)popupView.findViewById(R.id.player_height);
-        TextView weightTextView = (TextView)popupView.findViewById(R.id.player_weight);
-        TextView footTextView = (TextView)popupView.findViewById(R.id.player_foot);
-
-        final PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT, true);
-
-        /**
-         * animation ...
-         */
-        popupWindow.setAnimationStyle(R.style.PopUpAnimationTopToBottom);
-
-        popupWindow.showAtLocation(relativeLayout, Gravity.TOP, 0, 0);
-
-        popupWindow.setFocusable(true);
-
-        popupWindow.update();
-
-        if (UtilValidate.isNotNull(playerProfile.getImageLink()))
-            Picasso.with(this).load(playerProfile.getImageLink())
-                    .placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).fit()
-                    .into(iconImageView);
-
-        if (UtilValidate.isNotNull(playerProfile.getFirstname()))
-            nameTextView.setText(playerProfile.getFirstname());
-
-        if (UtilValidate.isNotNull(playerProfile.getFirstname()))
-            fnameTextView.setText(playerProfile.getFirstname());
-        if (UtilValidate.isNotNull(playerProfile.getLastname()))
-            lnameTextView.setText(playerProfile.getLastname());
-
-        if (UtilValidate.isNotNull(playerProfile.getNationality()))
-            nationalityTextView.setText(playerProfile.getNationality());
-        if (UtilValidate.isNotNull(playerProfile.getDateOfBirth()))
-            dateOfBirthTextView.setText(playerProfile.getDateOfBirth());
-        if (UtilValidate.isNotNull(playerProfile.getAge()))
-            ageTextView.setText(playerProfile.getAge());
-        if (UtilValidate.isNotNull(playerProfile.getCountry()))
-            countryTextView.setText(playerProfile.getCountry());
-        if (UtilValidate.isNotNull(playerProfile.getPlace()))
-            placeTextView.setText(playerProfile.getPlace());
-
-        if (UtilValidate.isNotNull(playerProfile.getPosition()))
-            positionTextView.setText(playerProfile.getPosition());
-        if (UtilValidate.isNotNull(playerProfile.getHeight()))
-            heightTextView.setText(playerProfile.getHeight());
-        if (UtilValidate.isNotNull(playerProfile.getWeight()))
-            weightTextView.setText(playerProfile.getWeight());
-        if (UtilValidate.isNotNull(playerProfile.getFoot()))
-            footTextView.setText(playerProfile.getFoot());
-
-        closeBtn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-
-            }
-        });
-
-    }
+			/*
+			 * dialog = ProgressDialog.show(SquardActivity.this, "",
+			 * "Loading. Please wait...", true); dialog.show();
+			 */
+			relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+			progressBarDetail_text.setVisibility(View.VISIBLE);
+			pbHeaderProgress.setVisibility(View.VISIBLE);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+
+			if (dialog != null)
+				dialog.dismiss();
+
+			if (UtilValidate.isNotNull(playerProfile)) {
+
+				relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+				progressBarDetail_text.setVisibility(View.INVISIBLE);
+				pbHeaderProgress.setVisibility(View.INVISIBLE);
+
+				playerProfile.setImageLink(imageLink);
+				playerProfile.setPlayerId(playerId);
+				playerProfile.setCountryId(countryId);
+
+				// Insert into table player profile
+				countryManager.insertIntoPlayerProfile(playerProfile);
+
+				showPlayerProfile(playerProfile);
+
+			} else {
+
+				Toast.makeText(SquardActivity.this,
+						"This service is currently unavailable",
+						Toast.LENGTH_SHORT);
+			}
+
+		}
+
+	}
+
+	public void showPlayerProfile(PlayerProfile playerProfile) {
+
+		LayoutInflater layoutInflater = (LayoutInflater) this
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+
+		View popupView = layoutInflater.inflate(R.layout.profile_page, null);
+		ImageView closeBtn = (ImageView) popupView.findViewById(R.id.closeBtn);
+		ImageView iconImageView = (ImageView) popupView
+				.findViewById(R.id.player_profileimage);
+		TextView nameTextView = (TextView) popupView
+				.findViewById(R.id.player_name);
+		TextView fnameTextView = (TextView) popupView.findViewById(R.id.fname);
+		TextView lnameTextView = (TextView) popupView.findViewById(R.id.lname);
+		TextView nationalityTextView = (TextView) popupView
+				.findViewById(R.id.player_nation);
+		TextView dateOfBirthTextView = (TextView) popupView
+				.findViewById(R.id.player_dob);
+		TextView ageTextView = (TextView) popupView
+				.findViewById(R.id.player_age);
+		TextView countryTextView = (TextView) popupView
+				.findViewById(R.id.player_country);
+		TextView placeTextView = (TextView) popupView
+				.findViewById(R.id.player_place);
+		TextView positionTextView = (TextView) popupView
+				.findViewById(R.id.player_position);
+		TextView heightTextView = (TextView) popupView
+				.findViewById(R.id.player_height);
+		TextView weightTextView = (TextView) popupView
+				.findViewById(R.id.player_weight);
+		TextView footTextView = (TextView) popupView
+				.findViewById(R.id.player_foot);
+
+		final PopupWindow popupWindow = new PopupWindow(popupView,
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
+
+		/**
+		 * animation ...
+		 */
+		popupWindow.setAnimationStyle(R.style.PopUpAnimationTopToBottom);
+
+		popupWindow.showAtLocation(relativeLayout, Gravity.TOP, 0, 0);
+
+		popupWindow.setFocusable(true);
+
+		popupWindow.update();
+
+		if (UtilValidate.isNotNull(playerProfile.getImageLink()))
+			Picasso.with(this).load(playerProfile.getImageLink())
+					.placeholder(R.drawable.ic_launcher)
+					.error(R.drawable.ic_launcher).fit().into(iconImageView);
+
+		if (UtilValidate.isNotNull(playerProfile.getFirstname()))
+			nameTextView.setText(playerProfile.getFirstname());
+		if (UtilValidate.isNotNull(playerProfile.getFirstname()))
+			fnameTextView.setText(playerProfile.getFirstname());
+		if (UtilValidate.isNotNull(playerProfile.getLastname()))
+			lnameTextView.setText(playerProfile.getLastname());
+		if (UtilValidate.isNotNull(playerProfile.getNationality()))
+			nationalityTextView.setText(playerProfile.getNationality());
+		if (UtilValidate.isNotNull(playerProfile.getDateOfBirth()))
+			dateOfBirthTextView.setText(playerProfile.getDateOfBirth());
+		if (UtilValidate.isNotNull(playerProfile.getAge()))
+			ageTextView.setText(playerProfile.getAge());
+		if (UtilValidate.isNotNull(playerProfile.getCountry()))
+			countryTextView.setText(playerProfile.getCountry());
+		if (UtilValidate.isNotNull(playerProfile.getPlace()))
+			placeTextView.setText(playerProfile.getPlace());
+		if (UtilValidate.isNotNull(playerProfile.getPosition()))
+			positionTextView.setText(playerProfile.getPosition());
+		if (UtilValidate.isNotNull(playerProfile.getHeight()))
+			heightTextView.setText(playerProfile.getHeight());
+		if (UtilValidate.isNotNull(playerProfile.getWeight()))
+			weightTextView.setText(playerProfile.getWeight());
+		if (UtilValidate.isNotNull(playerProfile.getFoot()))
+			footTextView.setText(playerProfile.getFoot());
+
+		closeBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				popupWindow.dismiss();
+
+			}
+		});
+
+	}
+
+	public void NoInternetpopup() {
+		LayoutInflater layoutInflater = (LayoutInflater) this
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+
+		View popupView = layoutInflater.inflate(R.layout.advertisement_layout,
+				null);
+
+		popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT, true);
+
+		/**
+		 * animation ...
+		 */
+		// popupWindow.setAnimationStyle(R.style.PopUpAnimation);
+		findViewById(R.id.relative).post(new Runnable() {
+			public void run() {
+				popupWindow.showAtLocation(findViewById(R.id.relative),
+						Gravity.CENTER, 0, 0);
+			}
+		});
+		popupWindow.setFocusable(true);
+
+		popupWindow.update();
+
+		// set the custom dialog components - text,
+		// image and
+		// button
+
+		TextView textView_nointernet = (TextView) popupView
+				.findViewById(R.id.textView_nointernet);
+
+		Button dialogButtonOk = (Button) popupView.findViewById(R.id.button_ok);
+		// if button is clicked, close the custom dialog
+		dialogButtonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				popupWindow.dismiss();
+				finish();
+
+			}
+
+		});
+
+	}
 
 }

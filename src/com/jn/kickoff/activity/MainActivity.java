@@ -146,16 +146,15 @@ public class MainActivity extends FragmentActivity implements Constants {
 				MainActivity.this.getResources().getDrawable(
 						R.drawable.fixtures), 1);
 
-		fragmentItemsRanking = new MainMenuFragmentItems(MENU3,
+		fragmentItemsTopPlayers = new MainMenuFragmentItems(MENU3,
 				MainActivity.this.getResources().getDrawable(
 						R.drawable.topplayers), 2);
 
-		fragmentItemsTopPlayers = new MainMenuFragmentItems(MENU4,
+		fragmentItemsRanking = new MainMenuFragmentItems(MENU4,
 				MainActivity.this.getResources().getDrawable(
 						R.drawable.topteams), 3);
 		fragmentItemsNews = new MainMenuFragmentItems(MENU5, MainActivity.this
 				.getResources().getDrawable(R.drawable.news), 4);
-		popupWindow = new PopupWindow();
 		animationSounds = new AnimationSounds(MainActivity.this);
 
 	}

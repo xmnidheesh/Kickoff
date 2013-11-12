@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_top"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
@@ -23,36 +24,43 @@
             ads:refreshInterval="60"
             android:visibility="visible" />
     </FrameLayout>
-    
-    
-     <RelativeLayout
-                android:id="@+id/progress_relative_Detail"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"
-               >
-       
 
-                <com.jn.kickoff.utils.ProgressWheel
-                    android:id="@+id/progressBarDetail"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true" />
-                <TextView  android:id="@+id/progressBarDetail_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarDetail"
-                    android:layout_centerHorizontal="true"
-                    android:text="Loading"/>
-            </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/progress_relative_Detail"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/progressBarDetail_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pbHeaderProgress"
+            android:layout_centerHorizontal="true"
+            android:text="Loading" />
+
+        <com.jn.kickoff.utils.ProgressWheel
+            android:id="@+id/progressBarDetail"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/soccer"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <ListView
-        android:layout_below="@+id/linear"
         android:id="@+id/listView_newslist"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-         >
+        android:layout_below="@+id/linear" >
     </ListView>
 
 </RelativeLayout>

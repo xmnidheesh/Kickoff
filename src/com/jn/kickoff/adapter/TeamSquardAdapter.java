@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 
 public class TeamSquardAdapter extends BaseAdapter {
 
-    private final static String TAG = "RankingAdapter";
+    private final static String TAG = "TeamSquardAdapter";
 
     List<Squard> squardList;
 

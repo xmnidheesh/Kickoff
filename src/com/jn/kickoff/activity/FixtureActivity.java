@@ -9,21 +9,27 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
@@ -79,6 +85,8 @@ public class FixtureActivity extends Activity {
     private TextView fixture_teamb;
 
 	private AnimationSounds animationSounds;
+	
+	private ProgressBar pbHeaderProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +99,19 @@ public class FixtureActivity extends Activity {
 
 		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 		progressBarDetail_text.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+		
+		//pbHeaderProgress.setProgress(100);
 
-		progressWheel.setTextSize(18);
-		progressWheel.setBarLength(20);
-		progressWheel.setBarWidth(25);
-		progressWheel.setRimWidth(50);
-		progressWheel.setSpinSpeed(25);
-		progressWheel.spin();
+		 Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink);
+	        anim.setRepeatCount(-1);
+	        anim.setRepeatMode(Animation.RESTART);
+	        pbHeaderProgress.startAnimation(anim);
+	        pbHeaderProgress.setVisibility(View.VISIBLE);
+	        pbHeaderProgress.setVisibility(View.VISIBLE);
+	        pbHeaderProgress.setProgress(10);
+		
+		
 
 		FrameLayout layout = (FrameLayout) findViewById(R.id.linear);
 		layout.addView(adView);
@@ -168,6 +182,7 @@ public class FixtureActivity extends Activity {
 		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
 		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
 		relative_fixture_top= (RelativeLayout) findViewById(R.id.relative_fixture_top);
+		pbHeaderProgress= (ProgressBar) findViewById(R.id.pbHeaderProgress);
 	
 
 	}
@@ -189,6 +204,16 @@ public class FixtureActivity extends Activity {
 			super.onPostExecute(result);
 			relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
 			progressBarDetail_text.setVisibility(View.INVISIBLE);
+			pbHeaderProgress.setVisibility(View.INVISIBLE);
+			
+			Log.e("", "in post value of fixtureList"+fixtureList);
+			if(UtilValidate.isEmpty(fixtureList))
+			{
+				 NoInternetpopup();
+			}
+			else
+			{
+			
 			fixtureAdapter = new FixtureAdapter(FixtureActivity.this,
 					fixtureList);
 			listview_fixture.setAdapter(fixtureAdapter);
@@ -214,6 +239,7 @@ public class FixtureActivity extends Activity {
 			});
 
 		}
+		}
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -230,8 +256,6 @@ public class FixtureActivity extends Activity {
 		}
 
 	}
-	
-	
 	
 	
     public void PopUpFixtureDetails(String venue,String date,String time,String teama,String teamb) {
@@ -315,7 +339,56 @@ public class FixtureActivity extends Activity {
 	
 	
 	
+    public void NoInternetpopup() 
+	{
+		LayoutInflater layoutInflater = (LayoutInflater) this
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+
+		View popupView = layoutInflater.inflate(
+				R.layout.advertisement_layout, null);
+
+		popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT, true);
+
+		/**
+		 * animation ...
+		 */
+		// popupWindow.setAnimationStyle(R.style.PopUpAnimation);
+		findViewById(R.id.relative_fixture_top).post(new Runnable() {
+			   public void run() {
+				   popupWindow.showAtLocation(findViewById(R.id.relative_fixture_top), Gravity.CENTER, 0, 0);
+			   }
+			});
+		popupWindow.setFocusable(true);
+
+		popupWindow.update();
+
+		// set the custom dialog components - text,
+		// image and
+		// button
+		
+		TextView textView_nointernet = (TextView) popupView
+				.findViewById(R.id.textView_nointernet);
+		
 	
+
+
+		Button dialogButtonOk = (Button) popupView.findViewById(R.id.button_ok);
+		// if button is clicked, close the custom dialog
+		dialogButtonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				popupWindow.dismiss();
+				finish();
+
+			}
+
+		});
+
+	}
+    	
 	
 	
 

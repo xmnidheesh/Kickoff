@@ -6,22 +6,28 @@ import java.util.regex.Pattern;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.test.ActivityUnitTestCase;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
@@ -41,34 +47,36 @@ public class TopPlayersActivity extends Activity {
 	private static final String TAG = TopPlayersActivity.class.getName();
 
 	private AdView adView;
-	
+
 	AdRequest adRequest;
-	
+
 	private PlayerManager playerManager;
-	
+
 	private AsynchTaskCallBack asynchTaskCallBack;
-	
+
 	private static final int REQUEST_CODE = 1;
-	
+
 	private PlayerRankingAdapter rankingAdapter;
-	
+
 	private RelativeLayout relative_top;
-	
+
 	private PopupWindow popupWindow;
-	
+
 	private ListView listview;
-	
+
 	private static ProgressWheel progressWheel;
-	
+
 	private static RelativeLayout relativeLayoutprogresswheel;
-	
+
 	boolean loadingFinished = true;
-	
+
 	private TextView progressBarDetail_text;
-	
+
 	private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
 
 	private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
+
+	private ProgressBar pbHeaderProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,15 @@ public class TopPlayersActivity extends Activity {
 
 		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 		progressBarDetail_text.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+
+		Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink);
+		anim.setRepeatCount(-1);
+		anim.setRepeatMode(Animation.RESTART);
+		pbHeaderProgress.startAnimation(anim);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setProgress(10);
 
 		progressWheel.setTextSize(18);
 		progressWheel.setBarLength(20);
@@ -119,13 +136,13 @@ public class TopPlayersActivity extends Activity {
 
 	}
 
-
 	private void initViews() {
 		listview = (ListView) findViewById(R.id.listview);
 		relative_top = (RelativeLayout) findViewById(R.id.relative_top);
 		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
 		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
 		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
+		pbHeaderProgress = (ProgressBar) findViewById(R.id.pbHeaderProgress);
 	}
 
 	/**
@@ -137,7 +154,6 @@ public class TopPlayersActivity extends Activity {
 				Constants.AppConstants.ADDMOB);
 		playerManager = new PlayerManager();
 		asynchTaskCallBack = new AsynchTaskCallBack();
-		popupWindow = new PopupWindow();
 
 	}
 
@@ -162,8 +178,9 @@ public class TopPlayersActivity extends Activity {
 				// VISIBLE
 				relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 				progressBarDetail_text.setVisibility(View.VISIBLE);
-				rankingAdapter = new PlayerRankingAdapter(TopPlayersActivity.this,
-						playerTempList);
+				pbHeaderProgress.setVisibility(View.VISIBLE);
+				rankingAdapter = new PlayerRankingAdapter(
+						TopPlayersActivity.this, playerTempList);
 				listview.setAdapter(rankingAdapter);
 
 				listview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
@@ -211,6 +228,14 @@ public class TopPlayersActivity extends Activity {
 
 		@Override
 		public void onFinish(int responseCode, String result) {
+		    // TODO Auto-generated method stub
+			//Toast.makeText(PeopleOnlineActivity.this, "Respone in activty :"+result, Toast.LENGTH_LONG).show();
+			relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+			progressBarDetail_text.setVisibility(View.INVISIBLE);
+			pbHeaderProgress.setVisibility(View.INVISIBLE);
+			NoInternetpopup();
+
+		
 		}
 
 		@Override
@@ -238,6 +263,7 @@ public class TopPlayersActivity extends Activity {
 		// VISIBLE
 		relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
 		progressBarDetail_text.setVisibility(View.INVISIBLE);
+		pbHeaderProgress.setVisibility(View.INVISIBLE);
 		listview.setVisibility(View.INVISIBLE);
 		LayoutInflater layoutInflater = (LayoutInflater) this
 				.getApplicationContext().getSystemService(
@@ -324,6 +350,67 @@ public class TopPlayersActivity extends Activity {
 
 				popupWindow.dismiss();
 				listview.setVisibility(View.VISIBLE);
+
+			}
+
+		});
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public void NoInternetpopup() 
+	{
+		LayoutInflater layoutInflater = (LayoutInflater) this
+				.getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+
+		View popupView = layoutInflater.inflate(
+				R.layout.advertisement_layout, null);
+
+		popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT, true);
+
+		/**
+		 * animation ...
+		 */
+		// popupWindow.setAnimationStyle(R.style.PopUpAnimation);
+
+		findViewById(R.id.relative_top).post(new Runnable() {
+			   public void run() {
+				   popupWindow.showAtLocation(findViewById(R.id.relative_top), Gravity.CENTER, 0, 0);
+			   }
+			});
+
+		popupWindow.setFocusable(true);
+
+		popupWindow.update();
+
+		// set the custom dialog components - text,
+		// image and
+		// button
+		
+		TextView textView_nointernet = (TextView) popupView
+				.findViewById(R.id.textView_nointernet);
+		
+	
+
+
+		Button dialogButtonOk = (Button) popupView.findViewById(R.id.button_ok);
+		// if button is clicked, close the custom dialog
+		dialogButtonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				popupWindow.dismiss();
+				finish();
+/*Intent i=new Intent(TopPlayersActivity.this,TopPlayersActivity.class);
+startActivity(i);*/
 
 			}
 

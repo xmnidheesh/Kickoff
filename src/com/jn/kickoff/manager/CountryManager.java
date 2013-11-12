@@ -3,6 +3,7 @@ package com.jn.kickoff.manager;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +119,7 @@ public class CountryManager implements Constants.Country {
             Log.e(TAG, "Exception occured while parsing url :", e);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            Log.e(TAG, "IOException :", e);
+            Log.e(TAG, "IOException s:", e);
         }
         return countryList;
 
@@ -228,6 +229,7 @@ public class CountryManager implements Constants.Country {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            Log.e(TAG, "Exception :", e);
         }
         return squardList;
     }
@@ -322,10 +324,14 @@ public class CountryManager implements Constants.Country {
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             Log.e(TAG, "Exception occured while parsing url :", e);
-        } catch (IOException e) {
+        } catch (SocketTimeoutException e) {
             // TODO Auto-generated catch block
             Log.e(TAG, "IOException :", e);
         }
+    catch (IOException e) {
+        // TODO Auto-generated catch block
+        Log.e(TAG, "IOException :", e);
+    }
         return fixtureList;
 
     }
@@ -408,6 +414,7 @@ public class CountryManager implements Constants.Country {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            Log.e("", "EXCEPTION "+e);
         }
         return playerProfile;
     }

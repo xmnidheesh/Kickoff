@@ -1,10 +1,10 @@
-
 package com.jn.kickoff.activity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,11 +13,21 @@ import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.ads.AdRequest;
@@ -30,165 +40,260 @@ import com.jn.kickoff.adapter.CountryRankingAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.manager.CountryManager;
+import com.jn.kickoff.utils.ProgressWheel;
 import com.jn.kickoff.utils.UtilValidate;
 
-public class CountryRankingActivity extends FragmentActivity implements Constants.Country {
+public class CountryRankingActivity extends FragmentActivity implements
+		Constants.Country {
 
-    public static final String TAG = CountryRankingActivity.class.getSimpleName();
+	public static final String TAG = CountryRankingActivity.class
+			.getSimpleName();
 
-    private List<Country> countryList = new ArrayList<Country>();
+	private List<Country> countryList = new ArrayList<Country>();
 
-    private ListView countryRankListView;
+	private ListView countryRankListView;
 
-    private CountryRankingAdapter countryRankingAdapter;
+	private CountryRankingAdapter countryRankingAdapter;
 
-    private AdView adView;
+	private AdView adView;
 
-    private AdRequest adRequest;
+	private AdRequest adRequest;
 
-    private CountryManager countryManager;
-    
-    private AnimationSounds animationSounds;
+	private CountryManager countryManager;
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.country_ranking);
+	private AnimationSounds animationSounds;
 
-        initViews();
-        initManagers();
+	private PopupWindow popupWindow;
 
-        countryList = countryManager.fetchAllCountries();
+	private static RelativeLayout relativeLayoutprogresswheel;
 
-        if (UtilValidate.isEmpty(countryList)) {
+	boolean loadingFinished = true;
 
-            new ScrappingCountriesTask().execute();
-        } else {
+	private TextView progressBarDetail_text;
 
-            countryRankingAdapter = new CountryRankingAdapter(CountryRankingActivity.this, countryList);
-            countryRankListView.setAdapter(countryRankingAdapter);
+	private static ProgressWheel progressWheel;
 
-        }
+	private ProgressBar pbHeaderProgress;
 
-        FrameLayout layout = (FrameLayout)findViewById(R.id.linear);
-        layout.addView(adView);
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.country_ranking);
 
-        // get test ads on a physical device.
-        adRequest = new AdRequest();
+		initViews();
+		initManagers();
 
-        final TelephonyManager tm = (TelephonyManager)getBaseContext().getSystemService(
-                Context.TELEPHONY_SERVICE);
-        String deviceid = tm.getDeviceId();
-        adRequest.addTestDevice(deviceid);
+		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+		progressBarDetail_text.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
 
-        // Start loading the ad in the background.
+		Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink);
+		anim.setRepeatCount(-1);
+		anim.setRepeatMode(Animation.RESTART);
+		pbHeaderProgress.startAnimation(anim);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setVisibility(View.VISIBLE);
+		pbHeaderProgress.setProgress(10);
 
-        (new Thread() {
-            public void run() {
-                Looper.prepare();
-                adView.loadAd(adRequest);
-            }
-        }).start();
+		progressWheel.setTextSize(18);
+		progressWheel.setBarLength(20);
+		progressWheel.setBarWidth(25);
+		progressWheel.setRimWidth(50);
+		progressWheel.setSpinSpeed(25);
+		progressWheel.spin();
 
-        adView.loadAd(adRequest);
+		countryList = countryManager.fetchAllCountries();
 
-        countryRankListView.setOnItemClickListener(new OnItemClickListener() {
+		if (UtilValidate.isEmpty(countryList)) {
 
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-            	
-            	animationSoundBite();
+			new ScrappingCountriesTask().execute();
+		} else {
 
-                if (UtilValidate.isNull(countryList.get(pos).get_id()))
-                    countryList = countryManager.fetchAllCountries();
+			countryRankingAdapter = new CountryRankingAdapter(
+					CountryRankingActivity.this, countryList);
+			countryRankListView.setAdapter(countryRankingAdapter);
 
-                Log.e(TAG, "clicked " + countryList.get(pos).get_id());
+		}
 
-                Intent intent = new Intent(CountryRankingActivity.this, SquardActivity.class);
-                intent.putExtra("url", countryList.get(pos).getCountryLink());
-                intent.putExtra("id", countryList.get(pos).get_id());
-                startActivity(intent);
+		FrameLayout layout = (FrameLayout) findViewById(R.id.linear);
+		layout.addView(adView);
 
-            }
-        });
-    }
+		// get test ads on a physical device.
+		adRequest = new AdRequest();
 
-    private void initViews() {
+		final TelephonyManager tm = (TelephonyManager) getBaseContext()
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		String deviceid = tm.getDeviceId();
+		adRequest.addTestDevice(deviceid);
 
-        countryRankListView = (ListView)findViewById(R.id.listview_country_rank);
+		// Start loading the ad in the background.
 
-    }
+		(new Thread() {
+			public void run() {
+				Looper.prepare();
+				adView.loadAd(adRequest);
+			}
+		}).start();
 
-    private void initManagers() {
+		adView.loadAd(adRequest);
 
-        countryManager = new CountryManager();
+		countryRankListView.setOnItemClickListener(new OnItemClickListener() {
 
-        adView = new AdView(this, AdSize.SMART_BANNER, Constants.AppConstants.ADDMOB);
-        
-        animationSounds = new AnimationSounds(CountryRankingActivity.this);
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long arg3) {
 
-    }
-    
-   
+				animationSoundBite();
 
-    private class ScrappingCountriesTask extends AsyncTask<Void, String, String> {
+				if (UtilValidate.isNull(countryList.get(pos).get_id()))
+					countryList = countryManager.fetchAllCountries();
 
-        private ProgressDialog dialog;
+				Log.e(TAG, "clicked " + countryList.get(pos).get_id());
 
-        @Override
-        protected String doInBackground(Void... params) {
+				Intent intent = new Intent(CountryRankingActivity.this,
+						SquardActivity.class);
+				intent.putExtra("url", countryList.get(pos).getCountryLink());
+				intent.putExtra("id", countryList.get(pos).get_id());
+				startActivity(intent);
 
-            countryList = countryManager.scrapUrlForCountriesRank(COUNTRY_RANKING_FEED_URL);
+			}
+		});
+	}
 
-            return null;
-        }
+	private void initViews() {
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPreExecute()
-         */
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
+		countryRankListView = (ListView) findViewById(R.id.listview_country_rank);
+		progressWheel = (ProgressWheel) findViewById(R.id.progressBarDetail);
+		relativeLayoutprogresswheel = (RelativeLayout) findViewById(R.id.progress_relative_Detail);
+		progressBarDetail_text = (TextView) findViewById(R.id.progressBarDetail_text);
+		pbHeaderProgress = (ProgressBar) findViewById(R.id.pbHeaderProgress);
 
-            dialog = ProgressDialog.show(CountryRankingActivity.this, "", "Loading. Please wait...", true);
-            dialog.show();
-        }
+	}
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-         */
-        @Override
-        protected void onPostExecute(String result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
+	private void initManagers() {
 
-            if (dialog != null)
-                dialog.dismiss();
+		countryManager = new CountryManager();
 
-            if (UtilValidate.isNotEmpty(countryList)) {
+		adView = new AdView(this, AdSize.SMART_BANNER,
+				Constants.AppConstants.ADDMOB);
 
-                countryManager.insertIntoCountries(countryList);
+		animationSounds = new AnimationSounds(CountryRankingActivity.this);
 
-                countryRankingAdapter = new CountryRankingAdapter(CountryRankingActivity.this, countryList);
-                countryRankListView.setAdapter(countryRankingAdapter);
+	}
 
-            } else {
+	private class ScrappingCountriesTask extends
+			AsyncTask<Void, String, String> {
 
-                Toast.makeText(CountryRankingActivity.this, "This service is currently unavailable",
-                        Toast.LENGTH_SHORT);
-            }
+		private ProgressDialog dialog;
 
-        }
+		@Override
+		protected String doInBackground(Void... params) {
 
-    }
-    
-    
-    public void animationSoundBite() {
+			countryList = countryManager
+					.scrapUrlForCountriesRank(COUNTRY_RANKING_FEED_URL);
 
-		switch (SettingsPageSharedPreference.getSounds(CountryRankingActivity.this)) {
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+			progressBarDetail_text.setVisibility(View.VISIBLE);
+			pbHeaderProgress.setVisibility(View.VISIBLE);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+
+			if (dialog != null)
+				dialog.dismiss();
+			if (UtilValidate.isNotEmpty(countryList)) {
+				relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+				progressBarDetail_text.setVisibility(View.INVISIBLE);
+				pbHeaderProgress.setVisibility(View.INVISIBLE);
+
+				countryManager.insertIntoCountries(countryList);
+
+				countryRankingAdapter = new CountryRankingAdapter(
+						CountryRankingActivity.this, countryList);
+				countryRankListView.setAdapter(countryRankingAdapter);
+
+			} else {
+				relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+				progressBarDetail_text.setVisibility(View.INVISIBLE);
+				pbHeaderProgress.setVisibility(View.INVISIBLE);
+				NoInternetpopup();
+			}
+
+		}
+
+	}
+
+	public void NoInternetpopup() {
+		LayoutInflater layoutInflater = (LayoutInflater) this
+				.getApplicationContext().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+
+		View popupView = layoutInflater.inflate(R.layout.advertisement_layout,
+				null);
+
+		popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT, true);
+
+		/**
+		 * animation ...
+		 */
+		// popupWindow.setAnimationStyle(R.style.PopUpAnimation);
+		findViewById(R.id.relative_top).post(new Runnable() {
+			public void run() {
+				popupWindow.showAtLocation(findViewById(R.id.relative_top),
+						Gravity.CENTER, 0, 0);
+			}
+		});
+		popupWindow.setFocusable(true);
+
+		popupWindow.update();
+
+		// set the custom dialog components - text,
+		// image and
+		// button
+
+		TextView textView_nointernet = (TextView) popupView
+				.findViewById(R.id.textView_nointernet);
+
+		Button dialogButtonOk = (Button) popupView.findViewById(R.id.button_ok);
+		// if button is clicked, close the custom dialog
+		dialogButtonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				popupWindow.dismiss();
+				finish();
+
+			}
+
+		});
+
+	}
+
+	public void animationSoundBite() {
+
+		switch (SettingsPageSharedPreference
+				.getSounds(CountryRankingActivity.this)) {
 
 		case SOUND_ON:
 
@@ -205,6 +310,6 @@ public class CountryRankingActivity extends FragmentActivity implements Constant
 		default:
 			break;
 		}
-		
-    }
+
+	}
 }

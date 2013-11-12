@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_top"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,6 +11,39 @@
         android:layout_alignParentTop="true" >
     </FrameLayout>
 
+    
+    <RelativeLayout
+        android:id="@+id/progress_relative_Detail"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/progressBarDetail_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pbHeaderProgress"
+            android:layout_centerHorizontal="true"
+            android:text="Loading" />
+
+        <com.jn.kickoff.utils.ProgressWheel
+            android:id="@+id/progressBarDetail"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/soccer"
+            android:visibility="gone" />
+    </RelativeLayout>
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

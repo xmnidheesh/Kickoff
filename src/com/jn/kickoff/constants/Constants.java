@@ -142,9 +142,12 @@ public interface Constants {
     }
     interface SettingsConstants {
 
-
-
     	String SOUND_KEY = "sounds";
+
+    }
+    interface GoogleMapConstants {
+
+    	String API_KEY = "sounds";
 
     }
 

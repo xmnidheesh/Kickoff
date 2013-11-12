@@ -35,9 +35,21 @@ public class PlayerManager {
 
 					@Override
 					public void onFailure(Throwable tr, String response) {
-						Log.i(TAG, "Error from  response : " + response + " "
-								+ tr);
-					}
+            			Log.i(TAG, "Error from  response : " + response + " "
+            					+ tr);
+            				
+            				if (asyncTaskCallBack == null) {
+            				    Log.i(TAG, "asyncTaskCallBack is null : ");
+            				    
+            				} else {
+            				    
+            					Log.e(TAG, "in onfailure ");
+            				    asyncTaskCallBack.onFinish(0,
+            					    response);
+            				}
+            				
+            				//Toast.makeText(activity, ""+response, Toast.LENGTH_SHORT).show();
+            			    }
 
 					@Override
 					public void onFinish() {
