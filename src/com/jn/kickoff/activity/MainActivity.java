@@ -22,6 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdRequest.ErrorCode;
+import com.google.ads.InterstitialAd;
 import com.jn.kickoff.AnimationSounds;
 import com.jn.kickoff.AppRaterManager;
 import com.jn.kickoff.FIFA;
@@ -40,7 +45,7 @@ import com.parse.PushService;
 /**
  * @author nidheesh
  */
-public class MainActivity extends FragmentActivity implements Constants {
+public class MainActivity extends FragmentActivity implements Constants,AdListener {
 
 	private static final String TAG = MainActivity.class.getName();
 
@@ -67,16 +72,23 @@ public class MainActivity extends FragmentActivity implements Constants {
 	private PopupWindow popupWindow;
 
 	private AnimationSounds animationSounds;
+	
+	  private InterstitialAd interstitial;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
 		initViews();
 		initManagers();
 		doDataBaseCreation();
 		
 		new PushNotificationThread().start();
+		   // Create ad request
+	    
+		
+		
 		mainMenuViewPager.setPageTransformer(true, new DepthPageTransformer());
 		// mainMenuViewPager.setPageTransformer(true, new
 		// ZoomOutPageTransformer());
@@ -156,6 +168,9 @@ public class MainActivity extends FragmentActivity implements Constants {
 		fragmentItemsNews = new MainMenuFragmentItems(MENU5, MainActivity.this
 				.getResources().getDrawable(R.drawable.news), 4);
 		animationSounds = new AnimationSounds(MainActivity.this);
+		
+		 // Create the interstitial.
+		 interstitial = new InterstitialAd(this, Constants.AppConstants.ADDMOB);
 
 	}
 
@@ -200,6 +215,15 @@ public class MainActivity extends FragmentActivity implements Constants {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 
+		AdRequest adRequest = new AdRequest();
+
+	    // Begin loading your interstitial
+	    interstitial.loadAd(adRequest);
+
+	    // Set Ad Listener to use the callbacks below
+	    interstitial.setAdListener(this);
+
+		
 		showBackandExitPopUp(MainActivity.this);
 	}
 
@@ -314,4 +338,36 @@ public class MainActivity extends FragmentActivity implements Constants {
 
 	}
 
+	@Override
+	public void onDismissScreen(Ad arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFailedToReceiveAd(Ad arg0, ErrorCode arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLeaveApplication(Ad arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPresentScreen(Ad arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onReceiveAd(Ad ad) {Log.d("OK", "Received ad");
+    if (ad == interstitial)
+    {
+        interstitial.show();
+      }
+
+	}
 }
