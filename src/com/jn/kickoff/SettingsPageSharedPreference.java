@@ -1,5 +1,6 @@
 package com.jn.kickoff;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -51,5 +52,19 @@ public class SettingsPageSharedPreference {
 		return soundStatus;
 	}
 
+	
+	
+	public static int getpositon(Activity activity, String key) {
+		  SharedPreferences settings = activity.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);    
+		  int defValue = 0;
+		  return settings.getInt(key, defValue);
+		 }
+		 public static void putlistpostion(Activity activity, String key, int value) {
+		  SharedPreferences settings = activity.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+		  SharedPreferences.Editor editor = settings.edit();
+		  editor.putInt(key, value);
+		  editor.commit();
+		 }
+	
 
 }

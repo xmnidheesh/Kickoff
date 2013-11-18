@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,8 +21,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.ads.Ad;
@@ -38,14 +41,18 @@ import com.jn.kickoff.adapter.TestFragmentAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.constants.SoundStatus;
 import com.jn.kickoff.db.DbHelper;
+import com.jn.kickoff.utils.Util;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.PushService;
+import com.viewpagerindicator.CirclePageIndicator;
 
 /**
  * @author nidheesh
  */
-public class MainActivity extends FragmentActivity implements Constants,AdListener {
+public class MainActivity extends FragmentActivity implements Constants,
+		AdListener {
 
 	private static final String TAG = MainActivity.class.getName();
 
@@ -67,28 +74,31 @@ public class MainActivity extends FragmentActivity implements Constants,AdListen
 
 	private DbHelper dbHelper;
 
-	private LinearLayout lineartop;
+	private RelativeLayout lineartop;
 
 	private PopupWindow popupWindow;
 
 	private AnimationSounds animationSounds;
-	
-	  private InterstitialAd interstitial;
+
+	private InterstitialAd interstitial;
+
+	private MixpanelAPI mixpanel;
+
+	private com.viewpagerindicator.CirclePageIndicator donationSliderPageIndicator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		initViews();
 		initManagers();
 		doDataBaseCreation();
-		
+
 		new PushNotificationThread().start();
-		   // Create ad request
-	    
-		
-		
+
+		// Create ad request
+
 		mainMenuViewPager.setPageTransformer(true, new DepthPageTransformer());
 		// mainMenuViewPager.setPageTransformer(true, new
 		// ZoomOutPageTransformer());
@@ -101,7 +111,15 @@ public class MainActivity extends FragmentActivity implements Constants,AdListen
 		testFragmentAdapter = new TestFragmentAdapter(
 				getSupportFragmentManager(), mainMenuFragments);
 		mainMenuViewPager.setAdapter(testFragmentAdapter);
+		donationSliderPageIndicator.setViewPager(mainMenuViewPager);
 
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		mixpanel.flush();
+		super.onDestroy();
 	}
 
 	public void animationThankYou() {
@@ -128,7 +146,8 @@ public class MainActivity extends FragmentActivity implements Constants,AdListen
 	private void initViews() {
 
 		mainMenuViewPager = (ViewPager) findViewById(R.id.pager);
-		lineartop = (LinearLayout) findViewById(R.id.lineartop);
+		lineartop = (RelativeLayout) findViewById(R.id.lineartop);
+		donationSliderPageIndicator = (CirclePageIndicator) findViewById(R.id.donation_image_slider_indicator);
 	}
 
 	class PushNotificationThread extends Thread {
@@ -168,9 +187,11 @@ public class MainActivity extends FragmentActivity implements Constants,AdListen
 		fragmentItemsNews = new MainMenuFragmentItems(MENU5, MainActivity.this
 				.getResources().getDrawable(R.drawable.news), 4);
 		animationSounds = new AnimationSounds(MainActivity.this);
-		
-		 // Create the interstitial.
-		 interstitial = new InterstitialAd(this, Constants.AppConstants.ADDMOB);
+
+		// Create the interstitial.
+		interstitial = new InterstitialAd(this, Constants.AppConstants.ADDMOB);
+		mixpanel = MixpanelAPI.getInstance(this,
+				Constants.MixpanelConstants.API_KEY);
 
 	}
 
@@ -210,20 +231,18 @@ public class MainActivity extends FragmentActivity implements Constants,AdListen
 		}
 	}
 
-
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 
 		AdRequest adRequest = new AdRequest();
 
-	    // Begin loading your interstitial
-	    interstitial.loadAd(adRequest);
+		// Begin loading your interstitial
+		interstitial.loadAd(adRequest);
 
-	    // Set Ad Listener to use the callbacks below
-	    interstitial.setAdListener(this);
+		// Set Ad Listener to use the callbacks below
+		interstitial.setAdListener(this);
 
-		
 		showBackandExitPopUp(MainActivity.this);
 	}
 
@@ -273,6 +292,22 @@ public class MainActivity extends FragmentActivity implements Constants,AdListen
 
 			@Override
 			public void onClick(View v) {
+				// get
+				SettingsPageSharedPreference.getpositon(MainActivity.this, "User_Uses");
+				int value=SettingsPageSharedPreference.getpositon(MainActivity.this, "User_Uses");
+				SettingsPageSharedPreference.putlistpostion(MainActivity.this, "User_Uses",value+1);
+				Log.e(TAG, "Value"+value);
+				
+				JSONObject props = new JSONObject();
+				try {
+					props.put("User_Uses", value);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				mixpanel.track("MainActivity", props);
+				
 				animationThankYou();
 				finish();
 				popupWindow.dismiss();
@@ -341,33 +376,33 @@ public class MainActivity extends FragmentActivity implements Constants,AdListen
 	@Override
 	public void onDismissScreen(Ad arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onFailedToReceiveAd(Ad arg0, ErrorCode arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onLeaveApplication(Ad arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onPresentScreen(Ad arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void onReceiveAd(Ad ad) {Log.d("OK", "Received ad");
-    if (ad == interstitial)
-    {
-        interstitial.show();
-      }
+	public void onReceiveAd(Ad ad) {
+		Log.d("OK", "Received ad");
+		if (ad == interstitial) {
+			interstitial.show();
+		}
 
 	}
 }

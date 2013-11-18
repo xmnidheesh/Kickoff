@@ -79,8 +79,8 @@ public interface Constants {
     }
 
     interface AppConstants {
-        String ADDMOB = "a152774de5cc614a";
-
+        //String ADDMOB = "a152774de5cc614";
+String ADDMOB="2435982a5b9d4fad";//MEDIATIONID
         String URL_RATING = "http://tools.fifaguide.com/api/topten/rating";
 
         String URL_NEWS = "http://api.espn.com/v1/sports/news/headlines/top";
@@ -145,11 +145,17 @@ public interface Constants {
     	String SOUND_KEY = "sounds";
 
     }
-    interface GoogleMapConstants {
+    interface MixpanelConstants {
 
-    	String API_KEY = "sounds";
+    	String API_KEY = "f42fc7e798a74e6fd6eaffc9401c4341";
 
     }
+    interface PackageNameConstants {
 
+    	String Package_Name = "com.jn.kickoff";
+
+    }
+  
+    
 
 }

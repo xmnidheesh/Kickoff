@@ -1,8 +1,13 @@
 package com.jn.kickoff.activity;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +41,7 @@ public class PushNotificationActivity extends Activity implements AdListener {
 	
 	  private InterstitialAd interstitial;
 
+	  private TextView textView_notification_text;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -82,12 +88,14 @@ public class PushNotificationActivity extends Activity implements AdListener {
 
 			alert = jsonObj.getString("alert");
 			if (alert.startsWith("com.")) {
+				textView_notification_text.setText(getUsername());
 				textView_notification
 						.setText("Click back to go to previous page");
 				Uri marketUri = Uri.parse("market://details?id=" + alert);
 				Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
 				startActivity(marketIntent);
 			} else {
+				textView_notification_text.setText(getUsername());
 				textView_notification.setText(alert);
 			}
 
@@ -109,6 +117,7 @@ public class PushNotificationActivity extends Activity implements AdListener {
 
 	private void initViews() {
 		textView_notification = (TextView) findViewById(R.id.textView_notification);
+		textView_notification_text= (TextView) findViewById(R.id.textView_notification_text);
 		// TODO Auto-generated method stub
 
 	}
@@ -143,6 +152,28 @@ public class PushNotificationActivity extends Activity implements AdListener {
     {
         interstitial.show();
       }
+	}
+	
+	public String getUsername(){
+	    AccountManager manager = AccountManager.get(this); 
+	    Account[] accounts = manager.getAccountsByType("com.google"); 
+	    List<String> possibleEmails = new LinkedList<String>();
+
+	    for (Account account : accounts) {
+	      // TODO: Check possibleEmail against an email regex or treat
+	      // account.name as an email address only for certain account.type values.
+	      possibleEmails.add(account.name);
+	    }
+
+	    if(!possibleEmails.isEmpty() && possibleEmails.get(0) != null){
+	        String email = possibleEmails.get(0);
+	        String[] parts = email.split("@");
+	        if(parts.length > 0 && parts[0] != null)
+	            return parts[0];
+	        else
+	            return null;
+	    }else
+	        return null;
 	}
 
 }

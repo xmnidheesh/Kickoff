@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/topplayers"
+    android:background="@drawable/notification"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -17,7 +17,6 @@
             android:id="@+id/ad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
             ads:adUnitId="@string/addmobid"
             ads:loadAdOnCreate="true"
@@ -33,15 +32,27 @@
         android:gravity="center" >
 
         <TextView
-            android:id="@+id/textView_notification_text"
+            android:id="@+id/textView_notification_text_hai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:padding="10dp"
-                   android:textStyle="bold"
-            android:text="Howdy Ladies and Gentlemen, "
+            android:text="Hai, "
             android:textColor="#FFFFFF"
             android:textSize="15sp"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/textView_notification_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textView_notification_text_hai"
+            android:padding="10dp"
+            android:text="User, "
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
             android:typeface="monospace" />
 
         <TextView
@@ -52,8 +63,8 @@
             android:padding="10dp"
             android:text="Kick Off is now running as the topmost app in google play"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
-                   android:textStyle="bold"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:typeface="monospace" />
 
         <TextView
@@ -61,13 +72,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-                   android:textStyle="bold"
             android:layout_below="@+id/textView_notification"
             android:padding="10dp"
-     
             android:text="Thank you"
-  android:textColor="#FFFFFF"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
+            android:textStyle="bold"
             android:typeface="monospace" />
     </RelativeLayout>
 

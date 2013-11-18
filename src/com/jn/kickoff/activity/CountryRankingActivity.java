@@ -3,6 +3,9 @@ package com.jn.kickoff.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ProgressDialog;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
@@ -41,7 +44,9 @@ import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.manager.CountryManager;
 import com.jn.kickoff.utils.ProgressWheel;
+import com.jn.kickoff.utils.Util;
 import com.jn.kickoff.utils.UtilValidate;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 public class CountryRankingActivity extends FragmentActivity implements
 		Constants.Country {
@@ -74,6 +79,8 @@ public class CountryRankingActivity extends FragmentActivity implements
 	private static ProgressWheel progressWheel;
 
 	private ProgressBar pbHeaderProgress;
+	
+	private MixpanelAPI mixpanel;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -82,6 +89,17 @@ public class CountryRankingActivity extends FragmentActivity implements
 
 		initViews();
 		initManagers();
+		
+		
+		JSONObject props = new JSONObject();
+		try {
+			props.put("COUNTRYRANK", TAG);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		mixpanel.track("App Usage in FirstActivity", props);
 
 		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 		progressBarDetail_text.setVisibility(View.VISIBLE);
@@ -178,7 +196,16 @@ public class CountryRankingActivity extends FragmentActivity implements
 				Constants.AppConstants.ADDMOB);
 
 		animationSounds = new AnimationSounds(CountryRankingActivity.this);
+		mixpanel = MixpanelAPI.getInstance(this,
+				Constants.MixpanelConstants.API_KEY);
 
+
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		mixpanel.flush();
+		super.onDestroy();
 	}
 
 	private class ScrappingCountriesTask extends

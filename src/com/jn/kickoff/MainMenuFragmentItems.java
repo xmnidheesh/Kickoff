@@ -36,6 +36,7 @@ public class MainMenuFragmentItems extends Fragment implements Constants{
 
     private int i;
 
+    
     @SuppressLint("ValidFragment")
     public MainMenuFragmentItems(String title, Drawable image, int i) {
 
