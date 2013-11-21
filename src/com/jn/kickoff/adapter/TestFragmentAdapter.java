@@ -5,14 +5,6 @@ import java.util.List;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-
-import com.jn.kickoff.FIFA;
-import com.jn.kickoff.R;
 
 public class TestFragmentAdapter extends FragmentStatePagerAdapter {
     

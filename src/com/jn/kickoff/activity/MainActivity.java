@@ -1,6 +1,5 @@
 package com.jn.kickoff.activity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,6 @@ import com.google.ads.AdRequest.ErrorCode;
 import com.google.ads.InterstitialAd;
 import com.jn.kickoff.AnimationSounds;
 import com.jn.kickoff.AppRaterManager;
-import com.jn.kickoff.FIFA;
 import com.jn.kickoff.MainMenuFragmentItems;
 import com.jn.kickoff.R;
 import com.jn.kickoff.SettingsPageSharedPreference;
@@ -41,7 +39,6 @@ import com.jn.kickoff.adapter.TestFragmentAdapter;
 import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.constants.SoundStatus;
 import com.jn.kickoff.db.DbHelper;
-import com.jn.kickoff.utils.Util;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -90,11 +87,9 @@ public class MainActivity extends FragmentActivity implements Constants,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		initViews();
 		initManagers();
-		doDataBaseCreation();
-
+		
 		new PushNotificationThread().start();
 
 		// Create ad request
@@ -167,9 +162,6 @@ public class MainActivity extends FragmentActivity implements Constants,
 
 	private void initManagers() {
 
-		FIFA.setContext(getApplicationContext());
-		dbHelper = new DbHelper(this);
-
 		fragmentItemsVenu = new MainMenuFragmentItems(MENU1, MainActivity.this
 				.getResources().getDrawable(R.drawable.venue), 0);
 
@@ -192,17 +184,6 @@ public class MainActivity extends FragmentActivity implements Constants,
 		interstitial = new InterstitialAd(this, Constants.AppConstants.ADDMOB);
 		mixpanel = MixpanelAPI.getInstance(this,
 				Constants.MixpanelConstants.API_KEY);
-
-	}
-
-	private void doDataBaseCreation() {
-
-		try {
-			dbHelper.createDataBase();
-		} catch (IOException e) {
-
-			Log.e(TAG, "Exception occured while trying to create databasse");
-		}
 
 	}
 

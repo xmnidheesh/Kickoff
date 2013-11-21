@@ -6,8 +6,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.ActionBar.LayoutParams;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,7 +31,6 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
@@ -44,7 +43,6 @@ import com.jn.kickoff.constants.Constants;
 import com.jn.kickoff.entity.Country;
 import com.jn.kickoff.manager.CountryManager;
 import com.jn.kickoff.utils.ProgressWheel;
-import com.jn.kickoff.utils.Util;
 import com.jn.kickoff.utils.UtilValidate;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 

@@ -9,7 +9,6 @@ import java.io.OutputStreamWriter;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,7 +30,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.provider.Settings;
-import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
 

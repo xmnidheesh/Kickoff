@@ -1,7 +1,6 @@
 package com.jn.kickoff.adapter;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;

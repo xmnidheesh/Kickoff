@@ -1,0 +1,69 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@android:id/secondaryProgress"
+        android:drawable="@drawable/progress_gray">
+
+        <!--
+        <clip>
+            <shape>
+                <corners android:radius="6dip" />
+
+                <gradient
+                    android:angle="270"
+                    android:centerColor="#80b6ff00"
+                    android:centerY="0.75"
+                    android:endColor="#a0cbff00"
+                    android:startColor="#80d3ff00" />
+            </shape>
+        </clip>
+        -->
+    </item>
+    <item
+        android:id="@android:id/progress"
+        android:drawable="@drawable/progress_gray">
+
+        <!--
+        <scale
+            
+            
+            
+            />
+        <rotate
+            android:drawable="@drawable/blue_slider"
+            android:fromDegrees="0"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="360" />
+        -->
+
+
+        <!--
+        <clip>
+            <shape>
+                <corners android:radius="5dip" />
+
+                <gradient
+                    android:angle="270"
+                    android:centerColor="#42ABBF"
+                    android:centerY="0.75"
+                    android:endColor="#3A96AB"
+                    android:startColor="#67D0E0" />
+            </shape>
+        </clip>
+        -->
+    </item>
+
+    <!--
+    <item>
+        <rotate
+            android:drawable="@drawable/progress_particle"
+            android:fromDegrees="0"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="360" />
+    </item>
+    -->
+>>>>>>> 5089512a3c49678a0f2e7fd5b4308b439a92b90b
+
+</layer-list>

@@ -1,9 +1,9 @@
 
 package com.jn.kickoff.manager;
 
-import com.jn.kickoff.db.DbHelper;
-
 import android.content.Context;
+
+import com.jn.kickoff.db.DbHelper;
 
 public class Manager {
 

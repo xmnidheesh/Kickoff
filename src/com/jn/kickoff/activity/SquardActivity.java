@@ -76,7 +76,7 @@ public class SquardActivity extends FragmentActivity {
 		initViews();
 		initManagers();
 
-		relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+		/*relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 		progressBarDetail_text.setVisibility(View.VISIBLE);
 		pbHeaderProgress.setVisibility(View.VISIBLE);
 
@@ -93,7 +93,7 @@ public class SquardActivity extends FragmentActivity {
 		progressWheel.setBarWidth(25);
 		progressWheel.setRimWidth(50);
 		progressWheel.setSpinSpeed(25);
-		progressWheel.spin();
+		progressWheel.spin();*/
 
 		url = getIntent().getStringExtra("url");
 
@@ -105,9 +105,13 @@ public class SquardActivity extends FragmentActivity {
 
 		if (UtilValidate.isEmpty(squardList)) {
 
+		    Log.e(TAG, "squardList is empty :");
+		    
 			new SquardScrappingTask().execute(url, _id);
 
 		} else {
+		    
+		    Log.e(TAG, "squardList is not empty :");
 
 			squardAdapter = new TeamSquardAdapter(SquardActivity.this,
 					squardList);
@@ -194,9 +198,9 @@ public class SquardActivity extends FragmentActivity {
 			 * dialog = ProgressDialog.show(SquardActivity.this, "",
 			 * "Loading. Please wait...", true); dialog.show();
 			 */
-			relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
+			/*relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
 			progressBarDetail_text.setVisibility(View.VISIBLE);
-			pbHeaderProgress.setVisibility(View.VISIBLE);
+			pbHeaderProgress.setVisibility(View.VISIBLE);*/
 		}
 
 		/*
@@ -214,10 +218,14 @@ public class SquardActivity extends FragmentActivity {
 
 			if (UtilValidate.isNotEmpty(squardList)) {
 
-				relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
+				/*relativeLayoutprogresswheel.setVisibility(View.INVISIBLE);
 				progressBarDetail_text.setVisibility(View.INVISIBLE);
-				pbHeaderProgress.setVisibility(View.INVISIBLE);
+				pbHeaderProgress.setVisibility(View.INVISIBLE);*/
+				
 				countryManager.insertIntoPlayers(squardList);
+				
+				Log.e(TAG, "squardList :" + squardList.size());
+				
 				squardAdapter = new TeamSquardAdapter(SquardActivity.this,
 						squardList);
 
