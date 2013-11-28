@@ -114,8 +114,8 @@ public class PlayerRankingAdapter extends BaseAdapter {
 
 
 			Picasso.with(activity).load(userPicUrl)
-					.placeholder(R.drawable.ic_launcher)
-					.error(R.drawable.ic_launcher).fit()
+					.placeholder(R.drawable.empty_photo)
+					.error(R.drawable.empty_photo).fit()
 					.into(playerHolder.player_profileimage);
 
 		}

@@ -68,7 +68,8 @@
         android:id="@+id/listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linear" >
+        android:layout_below="@+id/linear" 
+        android:dividerHeight="3dp">
     </ListView>
 
 </RelativeLayout>

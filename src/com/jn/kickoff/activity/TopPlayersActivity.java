@@ -173,9 +173,9 @@ public class TopPlayersActivity extends Activity {
 				// SHOW LOADING IF IT ISNT
 				// ALREADY
 				// VISIBLE
-				relativeLayoutprogresswheel.setVisibility(View.VISIBLE);
-				progressBarDetail_text.setVisibility(View.VISIBLE);
-				pbHeaderProgress.setVisibility(View.VISIBLE);
+				relativeLayoutprogresswheel.setVisibility(View.GONE);
+				progressBarDetail_text.setVisibility(View.GONE);
+				pbHeaderProgress.setVisibility(View.GONE);
 				rankingAdapter = new PlayerRankingAdapter(
 						TopPlayersActivity.this, playerTempList);
 				listview.setAdapter(rankingAdapter);
@@ -335,8 +335,8 @@ public class TopPlayersActivity extends Activity {
 		String userPicUrl = profilePicPattern.matcher(profileUrl).replaceAll(
 				profileimage);
 
-		Picasso.with(this).load(userPicUrl).placeholder(R.drawable.ic_launcher)
-				.error(R.drawable.ic_launcher).fit()
+		Picasso.with(this).load(userPicUrl).placeholder(R.drawable.empty_photo)
+				.error(R.drawable.empty_photo).fit()
 				.into(imageview_profileimage);
 
 		Button dialogButtonOk = (Button) popupView.findViewById(R.id.button_ok);

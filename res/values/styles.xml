@@ -53,6 +53,10 @@
     
     <style name="textView_black_small_font" parent="textView_black">
         <item name="android:textSize">14sp</item>
+    </style> 
+    
+     <style name="textView_with_monospace" parent="textView_white">
+        <item name="android:typeface">monospace</item>
     </style>
 
 </resources>
