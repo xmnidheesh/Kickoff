@@ -2,15 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_marginTop="40dp"
     android:orientation="vertical" >
+    
+     <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/linear"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.google.ads.AdView
+            android:id="@+id/ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/addmobid"
+            ads:loadAdOnCreate="true"
+            ads:refreshInterval="60"
+            android:visibility="visible" />
+    </FrameLayout>
+        
+        
 
     <RelativeLayout
         android:id="@+id/relative_top"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
        android:gravity="center_horizontal"
-       android:layout_marginTop="40dp"
         android:layout_gravity="center_horizontal">
 
         <ImageView
@@ -32,11 +52,13 @@
             android:id="@+id/scroll_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+             android:background="#665a5a"
           
             android:orientation="vertical" >
 
             <RelativeLayout
                 android:layout_width="fill_parent"
+               
                 
                 android:layout_height="wrap_content" >
 
@@ -423,11 +445,6 @@
                     android:textColor="#FFFFFF" />
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/button_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ok" />
         </LinearLayout>
     </ScrollView>
 

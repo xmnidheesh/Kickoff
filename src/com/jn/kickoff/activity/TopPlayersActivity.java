@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
@@ -213,9 +214,30 @@ public class TopPlayersActivity extends Activity {
 						String profileimage = playerTempList.get(position)
 								.getBase_id();
 
-						popup(dob, fname, lname, commonname, height, foot,
+					/*	popup(dob, fname, lname, commonname, height, foot,
 								rating, type, pace, shooting, passing,
 								dribbling, defending, heading, profileimage);
+						*/
+						Intent topplayerIntent=new Intent(TopPlayersActivity.this,TopplayerDetailActivity.class);
+						
+						topplayerIntent.putExtra("dob", dob);
+						topplayerIntent.putExtra("fname", fname);
+						topplayerIntent.putExtra("lname", lname);
+						topplayerIntent.putExtra("commonname", commonname);
+						topplayerIntent.putExtra("height", height);
+						topplayerIntent.putExtra("foot", foot);
+						topplayerIntent.putExtra("rating", rating);
+						topplayerIntent.putExtra("type", type);
+						topplayerIntent.putExtra("pace", pace);
+						topplayerIntent.putExtra("shooting", shooting);
+						topplayerIntent.putExtra("passing", passing);
+						topplayerIntent.putExtra("dribbling", dribbling);
+						topplayerIntent.putExtra("defending", defending);
+						topplayerIntent.putExtra("heading", heading);
+						topplayerIntent.putExtra("profileimage", profileimage);
+						
+						
+						startActivity(topplayerIntent);
 					}
 				});
 
@@ -283,9 +305,6 @@ public class TopPlayersActivity extends Activity {
 
 		popupWindow.update();
 
-		// set the custom dialog components - text,
-		// image and
-		// button
 		TextView textView_dateofbirth = (TextView) popupView
 				.findViewById(R.id.textView_dateofbirth);
 		TextView textView_firstname = (TextView) popupView
@@ -353,10 +372,6 @@ public class TopPlayersActivity extends Activity {
 		});
 
 	}
-	
-	
-	
-	
 	
 	
 	
