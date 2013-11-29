@@ -79,11 +79,15 @@ public interface Constants {
     }
 
     interface AppConstants {
+        
+        String URL_BASE = "http://www.goal.com/";
         //String ADDMOB = "a152774de5cc614";
 String ADDMOB="2435982a5b9d4fad";//MEDIATIONID
         String URL_RATING = "http://tools.fifaguide.com/api/topten/rating";
+        
+        String URL_NEWS_FROM_GOAL = URL_BASE+"en/news/archive/1?ICID=AR_TN_3";
 
-        String URL_NEWS = "http://api.espn.com/v1/sports/news/headlines/top";
+        String URL_NEWS = "http://api.espn.com/v1/fantasy/football/news";
         // http://api.espn.com/v1/sports/news/headlines/top
         // http://api.espn.com/v1/sports/soccer/fifa.olympics/news
         // http://api.espn.com/v1/fantasy/football/news

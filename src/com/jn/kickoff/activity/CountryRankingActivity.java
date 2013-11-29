@@ -119,9 +119,12 @@ public class CountryRankingActivity extends FragmentActivity implements
 		progressWheel.spin();
 
 		countryList = countryManager.fetchAllCountries();
+		
+		Log.e(TAG, "countryList " + countryList.size());
 
-		if (UtilValidate.isEmpty(countryList)) {
-
+		if (UtilValidate.isEmpty(countryList) &&
+		        countryList.size()==0) {
+		    Log.e(TAG, "countryList**************** " + countryList.size());
 			new ScrappingCountriesTask().execute();
 		} else {
 

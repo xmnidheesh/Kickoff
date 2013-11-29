@@ -1,3 +1,4 @@
+
 package com.jn.kickoff.adapter;
 
 import java.util.List;
@@ -13,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jn.kickoff.R;
+import com.jn.kickoff.entity.News;
 import com.jn.kickoff.holder.NewsHeadlines;
+import com.jn.kickoff.utils.Util;
 import com.jn.kickoff.utils.UtilValidate;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +24,7 @@ public class NewsAdapter extends BaseAdapter {
 
     private final static String TAG = "NewsAdapter";
 
-    List<NewsHeadlines> newsList;
+    List<News> newsList;
 
     private LayoutInflater inflator;
 
@@ -30,7 +33,7 @@ public class NewsAdapter extends BaseAdapter {
     /**
      * 
      */
-    public NewsAdapter(Activity activity, List<NewsHeadlines> newsList) {
+    public NewsAdapter(Activity activity, List<News> newsList) {
 
         this.newsList = newsList;
         inflator = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -69,39 +72,30 @@ public class NewsAdapter extends BaseAdapter {
 
             convertView = inflator.inflate(R.layout.news_list_item, null);
 
-            historyHolder.textView_heading = (TextView)convertView.findViewById(R.id.textView_heading);
+            historyHolder.textView_heading = (TextView)convertView
+                    .findViewById(R.id.textView_heading);
             historyHolder.imageView_bg = (ImageView)convertView.findViewById(R.id.imageView_bg);
-            historyHolder. textView_desc= (TextView)convertView.findViewById(R.id.textView_desc);
+            historyHolder.textView_desc = (TextView)convertView.findViewById(R.id.textView_desc);
 
             convertView.setTag(historyHolder);
 
         } else {
             historyHolder = (NearHospitalHolder)convertView.getTag();
         }
-        
-        
-        if(UtilValidate.isNotNull(newsList.get(position).getHeadline()))
-        {
-     historyHolder.textView_heading.setText(newsList.get(position).getHeadline());
-        }
-        if(UtilValidate.isNotNull(newsList.get(position).getDescription()))
-        {
-     historyHolder.textView_desc.setText(newsList.get(position).getDescription());
-        }
-        if(UtilValidate.isNotEmpty(newsList.get(position).getImages()))
-        {
-        	 if(UtilValidate.isNotNull(newsList.get(position).getImages()))
-        	 {
-        	//historyHolder.textView_heading.setText(newsList.get(position).getHeadline());
-        	String userPicUrl = newsList.get(position).getImages().get(0).getUrl();
 
-     Picasso.with(activity).load(userPicUrl)
-		.placeholder(R.drawable.ic_launcher)
-		.error(R.drawable.ic_launcher).fit()
-		.into(historyHolder.imageView_bg);
-        }
-    }
+        if (UtilValidate.isNotNull(newsList.get(position).getNews_heading()))
+            historyHolder.textView_heading.setText(Util.truncate(newsList.get(position)
+                    .getNews_heading(), 25));
 
+        if (UtilValidate.isNotNull(newsList.get(position).getNews_summury()))
+            historyHolder.textView_desc.setText(Util.truncate(newsList.get(position)
+                    .getNews_summury(), 80));
+
+        if (UtilValidate.isNotNull(newsList.get(position).getNews_image_thumb()))
+
+            Picasso.with(activity).load(newsList.get(position).getNews_image_thumb())
+                    .placeholder(R.drawable.empty_photo).error(R.drawable.empty_photo).fit()
+                    .into(historyHolder.imageView_bg);
 
         return convertView;
     }
@@ -111,7 +105,7 @@ public class NewsAdapter extends BaseAdapter {
         public TextView textView_heading;
 
         public ImageView imageView_bg;
-         
+
         public TextView textView_desc;
 
     }

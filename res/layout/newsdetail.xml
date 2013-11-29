@@ -2,38 +2,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:background="@color/blackTransparent"
-    android:layout_height="match_parent" >
-     <FrameLayout
-        android:layout_below="@+id/headerayout"
+    android:layout_height="match_parent"
+    android:background="@color/blackTransparent" >
+
+    <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
         android:id="@+id/linear"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_below="@+id/headerayout"
+        android:orientation="vertical" >
 
-       <com.google.ads.AdView
-        android:id="@+id/ad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:loadAdOnCreate="true"
-          android:layout_alignParentBottom="true"
-         ads:adUnitId="@string/addmobid"
-         ads:refreshInterval="60"
-         android:visibility="visible"
-         />
+        <com.google.ads.AdView
+            android:id="@+id/ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/addmobid"
+            ads:loadAdOnCreate="true"
+            ads:refreshInterval="60"
+            android:visibility="visible" />
     </FrameLayout>
-    
 
     <RelativeLayout
         android:id="@+id/relativetop"
-        android:layout_below="@+id/linear"
         android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/textview_heading"
@@ -46,17 +44,17 @@
 
     <RelativeLayout
         android:id="@+id/relative_image"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
         android:layout_below="@+id/relativetop"
         android:layout_centerHorizontal="true"
-        android:gravity="center" >
+        android:gravity="center"
+        android:padding="10dp" >
 
         <ImageView
             android:id="@+id/imageview_photo"
-            android:layout_width="300dp"
-            android:layout_height="250dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:src="@drawable/empty_photo" />
     </RelativeLayout>
 
@@ -64,40 +62,39 @@
         android:id="@+id/relative_source"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_below="@+id/relative_image" >
+        android:layout_below="@+id/relative_image"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/textview_source"
             android:layout_width="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_height="wrap_content"
-            android:text="aaaaaa" />
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/textview_date"
             android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
-            android:text="11 22 55" />
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
-<ScrollView 
-    android:layout_width="fill_parent"
-     android:layout_below="@+id/relative_source" 
-    android:layout_height="wrap_content" >
-    
-    <RelativeLayout
-        android:id="@+id/relative_description"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       >
 
-        <TextView
-                android:id="@+id/textview_description"
-            android:layout_width="fill_parent"
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_source" >
+
+        <RelativeLayout
+            android:id="@+id/relative_description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="aaaaaa    vvvvvvvvvvvvvvvvvvvvvvvvvv" />
-    </RelativeLayout>
-</ScrollView>
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/textview_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </ScrollView>
+
 </RelativeLayout>

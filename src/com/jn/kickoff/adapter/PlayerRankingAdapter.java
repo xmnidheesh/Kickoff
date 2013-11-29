@@ -1,3 +1,4 @@
+
 package com.jn.kickoff.adapter;
 
 import java.io.UnsupportedEncodingException;
@@ -23,152 +24,159 @@ import com.squareup.picasso.Picasso;
 
 public class PlayerRankingAdapter extends BaseAdapter {
 
-	private final static String TAG = "PlayerRankingAdapter";
-	private List<com.jn.kickoff.holder.FifaPlayerDetails> playerTempList = new ArrayList<com.jn.kickoff.holder.FifaPlayerDetails>();
-	private LayoutInflater inflator;
-	private TopPlayersActivity activity;
-	private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
-	private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
-	private String fname;
-	private String lname;
-	
-	public PlayerRankingAdapter(TopPlayersActivity activity,
-			List<FifaPlayerDetails> playerTempList) {
+    private final static String TAG = "PlayerRankingAdapter";
 
-		this.playerTempList = playerTempList;
-		inflator = (LayoutInflater) activity
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.activity = activity;
-	}
+    private List<com.jn.kickoff.holder.FifaPlayerDetails> playerTempList = new ArrayList<com.jn.kickoff.holder.FifaPlayerDetails>();
 
-	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return playerTempList.size();
+    private LayoutInflater inflator;
 
-	}
+    private TopPlayersActivity activity;
 
-	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return position;
-	}
+    private static final String profileUrl = "http://cdn.content.easports.com/fifa/fltOnlineAssets/C74DDF38-0B11-49b0-B199-2E2A11D1CC13/2014/fut/items/images/players/web/<PICID>.png";
 
-	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		playerHolder playerHolder = null;
-		if (convertView == null) {
-			playerHolder = new playerHolder();
+    private static final Pattern profilePicPattern = Pattern.compile("<PICID>");
 
-			convertView = inflator
-					.inflate(R.layout.playerdetailslistitem, null);
+    private String fname;
 
-			playerHolder.player_firstname = (TextView) convertView
-					.findViewById(R.id.player_firstname);
-			playerHolder.player_lastname = (TextView) convertView
-					.findViewById(R.id.player_lastname);
-			playerHolder.player_profileimage = (ImageView) convertView
-					.findViewById(R.id.player_profileimage);
-			playerHolder.player_type = (TextView) convertView
-					.findViewById(R.id.player_type);
-			playerHolder.player_dob = (TextView) convertView
-					.findViewById(R.id.player_dob);
-			
+    private String lname;
 
-			convertView.setTag(playerHolder);
+    public PlayerRankingAdapter(TopPlayersActivity activity, List<FifaPlayerDetails> playerTempList) {
 
-		} else {
-			playerHolder = (playerHolder) convertView.getTag();
-		}
+        this.playerTempList = playerTempList;
+        inflator = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.activity = activity;
+    }
 
-		if (UtilValidate.isNotEmpty(playerTempList.get(position)
-				.getFirst_name())) {
-	
-			
-			try {
-				 fname = URLDecoder.decode(playerTempList.get(position)
-						.getFirst_name().toString(), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			};
-			
-			playerHolder.player_firstname.setText(fname);
-		}
+    @Override
+    public int getCount() {
+        // TODO Auto-generated method stub
+        return playerTempList.size();
 
-		if (UtilValidate.isNotNull(playerTempList.get(position).getLast_name())) {
-			
-			try {
-				lname = URLDecoder.decode(playerTempList.get(position)
-						.getLast_name().toString(), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			};
-			playerHolder.player_lastname.setText(lname);
-		}
-		if (UtilValidate.isNotEmpty(playerTempList.get(position).getBase_id())) {
-			String userPicUrl = profilePicPattern.matcher(profileUrl)
-					.replaceAll(playerTempList.get(position).getBase_id());
+    }
 
+    @Override
+    public Object getItem(int position) {
+        // TODO Auto-generated method stub
+        return position;
+    }
 
-			Picasso.with(activity).load(userPicUrl)
-					.placeholder(R.drawable.empty_photo)
-					.error(R.drawable.empty_photo).fit()
-					.into(playerHolder.player_profileimage);
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
+        playerHolder playerHolder = null;
+        if (convertView == null) {
+            playerHolder = new playerHolder();
 
-		}
+            convertView = inflator.inflate(R.layout.playerdetailslistitem, null);
 
-		if (UtilValidate.isNotNull(playerTempList.get(position).getType())) {
-			
-			String output = (playerTempList.get(position)
-					.getType().substring(0, 1).toUpperCase() + (playerTempList.get(position)
-							.getType().substring(1)));
-			playerHolder.player_type.setText(output);
-		}
-		if (UtilValidate.isNotNull(playerTempList.get(position).getDob())) {
-			playerHolder.player_dob.setText(playerTempList.get(position)
-					.getDob());
-		}
+            playerHolder.player_firstname = (TextView)convertView
+                    .findViewById(R.id.player_firstname);
+            playerHolder.player_lastname = (TextView)convertView.findViewById(R.id.player_lastname);
+            playerHolder.player_profileimage = (ImageView)convertView
+                    .findViewById(R.id.player_profileimage);
+            playerHolder.player_type = (TextView)convertView.findViewById(R.id.player_type);
+            playerHolder.player_dob = (TextView)convertView.findViewById(R.id.player_dob);
 
-		return convertView;
-	}
+            convertView.setTag(playerHolder);
 
-	static class playerHolder {
-		public TextView player_firstname;
-		public TextView player_lastname;
-		public ImageView player_profileimage;
-		public TextView player_type;
-		public TextView player_dob;
-	}
+        } else {
+            playerHolder = (playerHolder)convertView.getTag();
+        }
 
-	@Override
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+        if (UtilValidate.isNotEmpty(playerTempList.get(position).getFirst_name())) {
 
-	public static float round(float d, int decimalPlace) {
-		BigDecimal bd = new BigDecimal(Float.toString(d));
-		bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-		return bd.floatValue();
-	}
+            try {
+                fname = URLDecoder.decode(playerTempList.get(position).getFirst_name().toString(),
+                        "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            ;
 
-	public void remove(Object item) {
+            playerHolder.player_firstname.setText(fname);
+        }
 
-		// ActivityData activityData = dataList.get((Integer) item);
-		if (playerTempList.contains(item))
-			playerTempList.remove(item);
+        if (UtilValidate.isNotNull(playerTempList.get(position).getLast_name())) {
 
-	}
+            try {
+                lname = URLDecoder.decode(playerTempList.get(position).getLast_name().toString(),
+                        "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            ;
+            playerHolder.player_lastname.setText(lname);
+        }
+        if (UtilValidate.isNotEmpty(playerTempList.get(position).getBase_id())) {
+            String userPicUrl = profilePicPattern.matcher(profileUrl).replaceAll(
+                    playerTempList.get(position).getBase_id());
 
-	public void insert(Object item, int from, int to) {
+            Picasso.with(activity).load(userPicUrl).placeholder(R.drawable.empty_photo)
+                    .error(R.drawable.empty_photo).fit().into(playerHolder.player_profileimage);
 
-		FifaPlayerDetails activityData = playerTempList.get((Integer) item);
-		playerTempList.remove(from);
-		playerTempList.add(to, activityData);
-		notifyDataSetChanged();
+        }
 
-	}
+        if (UtilValidate.isNotNull(playerTempList.get(position).getType())) {
+
+            String output = (playerTempList.get(position).getType().substring(0, 1).toUpperCase() + (playerTempList
+                    .get(position).getType().substring(1)));
+
+            if (output.equalsIgnoreCase("PlayerA")) {
+
+                playerHolder.player_type.setText("Attacker");
+            } else if (output.equalsIgnoreCase("PlayerM")) {
+                playerHolder.player_type.setText("Midfielder");
+            } else {
+                playerHolder.player_type.setText(output);
+            }
+        }
+        if (UtilValidate.isNotNull(playerTempList.get(position).getDob())) {
+            playerHolder.player_dob.setText(playerTempList.get(position).getDob());
+        }
+
+        return convertView;
+    }
+
+    static class playerHolder {
+        public TextView player_firstname;
+
+        public TextView player_lastname;
+
+        public ImageView player_profileimage;
+
+        public TextView player_type;
+
+        public TextView player_dob;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
+    }
+
+    public void remove(Object item) {
+
+        // ActivityData activityData = dataList.get((Integer) item);
+        if (playerTempList.contains(item))
+            playerTempList.remove(item);
+
+    }
+
+    public void insert(Object item, int from, int to) {
+
+        FifaPlayerDetails activityData = playerTempList.get((Integer)item);
+        playerTempList.remove(from);
+        playerTempList.add(to, activityData);
+        notifyDataSetChanged();
+
+    }
 }

@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/blackTransparent"
-    android:padding="10dp">
+    android:layout_height="wrap_content"
+    android:background="@drawable/row_selection_small">
 
     <TextView
         android:id="@+id/country_rank"
-        style="@style/textView_white"
+        style="@style/textView_with_monospace"
         android:layout_alignParentLeft="true"
-        android:padding="10dp"/>
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/country_name"
-        style="@style/textView_white"
+        style="@style/textView_with_monospace"
         android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:layout_marginLeft="25dp"/>
+        android:layout_centerInParent="true"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/country_points"
-        style="@style/textView_white"
-        android:padding="10dp"
+        style="@style/textView_with_monospace"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="25dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_centerInParent="true"
+        android:textSize="20sp"/>
 
 </RelativeLayout>

@@ -57,6 +57,7 @@
     
      <style name="textView_with_monospace" parent="textView_white">
         <item name="android:typeface">monospace</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

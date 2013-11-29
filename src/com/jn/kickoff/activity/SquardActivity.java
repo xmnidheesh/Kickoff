@@ -173,6 +173,8 @@ public class SquardActivity extends FragmentActivity {
 
 		@Override
 		protected String doInBackground(String... params) {
+		    
+		    Log.e(TAG, "doInBackground " + params[1]);
 
 			squardList = countryManager.scrapSquardFromTeamLink(params[0],
 					params[1]);

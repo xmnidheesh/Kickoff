@@ -1,61 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-  android:background="@color/blackTransparent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/row_selection_without_arrow"
+    android:orientation="vertical"
+    android:padding="5dp" >
 
     <RelativeLayout
-        android:id="@+id/relative_top"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp" >
+        android:id="@+id/relativeimage"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/image_bg"
+        android:padding="5dp" >
 
-        <RelativeLayout
-            android:id="@+id/relativeimage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:id="@+id/imageView_bg"
-                android:layout_width="120dp"
-                android:padding="10dp"
-                android:src="@drawable/empty_photo"
-                android:layout_height="120dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/relativeimage" >
-
-            <TextView
-                android:id="@+id/textView_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:typeface="monospace"
-                android:padding="4dp"
-                android:text="The first method in the SimpleThread class is a constructor that takes a String" />
-
-            <TextView
-                android:id="@+id/textView_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_below="@+id/textView_heading"
-                android:gravity="left"
-               
-                android:padding="3dp"
-                android:text="The first method in the SimpleThread class is a constructor that takes a String as its only argument. This constructor is implemented by calling a superclass constructor and is interesting to us only because it sets the Thread's name, which is used later in the program."
-                android:textSize="12dp" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/imageView_bg"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/empty_photo" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/relative_top"
-        android:background="#FFFFFF" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/relativeimage" 
+        android:layout_marginLeft="5dp"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/textView_heading"
+            style="@style/textView_with_monospace" 
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/textView_desc"
+            style="@style/textView_with_monospace"
+            android:layout_below="@+id/textView_heading"
+            android:textSize="12sp" 
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"/>
+    </RelativeLayout>
 
 </RelativeLayout>

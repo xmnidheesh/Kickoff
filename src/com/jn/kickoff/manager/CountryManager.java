@@ -52,6 +52,8 @@ public class CountryManager implements Constants.Country {
 
             String userAgent = "Mozilla";
 
+            Log.e(TAG, "urls :"+urls);
+            
             Response response = Jsoup.connect(urls).method(Method.POST).followRedirects(false)
                     .userAgent(userAgent).execute();
 
@@ -60,6 +62,8 @@ public class CountryManager implements Constants.Country {
 
             Document scrappedDoc = Jsoup.connect(urls).cookies(loginCookies).userAgent(userAgent)
                     .get();
+            
+            Log.e(TAG, "scrappedDoc :"+scrappedDoc);
 
             if (UtilValidate.isNotNull(scrappedDoc)) {
 
@@ -120,6 +124,9 @@ public class CountryManager implements Constants.Country {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             Log.e(TAG, "IOException s:", e);
+        }catch (Exception e) {
+            // TODO Auto-generated catch block
+            Log.e(TAG, "Exception s:", e);
         }
         return countryList;
 
@@ -142,6 +149,9 @@ public class CountryManager implements Constants.Country {
 
         Response response;
         try {
+            
+            Log.e(TAG, "scrapSquardFromTeamLink :"+link);
+            
             response = Jsoup.connect(link).method(Method.POST).followRedirects(false)
                     .userAgent(userAgent).execute();
 
@@ -159,6 +169,8 @@ public class CountryManager implements Constants.Country {
                         "table[class=table squad sortable]").first();
 
                 if (UtilValidate.isNotNull(squardElements)) {
+                    
+                    Log.e(TAG, "squardElements :"+squardElements);
 
                     for (Element table : squardElements.select("tr")) {
 

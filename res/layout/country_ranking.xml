@@ -78,7 +78,8 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp" >
+            android:padding="10dp" 
+            android:background="@drawable/cell_without_arrow_small">
 
             <TextView
                 android:id="@+id/country_rank"
